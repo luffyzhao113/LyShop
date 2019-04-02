@@ -10,4 +10,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * @param $data
+     * @return \Illuminate\Http\JsonResponse
+     * @author: luffyzhao@vip.126.com
+     * @datetime: 2019/3/27 19:14
+     */
+    public function response($data)
+    {
+        if (is_bool($data)) {
+            $data = $data ? ['msg' => '成功'] : ['msg' => '失败'];
+        }
+        return response($data);
+    }
 }
