@@ -361,7 +361,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (data) {
         _this.table.data = data.data;
         _this.page.total = data.total;
-        _this.page.current = data.from;
+        _this.page.current = data.current_page;
       }).finally(function () {
         _this.loading = false;
       });

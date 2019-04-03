@@ -77,7 +77,7 @@
                 }).then((data) => {
                     this.table.data = data.data
                     this.page.total = data.total
-                    this.page.current = data.from
+                    this.page.current = data.current_page
                 }).finally(() => {
                     this.loading = false;
                 });

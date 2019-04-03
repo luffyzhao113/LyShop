@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('authorities/menu/authority', 'Authorities\MenuController@authority');
+Route::get('authorities/menu/authority', 'Authorities\MenuController@authority')->name('role.menu_authority');
 
 Route::resource('authorities/role', 'Authorities\RoleController', [
     'names' => [
