@@ -43,7 +43,7 @@ export const home = [
         path: 'Authorities/role',
         name: 'authorities.role',
         meta: {
-            title: '权限组',
+            title: '部门',
             cache: true,
             tags: true
         },

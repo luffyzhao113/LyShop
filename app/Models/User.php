@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    protected $fillable = ['department_id', 'name', 'phone', 'email', 'password', 'birthday', 'entryday', 'sex', 'status'];
+    protected $fillable = ['role_id', 'name', 'phone', 'email', 'password', 'birthday', 'entryday', 'sex', 'status'];
 
     protected $hidden = [
         'password'
@@ -25,12 +25,13 @@ class User extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/28 19:51
      */
-    public function roles(){
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
     /**
@@ -38,7 +39,8 @@ class User extends Model
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/29 19:48
      */
-    public function setPasswordAttribute($value){
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = bcrypt($value);
     }
 }

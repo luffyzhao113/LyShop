@@ -1,15 +1,15 @@
 <template>
-    <i-drawer title="权限组添加" :width="720" :loading="loading">
+    <i-drawer title="部门添加" :width="720" :loading="loading">
         <Steps :current="current">
             <Step title="分配菜单"></Step>
             <Step title="分配权限"></Step>
         </Steps>
         <Form :model="update" :label-width="100" :rules="ruleValidate" ref="formUpdate">
             <div v-show="current === 0">
-                <FormItem label="权限组名称" prop="name">
+                <FormItem label="部门名称" prop="name">
                     <Input v-model="update.name"></Input>
                 </FormItem>
-                <FormItem label="权限组描述" prop="description">
+                <FormItem label="部门描述" prop="description">
                     <Input v-model="update.description" type="textarea" :rows="6"></Input>
                 </FormItem>
                 <FormItem label="分配菜单">
@@ -88,7 +88,7 @@
                 },
                 ruleValidate: {
                     name: [
-                        {required: true, message: '权限组名称不能为空', trigger: 'blur'},
+                        {required: true, message: '部门名称不能为空', trigger: 'blur'},
                         {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
                     ],
                     description: [
@@ -198,7 +198,7 @@
                         if (lists.findIndex((v) => v.key === val.id) === -1) {
                             lists.push({
                                 key: val.id,
-                                label: `${val.method} - ${val.name}`
+                                label: `${val.name}`
                             })
                         }
                     })

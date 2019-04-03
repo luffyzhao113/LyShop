@@ -45,9 +45,9 @@
                     </FormItem>
                 </Col>
                 <Col span="12">
-                    <FormItem label="所属部门" prop="department_id">
-                        <Select v-model="create.department_id">
-                            <Option v-for="(item) in departments.data" :key="item.id" :value="item.id">
+                    <FormItem label="所属部门" prop="role_id">
+                        <Select v-model="create.role_id">
+                            <Option v-for="(item) in roles.data" :key="item.id" :value="item.id">
                                 {{item.name}}
                             </Option>
                         </Select>
@@ -60,18 +60,6 @@
             </FormItem>
             <FormItem label="确认密码" prop="password_confirmation">
                 <Input placeholder="请输入确认密码" type="password" v-model="create.password_confirmation"></Input>
-            </FormItem>
-
-            <FormItem label="个人权限组">
-                <Transfer
-                        :titles="['权限组列表', '已分配的权限组']"
-                        :data="roles.data"
-                        :target-keys="create.roles"
-                        :list-style="{height: '400px'}"
-                        :operations="['删除','添加']"
-                        @on-change="handleChange"
-                        filterable>
-                </Transfer>
             </FormItem>
         </Form>
         <div slot="footer">
@@ -90,8 +78,7 @@
         mixins: [contentDrawer],
         mounted() {
             this.$http(`authorities/user/create`).then((res) => {
-                this.roles.data = res.roles;
-                this.departments.data = res.departments;
+                this.roles.data = res;
                 this.loading = false
             });
         },
@@ -99,7 +86,6 @@
             return {
                 loading: true,
                 create: {
-                    roles: [],
                     sex: 'women',
                     status: 'on'
                 },
@@ -122,7 +108,7 @@
                         {required: true, message: '手机号码必须填写', trigger: 'blur'},
                         {pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur'}
                     ],
-                    department_id: [
+                    role_id: [
                         {required: true, type: 'number', message: '所属部门不能为空', trigger: 'change'},
                     ],
                     password: [
@@ -152,9 +138,6 @@
             }
         },
         methods: {
-            handleChange(newTargetKeys) {
-                this.create.roles = newTargetKeys
-            },
             submit(name) {
                 this.validate(name).then(() => {
                     this.$http.post(`authorities/user`, this.create).then(() => {

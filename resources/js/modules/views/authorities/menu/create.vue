@@ -56,7 +56,7 @@
                     ],
                     url: [
                         {required: true, message: '菜单url必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '菜单url字符长度是2-20个字符', trigger: 'blur'},
+                        {type: 'string', min: 2, max: 50, message: '菜单url字符长度是2-50个字符', trigger: 'blur'},
                     ],
                     sort: [
                         {required: true, type: 'number', message: '排序必须填写', trigger: 'blur'},

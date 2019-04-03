@@ -1,15 +1,15 @@
 <template>
-    <i-drawer title="权限组添加" :width="720" :loading="loading">
+    <i-drawer title="部门添加" :width="720" :loading="loading">
         <Steps :current="current">
             <Step title="分配菜单"></Step>
             <Step title="分配权限"></Step>
         </Steps>
         <Form :model="create" :label-width="100" :rules="ruleValidate" ref="formCreate">
             <div v-show="current === 0">
-                <FormItem label="权限组名称" prop="name">
+                <FormItem label="部门名称" prop="name">
                     <Input v-model="create.name"></Input>
                 </FormItem>
-                <FormItem label="权限组描述" prop="description">
+                <FormItem label="部门描述" prop="description">
                     <Input v-model="create.description" type="textarea" :rows="6"></Input>
                 </FormItem>
                 <FormItem label="分配菜单">
@@ -54,7 +54,7 @@
         mixins: [contentDrawer],
         mounted() {
             this.$http.get(`authorities/role/create`).then((res) => {
-                this.menus.data = res
+                this.menus.data = this.setTreeData(res)
             }).finally(() => {
                 this.loading = false
             });
@@ -75,11 +75,11 @@
                 },
                 ruleValidate: {
                     name: [
-                        {required: true, message: '权限组名称不能为空', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
+                        {required: true, message: '部门名称不能为空', trigger: 'blur'},
+                        {type: 'string', min: 2, max: 20, message: '用户名称字符长度是2-20个字符', trigger: 'blur'}
                     ],
                     description: [
-                        {type: 'string', max: 255, message: '权限描述最长255个字符', trigger: 'blur'}
+                        {type: 'string', max: 255, message: '部门描述最长255个字符', trigger: 'blur'}
                     ]
                 },
                 checked: false
@@ -156,7 +156,7 @@
                         if (lists.findIndex((v) => v.key === val.id) === -1) {
                             lists.push({
                                 key: val.id,
-                                label: `${val.method} - ${val.name}`
+                                label: `${val.name}`
                             })
                         }
                     })
@@ -173,7 +173,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     .ivu-steps {
         margin-bottom: 15px;
     }

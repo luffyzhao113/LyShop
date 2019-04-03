@@ -156,8 +156,8 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           type: 'string',
           min: 2,
-          max: 20,
-          message: '菜单url字符长度是2-20个字符',
+          max: 50,
+          message: '菜单url字符长度是2-50个字符',
           trigger: 'blur'
         }],
         sort: [{
@@ -460,8 +460,8 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           type: 'string',
           min: 2,
-          max: 20,
-          message: '菜单url字符长度是2-20个字符',
+          max: 50,
+          message: '菜单url字符长度是2-50个字符',
           trigger: 'blur'
         }],
         sort: [{

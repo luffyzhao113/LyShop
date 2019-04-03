@@ -23,7 +23,6 @@ class AuthoritySearch extends SearchAbstract
         return [
             'name' => 'like',
             'uri' => 'like',
-            'method' => '=',
         ];
     }
 

@@ -1,8 +1,8 @@
 <template>
     <i-content :spin-show="loading">
         <i-search v-model="search">
-            <FormItem label="权限组名称" :label-width="100">
-                <Input v-model="search.name" placeholder="权限组名称"></Input>
+            <FormItem label="部门名称" :label-width="100">
+                <Input v-model="search.name" placeholder="部门名称"></Input>
             </FormItem>
             <FormItem :label-width="1">
                 <Button type="primary" icon="ios-search" @click="getLists()">搜索</Button>
@@ -22,7 +22,7 @@
                     <Button type="warning" size="small" @click="openComponent('Update', row)">编辑</Button>
                     <Poptip
                             confirm
-                            title="你确定要删除这个权限组吗？"
+                            title="你确定要删除这个部门吗？"
                             @on-ok="remove(row)">
                         <Button type="error" size="small">删除</Button>
                     </Poptip>
@@ -52,11 +52,11 @@
                 table: {
                     columns: [
                         {
-                            title: '权限组',
+                            title: '部门',
                             slot: 'name'
                         },
                         {
-                            title: '权限组描述',
+                            title: '部门描述',
                             slot: 'description'
                         },
                         {

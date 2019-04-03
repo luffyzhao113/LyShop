@@ -13,7 +13,6 @@ use App\Http\Requests\Api\Authorities\User\StatusRequest;
 use App\Http\Requests\Api\Authorities\User\StoreRequest;
 use App\Http\Requests\Api\Authorities\User\UpdateRequest;
 use App\Http\Searchs\Api\Authorities\UserSearch;
-use App\Repositories\Department;
 use App\Repositories\Role;
 use App\Repositories\User;
 
@@ -43,18 +42,16 @@ class UserController extends Controller
     }
 
     /**
-     * @param Department $department
      * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/29 15:39
      */
-    public function create(Department $department, Role $role)
+    public function create(Role $role)
     {
-        return $this->response([
-            'departments' => $department->get(['id', 'name']),
-            'roles' => $role->get(['id as key', 'name as label']),
-        ]);
+        return $this->response(
+            $role->get(['id', 'name'])
+        );
     }
 
     /**
@@ -67,7 +64,7 @@ class UserController extends Controller
     {
         return $this->response(
             $this->user->create($request->only([
-                'name', 'email', 'phone', 'birthday', 'sex', 'entryday', 'department_id', 'password', 'roles', 'status'
+                'name', 'email', 'phone', 'birthday', 'sex', 'entryday', 'role_id', 'password', 'status'
             ]))
         );
     }
@@ -91,25 +88,17 @@ class UserController extends Controller
     }
 
     /**
-     * @param Department $department
      * @param Role $role
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/29 19:13
      */
-    public function edit(Department $department, Role $role, $id)
+    public function edit(Role $role, $id)
     {
-        $row = $this->user->find($id);
-        $row->only(['department_id', 'name', 'phone', 'email', 'birthday', 'entryday', 'sex', 'status']);
         return $this->response([
-            'departments' => $department->get(['id', 'name']),
-            'roles' => $role->get(['id as key', 'name as label']),
-            'data' => $row->only([
-                    'department_id', 'name', 'phone', 'email', 'birthday', 'entryday', 'sex', 'status'
-                ]) + [
-                    'roles' => $row->roles->pluck('id')
-                ]
+            'roles' => $role->get(['id', 'name']),
+            'data' => $this->user->find($id)
         ]);
     }
 
@@ -124,7 +113,7 @@ class UserController extends Controller
     public function update(UpdateRequest $request, $id){
         return $this->response(
             $this->user->update($id, $request->only([
-                'name', 'email', 'phone', 'birthday', 'sex', 'entryday', 'department_id', 'password', 'roles', 'status'
+                'name', 'email', 'phone', 'birthday', 'sex', 'entryday', 'role_id', 'password', 'roles', 'status'
             ]))
         );
     }

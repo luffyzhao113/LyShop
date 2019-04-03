@@ -20,6 +20,9 @@
                 <template slot-scope="{ row, index }" slot="phone">
                     <span>{{ row.phone }}</span>
                 </template>
+                <template slot-scope="{ row, index }" slot="role">
+                    <span>{{ row.role.name }}</span>
+                </template>
                 <template slot-scope="{ row, index }" slot="sex">
                     <span>{{ row.sex }}</span>
                 </template>
@@ -44,7 +47,7 @@
                 </template>
             </Table>
         </i-table>
-        <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent"></component>
+        <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent" @on-refresh="getLists(1)"></component>
     </i-content>
 </template>
 
@@ -76,6 +79,10 @@
                         {
                             title: '手机号码',
                             slot: 'phone'
+                        },
+                        {
+                            title: '所属部门',
+                            slot: 'role'
                         },
                         {
                             title: '性别',

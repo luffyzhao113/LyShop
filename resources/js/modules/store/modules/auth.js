@@ -35,17 +35,6 @@ export default {
                     link: 'home',
                     icon: 'ios-home-outline'
                 }, {
-                    name: '商城设置',
-                    link: 'setting',
-                    icon: 'md-ribbon',
-                    children: [
-                        {
-                            name: '商品规格',
-                            link: 'setting.spec',
-                            icon: 'md-ribbon',
-                        }
-                    ]
-                }, {
                     name: '后台用户',
                     link: 'authorities',
                     icon: 'md-ribbon',
@@ -56,7 +45,7 @@ export default {
                             icon: 'md-ribbon',
                         },
                         {
-                            name: '权限组',
+                            name: '部门管理',
                             link: 'authorities.role',
                             icon: 'md-ribbon',
                         },

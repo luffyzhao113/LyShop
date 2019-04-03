@@ -27,9 +27,9 @@ class UpdateRequest extends FormRequest
             'birthday' => ['date_format:Y-m-d'],
             'sex' => ['required', 'in:women,man'],
             'entryday' => ['date_format:Y-m-d'],
-            'department_id' => ['required', Rule::exists('departments', 'id')],
-            'password' => ['required', 'min:6', 'max:20', 'confirmed'],
-            'password_confirmation' => ['required',],
+            'role_id' => ['required', Rule::exists('roles', 'id')],
+            'password' => ['nullable', 'min:6', 'max:20', 'confirmed'],
+            'password_confirmation' => ['nullable',],
             'roles' => ['array', 'nullable'],
             'roles.*' => ['integer'],
             'status' => ['required', 'in:on,off']
@@ -50,10 +50,10 @@ class UpdateRequest extends FormRequest
             'birthday' => '出生日期',
             'sex' => '性别',
             'entryday' => '入职日期',
-            'department_id' => '所属部门',
+            'role_id' => '所属部门',
             'password' => '密码',
             'password_confirmation' => '确认密码',
-            'roles' => '权限组',
+            'roles' => '部门',
             'status' => '状态',
         ];
     }

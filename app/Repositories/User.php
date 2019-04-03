@@ -28,22 +28,21 @@ class User extends RepositoryAbstract
         $this->model = $model;
     }
 
-
     /**
      * @param array $attributes
-     * @return bool|Model
+     * @param int|null $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @param int|null $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @author: luffyzhao@vip.126.com
-     * @datetime: 2019/3/29 15:30
+     * @datetime: 2019/4/3 15:40
      */
-    public function create(array $attributes = [])
+    public function paginate(array $attributes, int $perPage = null, array $columns = ['*'], $pageName = 'page', int $page = null)
     {
-        $model = parent::create($attributes);
-
-        if (isset($attributes['roles'])) {
-            $model->roles()->attach($attributes['roles']);
-        }
-
-        return $model;
+        return $this->model->with(['role'])->where(
+            $attributes
+        )->paginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -71,10 +70,7 @@ class User extends RepositoryAbstract
         if(empty($values['password'])){
             unset($values['password']);
         }
-        $model = $this->find($id);
-        $model->fill($values)->saveOrFail();
-        $model->roles()->sync($values['roles'] ?? []);
-        return $model;
+        return parent::update($id, $values);
     }
 
 }

@@ -21,8 +21,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:2', 'max:20'],
-            'uri' => ['required', 'min:2', 'max:20'],
-            'method' => ['required', 'in:GET,POST,,PUT,DELETE'],
+            'uri' => ['required', 'min:2', 'max:50'],
             'description' => ['nullable', 'max:255'],
             'menus' => ['nullable', 'array'],
             'menus.*' => ['integer'],
@@ -39,7 +38,6 @@ class StoreRequest extends FormRequest
         return [
             'name' => '权限名称',
             'uri' => '权限URI',
-            'method' => '请求方式',
             'description' => '请求描述',
             'menus' => '所属菜单'
         ];

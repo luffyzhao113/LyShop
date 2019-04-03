@@ -61,18 +61,6 @@
             <FormItem label="确认密码" prop="password_confirmation">
                 <Input placeholder="请输入确认密码" type="password" v-model="update.password_confirmation"></Input>
             </FormItem>
-
-            <FormItem label="个人权限组">
-                <Transfer
-                        :titles="['权限组列表', '已分配的权限组']"
-                        :data="roles.data"
-                        :target-keys="update.roles"
-                        :list-style="{height: '400px'}"
-                        :operations="['删除','添加']"
-                        @on-change="handleChange"
-                        filterable>
-                </Transfer>
-            </FormItem>
         </Form>
         <div slot="footer">
             <Button type="primary" icon="ios-add" @click="submit('formUpdate')">提交</Button>
@@ -92,7 +80,6 @@
             this.$http(`authorities/user/${this.props.id}/edit`).then((res) => {
                 this.update = res.data
                 this.roles.data = res.roles;
-                this.departments.data = res.departments;
                 this.loading = false
             });
         },
@@ -100,7 +87,6 @@
             return {
                 loading: true,
                 update: {
-                    roles: [],
                     sex: 'women',
                     status: 'on'
                 },
@@ -123,7 +109,7 @@
                         {required: true, message: '手机号码必须填写', trigger: 'blur'},
                         {pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur'}
                     ],
-                    department_id: [
+                    role_id: [
                         {required: true, type: 'number', message: '所属部门不能为空', trigger: 'change'},
                     ],
                     password: [
@@ -151,9 +137,6 @@
             }
         },
         methods: {
-            handleChange(newTargetKeys) {
-                this.create.roles = newTargetKeys
-            },
             submit(name) {
                 this.validate(name).then(() => {
                     this.$http.put(`authorities/user/${this.props.id}`, this.update).then(() => {

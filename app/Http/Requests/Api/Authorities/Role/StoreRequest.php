@@ -37,8 +37,8 @@ class StoreRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => '权限组',
-            'description' => '权限组描述',
+            'name' => '部门',
+            'description' => '部门描述',
             'authorities' => '权限列表',
             'menus' => '菜单列表',
         ];

@@ -7,14 +7,6 @@
             <FormItem label="请求URI" prop="uri">
                 <Input v-model="update.uri"></Input>
             </FormItem>
-            <FormItem label="请求方式" prop="method">
-                <Select v-model="update.method">
-                    <Option value="GET">GET</Option>
-                    <Option value="POST">POST</Option>
-                    <Option value="PUT">PUT</Option>
-                    <Option value="DELETE">DELETE</Option>
-                </Select>
-            </FormItem>
             <FormItem label="请求描述" prop="description">
                 <Input v-model="update.description" type="textarea" :rows="3"></Input>
             </FormItem>
@@ -72,16 +64,7 @@
                     ],
                     uri: [
                         {required: true, message: '权限URI必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限URI字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    method: [
-                        {required: true, message: '请求方式必须填写', trigger: 'change'},
-                        {
-                            trigger: 'change', validator: (rule, value, callback) => {
-                                let arr = ['GET', 'POST', 'PUT', 'DELETE'];
-                                arr.find(val => val === value) === undefined ? new Error('请求方式选值不正确') : callback();
-                            }
-                        }
+                        {type: 'string', min: 2, max: 50, message: '权限URI字符长度是2-50个字符', trigger: 'blur'}
                     ]
                 }
             }
@@ -145,7 +128,7 @@
                 let arr = [];
                 data.forEach((item) => {
                     if (item.indeterminate === true || item.checked === true) {
-                        arr.push(item.id)
+                        item.checked === true && arr.push(item.id);
                         if (item.children && item.children.length > 0) {
                             arr = arr.concat(this.toChecked(item.children));
                         }
@@ -157,7 +140,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
     .menu-box {
         border: 1px solid #dcdee2;
         border-radius: 5px;

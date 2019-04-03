@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Authority extends Model
 {
-    protected $fillable = ['name', 'uri', 'method', 'description'];
+    protected $fillable = ['name', 'uri', 'description'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

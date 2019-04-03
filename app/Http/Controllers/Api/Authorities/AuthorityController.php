@@ -50,7 +50,7 @@ class AuthorityController extends Controller
         return $this->response(
             $this->authority->create(
                 $request->only([
-                    'name', 'uri', 'method', 'description', 'menus'
+                    'name', 'uri', 'description', 'menus'
                 ])
             )
         );
@@ -102,7 +102,7 @@ class AuthorityController extends Controller
     public function update(UpdateRequest $request, $id){
         return $this->response(
             $this->authority->update($id, $request->only([
-                'name', 'uri', 'method', 'description', 'menus'
+                'name', 'uri', 'description', 'menus'
             ]))
         );
     }

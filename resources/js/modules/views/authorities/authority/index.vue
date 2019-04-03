@@ -1,14 +1,6 @@
 <template>
     <i-content :spinShow="loading">
         <i-search v-model="search">
-           <FormItem label="请求方式">
-               <Select v-model="search.method" clearable>
-                   <Option value="GET">GET</Option>
-                   <Option value="POST">POST</Option>
-                   <Option value="PUT">PUT</Option>
-                   <Option value="DELETE">DELETE</Option>
-               </Select>
-           </FormItem>
             <FormItem label="权限名称">
                 <Input v-model="search.name" placeholder="权限名称"></Input>
             </FormItem>
@@ -25,9 +17,6 @@
             <Table :columns="table.columns" :data="table.data">
                 <template slot-scope="{ row, index }" slot="name">
                     <span>{{ row.name }}</span>
-                </template>
-                <template slot-scope="{ row, index }" slot="method">
-                    <span>{{ row.method }}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="uri">
                     <span>{{ row.uri }}</span>
@@ -74,10 +63,6 @@
                         {
                             title: 'URI',
                             slot: 'uri'
-                        },
-                        {
-                            title: '请求方式',
-                            slot: 'method'
                         },
                         {
                             title: '请求描述',

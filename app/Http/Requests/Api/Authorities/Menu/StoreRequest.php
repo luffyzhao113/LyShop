@@ -16,7 +16,7 @@ class StoreRequest extends FormRequest
         return [
             'parent_id' => ['required', 'integer'],
             'name' => ['required', 'min:2', 'max:20'],
-            'url' => ['required', 'min:2', 'max:20'],
+            'url' => ['required', 'min:2', 'max:50'],
             'sort' => ['required', 'integer'],
             'authorities' => ['nullable', 'array'],
             'authorities.*' => ['integer'],
