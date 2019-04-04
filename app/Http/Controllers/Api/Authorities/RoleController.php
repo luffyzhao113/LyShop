@@ -72,7 +72,7 @@ class RoleController extends Controller
     }
 
     /**
-     * @param Authority $authority
+     * @param Menu $menu
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @author: luffyzhao@vip.126.com
