@@ -46637,23 +46637,241 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
 /***/ }),
 
-/***/ "./resources/js/modules/api/auth.js":
-/*!******************************************!*\
-  !*** ./resources/js/modules/api/auth.js ***!
-  \******************************************/
-/*! exports provided: default */
+/***/ "./resources/js/libs/util.js":
+/*!***********************************!*\
+  !*** ./resources/js/libs/util.js ***!
+  \***********************************/
+/*! exports provided: getHomeRoute, getNewTagList, getNextRoute, routeEqual, routeHasExist, doCustomTimes, objEqual, localSave, localRead, listConvertTree, treeConvertList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  user: {
-    login: function login() {}
-  },
-  menu: {
-    getAll: function getAll() {}
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHomeRoute", function() { return getHomeRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNewTagList", function() { return getNewTagList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextRoute", function() { return getNextRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routeEqual", function() { return routeEqual; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routeHasExist", function() { return routeHasExist; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doCustomTimes", function() { return doCustomTimes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objEqual", function() { return objEqual; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localSave", function() { return localSave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localRead", function() { return localRead; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listConvertTree", function() { return listConvertTree; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "treeConvertList", function() { return treeConvertList; });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+/**
+ * @param {Array} routers 路由列表数组
+ * @description 用于找到路由列表中name为home的对象
+ */
+var getHomeRoute = function getHomeRoute(routers) {
+  var homeName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'home';
+  var i = -1;
+  var len = routers.length;
+  var homeRoute = {};
+
+  while (++i < len) {
+    var item = routers[i];
+
+    if (item.children && item.children.length) {
+      var res = getHomeRoute(item.children, homeName);
+      if (res.name) return res;
+    } else {
+      if (item.name === homeName) homeRoute = item;
+    }
   }
-});
+
+  return homeRoute;
+};
+/**
+ * @param {*} list 现有标签导航列表
+ * @param {*} newRoute 新添加的路由原信息对象
+ * @description 如果该newRoute已经存在则不再添加
+ */
+
+var getNewTagList = function getNewTagList(list, newRoute) {
+  var name = newRoute.name,
+      path = newRoute.path,
+      meta = newRoute.meta;
+
+  var newList = _toConsumableArray(list);
+
+  if (newList.findIndex(function (item) {
+    return item.name === name;
+  }) >= 0) return newList;else newList.push({
+    name: name,
+    path: path,
+    meta: meta
+  });
+  return newList;
+};
+/**
+ * @param {Array} list 标签列表
+ * @param {String} name 当前关闭的标签的name
+ */
+
+var getNextRoute = function getNextRoute(list, route) {
+  var res = {};
+
+  if (list.length === 2) {
+    res = getHomeRoute(list);
+  } else {
+    var index = list.findIndex(function (item) {
+      return routeEqual(item, route);
+    });
+    if (index === list.length - 1) res = list[list.length - 2];else res = list[index + 1];
+  }
+
+  return res;
+};
+/**
+ * @description 根据name/params/query判断两个路由对象是否相等
+ * @param {*} route1 路由对象
+ * @param {*} route2 路由对象
+ */
+
+var routeEqual = function routeEqual(route1, route2) {
+  var params1 = route1.params || {};
+  var params2 = route2.params || {};
+  var query1 = route1.query || {};
+  var query2 = route2.query || {};
+  return route1.name === route2.name && objEqual(params1, params2) && objEqual(query1, query2);
+};
+/**
+ * 判断打开的标签列表里是否已存在这个新添加的路由对象
+ */
+
+var routeHasExist = function routeHasExist(tagNavList, routeItem) {
+  var len = tagNavList.length;
+  var res = false;
+  doCustomTimes(len, function (index) {
+    if (routeEqual(tagNavList[index], routeItem)) res = true;
+  });
+  return res;
+};
+/**
+ * @param {Number} times 回调函数需要执行的次数
+ * @param {Function} callback 回调函数
+ */
+
+var doCustomTimes = function doCustomTimes(times, callback) {
+  var i = -1;
+
+  while (++i < times) {
+    callback(i);
+  }
+};
+/**
+ * @param {*} obj1 对象
+ * @param {*} obj2 对象
+ * @description 判断两个对象是否相等，这两个对象的值只能是数字或字符串
+ */
+
+var objEqual = function objEqual(obj1, obj2) {
+  var keysArr1 = Object.keys(obj1);
+  var keysArr2 = Object.keys(obj2);
+  if (keysArr1.length !== keysArr2.length) return false;else if (keysArr1.length === 0 && keysArr2.length === 0) return true;
+  /* eslint-disable-next-line */
+  else return !keysArr1.some(function (key) {
+      return obj1[key] != obj2[key];
+    });
+};
+/**
+ * 读取 localStorage 数据
+ * @param key
+ * @param value
+ */
+
+var localSave = function localSave(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+/**
+ * 获取 localStorage 数据
+ * @param key
+ * @returns {string | string}
+ */
+
+var localRead = function localRead(key) {
+  return JSON.parse(localStorage.getItem(key)) || '';
+};
+/**
+ * 线型转树型
+ * @param list
+ * @returns {*}
+ */
+
+var listConvertTree = function listConvertTree(list) {
+  var root = null;
+
+  if (list && list.length) {
+    root = {
+      id: 0,
+      parent_id: null,
+      children: []
+    };
+    var group = {};
+
+    for (var index = 0; index < list.length; index += 1) {
+      if (list[index].parent_id !== null && list[index].parent_id !== undefined) {
+        if (!group[list[index].parent_id]) {
+          group[list[index].parent_id] = [];
+        }
+
+        group[list[index].parent_id].push(list[index]);
+      }
+    }
+
+    var queue = [];
+    queue.push(root);
+
+    while (queue.length) {
+      var node = queue.shift();
+      node.children = group[node.id] && group[node.id].length ? group[node.id] : null;
+
+      if (node.children) {
+        queue.push.apply(queue, _toConsumableArray(node.children));
+      }
+    }
+  }
+
+  return root.children;
+};
+/**
+ * 树型转线型
+ * @param root
+ * @returns {Array}
+ */
+
+var treeConvertList = function treeConvertList(root) {
+  var list = [];
+
+  if (root) {
+    var Root = JSON.parse(JSON.stringify(root));
+    var queue = [];
+    queue.push(Root);
+
+    while (queue.length) {
+      var node = queue.shift();
+
+      if (node.children && node.children.length) {
+        queue.push.apply(queue, _toConsumableArray(node.children));
+      }
+
+      delete node.children;
+
+      if (node.parentId !== null && node.parentId !== undefined) {
+        list.push(node);
+      }
+    }
+  }
+
+  return list;
+};
 
 /***/ }),
 
@@ -46785,11 +47003,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
 router.beforeEach(function (to, from, next) {
   var isLogin = _store_index__WEBPACK_IMPORTED_MODULE_4__["default"].getters['auth/login'];
 
-  if (to.name === 'login' && isLogin === true) {
+  if (to.name === 'login' && Boolean(isLogin)) {
     next({
       name: 'home'
     });
-  } else if (to.name !== 'login' && isLogin === false) {
+  } else if (to.name !== 'login' && !Boolean(isLogin)) {
     next({
       name: 'login'
     });
@@ -46836,7 +47054,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
   }
 }, {
   path: 'profile',
@@ -46926,7 +47144,7 @@ var loyout = [{
     cache: false
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
+    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
   }
 }, {
   path: '*',
@@ -46981,79 +47199,66 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/auth */ "./resources/js/modules/api/auth.js");
-/* harmony import */ var _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/cache/index */ "./resources/js/plugins/cache/index.js");
+/* harmony import */ var _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../plugins/cache/index */ "./resources/js/plugins/cache/index.js");
+/* harmony import */ var _router_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../router/index */ "./resources/js/modules/router/index.js");
+/* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../libs/util */ "./resources/js/libs/util.js");
+/* harmony import */ var _plugins_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../plugins/fetch */ "./resources/js/plugins/fetch/index.js");
 
 
+
+
+var state = {
+  login: null,
+  // 用户菜单
+  menus: []
+};
+state.login = _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__["$cache"].get('$store/auth/token');
+state.menus = _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__["$cache"].get('$store/auth/menus');
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
-  state: {
-    login: false,
-    // 用户菜单
-    menus: []
-  },
+  state: state,
   getters: {
     login: function login(state) {
-      return _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].get('auth/token') || state.login;
+      return state.login;
     },
     menus: function menus(state) {
-      return _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].get('auth/menus') || state.menus;
+      return state.menus;
     }
   },
   mutations: {
     setLogin: function setLogin(state, status) {
       state.login = status;
+      _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__["$cache"].set('$store/auth/token', status);
     },
     setMenus: function setMenus(state, menus) {
       state.menus = menus;
+      _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__["$cache"].set('$store/auth/menus', menus);
     }
   },
   actions: {
-    afterLogin: function afterLogin(_ref, token) {
+    afterLogin: function afterLogin(_ref, data) {
       var commit = _ref.commit;
-      _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].set('auth/token', token);
-      commit('setLogin', true); // 这里要请求后台接口
-
-      setTimeout(function () {
-        var menus = [{
-          name: '首页',
-          link: 'home',
-          icon: 'ios-home-outline'
-        }, {
-          name: '后台用户',
-          link: 'authorities',
-          icon: 'md-ribbon',
-          children: [{
-            name: '用户管理',
-            link: 'authorities.user',
-            icon: 'md-ribbon'
-          }, {
-            name: '部门管理',
-            link: 'authorities.role',
-            icon: 'md-ribbon'
-          }, {
-            name: '权限管理',
-            link: 'authorities.authority',
-            icon: 'md-ribbon'
-          }, {
-            name: '菜单管理',
-            link: 'authorities.menu',
-            icon: 'md-ribbon'
-          }]
-        }, {
-          name: '个人中心',
-          link: 'profile',
-          icon: 'md-ribbon'
-        }];
-        _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].set('auth/menus', menus);
-        commit('setMenus', menus);
-      }, 1000);
+      commit('setLogin', data.token);
+      commit('setMenus', Object(_libs_util__WEBPACK_IMPORTED_MODULE_2__["listConvertTree"])(data.menus));
+      _router_index__WEBPACK_IMPORTED_MODULE_1__["router"].push({
+        name: 'home'
+      });
     },
     afterLogout: function afterLogout(_ref2) {
       var commit = _ref2.commit;
-      _plugins_cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].clear();
+      _plugins_cache_index__WEBPACK_IMPORTED_MODULE_0__["$cache"].clear();
       commit('setLogin', false);
       commit('setMenus', []);
+      _router_index__WEBPACK_IMPORTED_MODULE_1__["router"].push({
+        name: 'login'
+      });
+    },
+    refresh: function refresh(_ref3) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch;
+      _plugins_fetch__WEBPACK_IMPORTED_MODULE_3__["$http"].put('refresh').then(function (res) {
+        commit('setLogin', res.data);
+      });
     }
   }
 });
@@ -47071,27 +47276,31 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _plugins_cache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../plugins/cache */ "./resources/js/plugins/cache/index.js");
 
+var state = {
+  // 活动的标签导航
+  active: '',
+  // 全部的标签导航
+  inactives: []
+};
+var layout = _plugins_cache__WEBPACK_IMPORTED_MODULE_0__["$cache"].get('$store/layout') || {};
+state.inactives = layout.inactives || [];
+state.active = layout.active || '';
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
-  state: {
-    // 活动的标签导航
-    active: '',
-    // 全部的标签导航
-    inactives: []
-  },
+  state: state,
   getters: {
     /**
      * 全部的标签导航
      */
     inactives: function inactives(state) {
-      return (state || _plugins_cache__WEBPACK_IMPORTED_MODULE_0__["$cache"].get('$store/layout')).inactives;
+      return state.inactives;
     },
 
     /**
      * 活动的标签导航
      */
     active: function active(state) {
-      return (state || _plugins_cache__WEBPACK_IMPORTED_MODULE_0__["$cache"].get('$store/layout')).active;
+      return state.active;
     }
   },
   mutations: {
@@ -47297,10 +47506,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cache_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../cache/index */ "./resources/js/plugins/cache/index.js");
+/* harmony import */ var _modules_store_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../modules/store/index */ "./resources/js/modules/store/index.js");
+/* harmony import */ var iview__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! iview */ "./node_modules/iview/dist/iview.js");
+/* harmony import */ var iview__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(iview__WEBPACK_IMPORTED_MODULE_3__);
+
+
 
 
 var instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://127.0.0.1/api/',
+  baseURL: '/api/',
   timeout: 10000
 }); // 添加请求拦截器
 
@@ -47309,7 +47523,7 @@ instance.interceptors.request.use(function (config) {
   config.headers = {
     'Accept': 'application/json'
   };
-  var $token = _cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].get('auth/token');
+  var $token = _cache_index__WEBPACK_IMPORTED_MODULE_1__["$cache"].get('$store/auth/token');
 
   if ($token) {
     config.headers['authorization'] = 'bearer ' + $token;
@@ -47325,7 +47539,20 @@ instance.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   return response.data;
 }, function (error) {
-  return Promise.reject(error);
+  if (error.response.status === 401) {
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('登录失效,请重新登录！');
+    _modules_store_index__WEBPACK_IMPORTED_MODULE_2__["default"].dispatch('auth/afterLogout');
+  } else if (error.response.status === 403) {
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error(error.response.data.message);
+  } else if (error.response.status === 422) {
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('数据验证错误，请检查提交的数据!');
+  } else if (error.response.status === 404) {
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('数据不存在!');
+  } else {
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('服务器错误,请联系管理员!');
+  }
+
+  return Promise.reject(error.response);
 });
 /* harmony default export */ __webpack_exports__["default"] = ({
   install: function install(Vue) {

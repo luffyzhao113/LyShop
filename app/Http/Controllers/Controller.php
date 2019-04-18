@@ -22,6 +22,13 @@ class Controller extends BaseController
         if (is_bool($data)) {
             $data = $data ? ['msg' => '成功'] : ['msg' => '失败'];
         }
+
+        if(is_string($data)){
+            $data = [
+                'data' => $data
+            ];
+        }
+
         return response($data);
     }
 }

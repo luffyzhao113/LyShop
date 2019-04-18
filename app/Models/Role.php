@@ -70,10 +70,10 @@ class Role extends Model
         $rolePrimaryKey = $this->primaryKey;
         $cacheKey = 'authorities:role_menus:' . $this->$rolePrimaryKey;
         if (Cache::getStore() instanceof TaggableStore) {
-            return Cache::tags(Config::get('authorities.role_menus_table'))->remember($cacheKey, Config::get('cache.ttl', 60), function () {
-                return $this->menus()->get(['id', 'name as title', 'parent_id']);
+            return Cache::tags(Config::get('authorities.role_menus_table'))->remember($cacheKey, Config::get('cache.ttl', 2678400), function () {
+                return $this->menus()->orderBy('sort')->get(['id', 'name', 'parent_id', 'url as link']);
             });
-        } else return $this->menus()->get(['id', 'name as title', 'parent_id']);
+        } else return $this->menus()->orderBy('sort')->get(['id', 'name', 'parent_id', 'url as link']);
     }
 
     /**
@@ -87,7 +87,7 @@ class Role extends Model
         $rolePrimaryKey = $this->primaryKey;
         $cacheKey = 'authorities:role_authorities:' . $this->$rolePrimaryKey;
         if (Cache::getStore() instanceof TaggableStore) {
-            return Cache::tags(Config::get('authorities.role_authorities_table'))->remember($cacheKey, Config::get('cache.ttl', 60), function () {
+            return Cache::tags(Config::get('authorities.role_authorities_table'))->remember($cacheKey, Config::get('cache.ttl', 2678400), function () {
                 return $this->authorities()->get();
             });
         } else return $this->authorities()->get();
@@ -103,7 +103,7 @@ class Role extends Model
     public function hasPermission(string $name): bool
     {
         foreach ($this->cachedAuthorities() as $permission) {
-            if ($permission->name == $name) {
+            if ($permission->uri == $name) {
                 return true;
             }
         }

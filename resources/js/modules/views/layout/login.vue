@@ -9,12 +9,15 @@
                     <img src="/vendor/images/login_logo2.png" />
                 </div>
                 <div class="login-form">
-                    <Form :label-width="0">
-                        <FormItem>
-                            <Input prefix="ios-mail" placeholder="Enter name" />
+                    <Form :label-width="0" :model="login" :rules="ruleValidate" ref="login">
+                        <FormItem prop="email">
+                            <Input prefix="ios-mail" v-model="login.email" placeholder="请输入登录邮箱" />
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input prefix="md-lock" type="password" v-model="login.password" placeholder="请输入密码" />
                         </FormItem>
                         <FormItem>
-                            <Input prefix="md-lock" placeholder="Enter name" />
+                            <Button type="primary" long @click="submit('login')">登录</Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -24,12 +27,33 @@
 </template>
 
 <script>
+    import fromSubmit from '../../mixins/from-submit';
+
     export default {
         name: "login",
+        mixins: [fromSubmit],
+        data(){
+            return {
+                login: {},
+                ruleValidate: {
+                    email: [
+                        {required: true, message: '用户邮箱不能为空', trigger: 'blur'},
+                        {type: 'email', message: '用户邮箱格式不正确', trigger: 'blur'},
+                    ],
+                    password: [
+                        {required: true, message: '用户密码不能为空', trigger: 'blur'},
+                        {type: 'string', min: 6, max: 20, message: '用户密码字符长度是6-20个字符', trigger: 'blur'}
+                    ]
+                }
+            }
+        },
         methods: {
-            t(){
-                this.$store.dispatch('auth/afterLogin', 'xxx');
-                this.$router.push({name: 'home'})
+            submit(name){
+                this.validate(name).then(() => {
+                    this.$http.post('login', this.login).then((res) => {
+                        this.$store.dispatch('auth/afterLogin', res);
+                    });
+                });
             }
         }
     }

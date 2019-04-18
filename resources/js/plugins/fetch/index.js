@@ -1,8 +1,10 @@
 import axios from 'axios'
 import {$cache} from '../cache/index'
+import $store from '../../modules/store/index'
+import {Message} from 'iview'
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1/api/',
+    baseURL: '/api/',
     timeout: 10000
 });
 
@@ -12,7 +14,7 @@ instance.interceptors.request.use((config) => {
     config.headers = {
         'Accept': 'application/json'
     }
-    let $token = $cache.get('auth/token');
+    let $token = $cache.get('$store/auth/token');
     if ($token) {
         config.headers['authorization'] = 'bearer ' + $token;
     }
@@ -28,15 +30,27 @@ instance.interceptors.response.use((response) => {
     // 对响应数据做点什么
     return response.data;
 }, (error) => {
-    return Promise.reject(error);
+    if(error.response.status === 401){
+        Message.error('登录失效,请重新登录！');
+        $store.dispatch('auth/afterLogout');
+    }else if(error.response.status === 403){
+        Message.error(error.response.data.message);
+    }else if(error.response.status === 422){
+        Message.error('数据验证错误，请检查提交的数据!');
+    }else if(error.response.status === 404){
+        Message.error('数据不存在!');
+    }else{
+        Message.error('服务器错误,请联系管理员!');
+    }
+    return Promise.reject(error.response);
 });
 
 
 export default {
     install(Vue) {
-        Vue.prototype.$http = instance
-        Vue.http = instance
+        Vue.prototype.$http = instance;
+        Vue.http = instance;
     }
 }
 
-export const $http = instance
+export const $http = instance;

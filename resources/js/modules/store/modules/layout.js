@@ -1,25 +1,32 @@
 import {$cache} from '../../../plugins/cache'
 
+let state = {
+    // 活动的标签导航
+    active: '',
+    // 全部的标签导航
+    inactives: []
+};
+
+let layout = $cache.get('$store/layout') || {};
+
+state.inactives = layout.inactives || [];
+state.active = layout.active || '';
+
 export default {
     namespaced: true,
-    state: {
-        // 活动的标签导航
-        active: '',
-        // 全部的标签导航
-        inactives: []
-    },
+    state,
     getters: {
         /**
          * 全部的标签导航
          */
         inactives: state => {
-            return (state || $cache.get('$store/layout')).inactives
+            return state.inactives
         },
         /**
          * 活动的标签导航
          */
         active: state => {
-            return (state || $cache.get('$store/layout')).active
+            return state.active
         }
     },
     mutations: {

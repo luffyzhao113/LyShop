@@ -20,10 +20,10 @@ export const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    let isLogin = store.getters['auth/login']
-    if(to.name === 'login' && isLogin === true){
+    let isLogin = store.getters['auth/login'];
+    if(to.name === 'login' && Boolean(isLogin)){
         next({name: 'home'})
-    }else if(to.name !== 'login' && isLogin === false){
+    }else if(to.name !== 'login' && !Boolean(isLogin) ){
         next({name: 'login'})
     }else{
         next()

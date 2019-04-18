@@ -53,7 +53,8 @@ class User extends RepositoryAbstract
      * @return bool|Model
      * @throws \Throwable
      */
-    public function status($id, array $values = []){
+    public function status($id, array $values = [])
+    {
         return parent::update($id, $values);
     }
 
@@ -67,10 +68,26 @@ class User extends RepositoryAbstract
      */
     public function update($id, array $values)
     {
-        if(empty($values['password'])){
+        if (empty($values['password'])) {
             unset($values['password']);
         }
         return parent::update($id, $values);
+    }
+
+    /**
+     * profileUpdate
+     * @param \App\Models\User $user
+     * @param array $values
+     * @author luffyzhao@vip.126.com
+     * @return bool
+     * @throws \Throwable
+     */
+    public function profileUpdate(\App\Models\User $user, array $values)
+    {
+        if (empty($values['password'])) {
+            unset($values['password']);
+        }
+        return $user->fill($values)->saveOrFail();
     }
 
 }
