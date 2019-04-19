@@ -43,7 +43,7 @@ export const home = [
         path: 'Authorities/role',
         name: 'authorities.role',
         meta: {
-            title: '部门',
+            title: '部门管理',
             cache: true,
             tags: true
         },
@@ -68,5 +68,15 @@ export const home = [
             tags: true
         },
         component: () => import('./../../views/authorities/authority/index')
+    },
+    {
+        path: 'Setting/express',
+        name: 'setting.express',
+        meta: {
+            title: '快递设置',
+            cache: true,
+            tags: true
+        },
+        component: () => import('./../../views/setting/express/index')
     }
 ]

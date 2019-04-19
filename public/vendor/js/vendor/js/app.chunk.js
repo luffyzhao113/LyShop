@@ -47054,7 +47054,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
+    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
   }
 }, {
   path: 'profile',
@@ -47065,7 +47065,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
   }
 }, {
   path: 'setting/spec',
@@ -47076,7 +47076,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/spec/index */ "./resources/js/modules/views/setting/spec/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(11)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/spec/index */ "./resources/js/modules/views/setting/spec/index.vue"));
   }
 }, {
   path: 'Authorities/user',
@@ -47093,7 +47093,7 @@ var home = [{
   path: 'Authorities/role',
   name: 'authorities.role',
   meta: {
-    title: '部门',
+    title: '部门管理',
     cache: true,
     tags: true
   },
@@ -47121,6 +47121,17 @@ var home = [{
   },
   component: function component() {
     return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/authority/index */ "./resources/js/modules/views/authorities/authority/index.vue"));
+  }
+}, {
+  path: 'Setting/express',
+  name: 'setting.express',
+  meta: {
+    title: '快递设置',
+    cache: true,
+    tags: true
+  },
+  component: function component() {
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/express/index */ "./resources/js/modules/views/setting/express/index.vue"));
   }
 }];
 
