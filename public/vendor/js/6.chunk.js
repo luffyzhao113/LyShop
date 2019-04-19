@@ -201,6 +201,23 @@ var render = function() {
                         type: "password",
                         placeholder: "请输入密码"
                       },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.submit("login")
+                        }
+                      },
                       model: {
                         value: _vm.login.password,
                         callback: function($$v) {

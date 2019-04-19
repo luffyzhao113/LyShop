@@ -47131,7 +47131,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/express/index */ "./resources/js/modules/views/setting/express/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/express/index */ "./resources/js/modules/views/setting/express/index.vue"));
   }
 }];
 
