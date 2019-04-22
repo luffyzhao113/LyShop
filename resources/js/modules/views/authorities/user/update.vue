@@ -26,7 +26,8 @@
             <Row>
                 <Col span="12">
                     <FormItem label="出生日期" prop="birthday">
-                        <DatePicker placeholder="出生日期" :value="update.birthday" format="yyyy-MM-dd" @on-change="(val) => update.birthday = val"></DatePicker>
+                        <DatePicker placeholder="出生日期" :value="update.birthday" format="yyyy-MM-dd"
+                                    @on-change="(val) => update.birthday = val"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="12">
@@ -41,7 +42,8 @@
             <Row>
                 <Col span="12">
                     <FormItem label="入职时间" prop="entryday">
-                        <DatePicker placeholder="入职时间" :value="update.entryday" format="yyyy-MM-dd" @on-change="(val) => update.entryday = val"></DatePicker>
+                        <DatePicker placeholder="入职时间" :value="update.entryday" format="yyyy-MM-dd"
+                                    @on-change="(val) => update.entryday = val"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="12">
@@ -80,6 +82,7 @@
             this.$http(`authorities/user/${this.props.id}/edit`).then((res) => {
                 this.update = res.data
                 this.roles.data = res.roles;
+            }).finally(() => {
                 this.loading = false
             });
         },
@@ -139,9 +142,11 @@
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.put(`authorities/user/${this.props.id}`, this.update).then(() => {
-                        this.loading = false;
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
                 }).catch();
             }

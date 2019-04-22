@@ -55,6 +55,8 @@
                 this.$http.delete(`authorities/menu/${data.id}`)
                 .then((res) =>{
                     this.getLists();
+                }).finally(() => {
+                    this.loading = false;
                 });
             },
             setTreeData(source) {

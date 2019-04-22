@@ -35,6 +35,9 @@ class Role extends RepositoryAbstract
      */
     public function create(array $attributes = [])
     {
+        /**
+         * @var $model \App\Models\Role
+         */
         $model = parent::create($attributes);
         if (isset($attributes['authorities'])) {
             $model->authorities()->attach($attributes['authorities']);
@@ -55,10 +58,15 @@ class Role extends RepositoryAbstract
      */
     public function update($id, array $values)
     {
+        /**
+         * @var $model \App\Models\Role
+         */
         $model = $this->find($id);
         $model->fill($values)->saveOrFail();
         $model->authorities()->sync($values['authorities'] ?? []);
         $model->menus()->sync($values['menus'] ?? []);
+
+        $model::clearCache();
         return $model;
     }
 }

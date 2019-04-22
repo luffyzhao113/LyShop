@@ -190,10 +190,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate(name).then(function () {
+        _this2.loading = true;
+
         _this2.$http.post("authorities/menu", _this2.create).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
-      }).catch(function () {});
+      });
     },
     handleChange: function handleChange(newTargetKeys) {
       this.create.authorities = newTargetKeys;
@@ -289,6 +293,8 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.$http.delete("authorities/menu/".concat(data.id)).then(function (res) {
         _this2.getLists();
+      }).finally(function () {
+        _this2.loading = false;
       });
     },
     setTreeData: function setTreeData(source) {
@@ -484,10 +490,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate(name).then(function () {
+        _this2.loading = true;
+
         _this2.$http.put("authorities/menu/".concat(_this2.props.id), _this2.update).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
-      }).catch(function () {});
+      });
     },
     handleChange: function handleChange(newTargetKeys) {
       this.update.authorities = newTargetKeys;

@@ -87,7 +87,9 @@
                 this.$http.delete(`authorities/role/${data.id}`)
                     .then(() => {
                         this.getLists(this.page.current)
-                    });
+                    }).finally(() => {
+                    this.loading = false
+                });
             }
         }
     }

@@ -9,6 +9,7 @@ namespace App\Models;
 
 
 use Illuminate\Cache\TaggableStore;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -39,25 +40,36 @@ class Role extends Model
     }
 
 
+    /**
+     * clearCache
+     * @author luffyzhao@vip.126.com
+     * @static       * @return bool
+     */
+    public static function clearCache()
+    {
+        if (Cache::getStore() instanceof TaggableStore) {
+            Cache::tags(Config::get('authorities.role_menus_table'))->flush();
+            Cache::tags(Config::get('authorities.role_authorities_table'))->flush();
+        }
+        return true;
+    }
+
+    /**
+     * boot
+     * @author luffyzhao@vip.126.com
+     * @static
+     */
     public static function boot()
     {
         parent::boot();
-        static::updated(function ($role) {
-            if (Cache::getStore() instanceof TaggableStore) {
-                Cache::tags(Config::get('authorities.role_menus_table'))->flush();
-                Cache::tags(Config::get('authorities.role_authorities_table'))->flush();
-            }
-            return true;
+        static::saved([static::class, 'clearCache']);
+        static::deleted([static::class, 'clearCache']);
+        static::addGlobalScope('sort', function(Builder $builder) {
+            $builder->orderByDesc('id');
         });
-        static::deleted(function ($role){
-            if (Cache::getStore() instanceof TaggableStore) {
-                Cache::tags(Config::get('authorities.role_menus_table'))->flush();
-                Cache::tags(Config::get('authorities.role_authorities_table'))->flush();
-            }
-            return true;
-        });
-
     }
+
+
 
     /**
      * 缓存用户组菜单
@@ -65,7 +77,7 @@ class Role extends Model
      * @author luffyzhao@vip.126.com
      * @return Collection
      */
-    public function cachedMenus() : Collection
+    public function cachedMenus(): Collection
     {
         $rolePrimaryKey = $this->primaryKey;
         $cacheKey = 'authorities:role_menus:' . $this->$rolePrimaryKey;

@@ -14,7 +14,7 @@
                             <Input prefix="ios-mail" v-model="login.email" placeholder="请输入登录邮箱" />
                         </FormItem>
                         <FormItem prop="password">
-                            <Input prefix="md-lock" type="password" v-model="login.password" placeholder="请输入密码" v-on:keyup.enter="submit('login')"/>
+                            <Input prefix="md-lock" type="password" v-model="login.password" placeholder="请输入密码" @on-enter="submit('login')"/>
                         </FormItem>
                         <FormItem>
                             <Button type="primary" long @click="submit('login')">登录</Button>

@@ -141,6 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$http("authorities/user/create").then(function (res) {
       _this.roles.data = res;
+    }).finally(function () {
       _this.loading = false;
     });
   },
@@ -240,10 +241,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.validate(name).then(function () {
-        _this3.$http.post("authorities/user", _this3.create).then(function () {
-          _this3.loading = false;
+        _this3.loading = true;
 
+        _this3.$http.post("authorities/user", _this3.create).then(function () {
           _this3.closeDrawer(false);
+        }).finally(function () {
+          _this3.loading = false;
         });
       }).catch();
     }
@@ -398,6 +401,8 @@ __webpack_require__.r(__webpack_exports__);
         status: data.status === 'on' ? 'off' : 'on'
       }).then(function () {
         _this2.getLists(_this2.page.current);
+      }).finally(function () {
+        _this2.loading = false;
       });
     }
   }
@@ -486,6 +491,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -500,6 +507,7 @@ __webpack_require__.r(__webpack_exports__);
     this.$http("authorities/user/".concat(this.props.id, "/edit")).then(function (res) {
       _this.update = res.data;
       _this.roles.data = res.roles;
+    }).finally(function () {
       _this.loading = false;
     });
   },
@@ -591,10 +599,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.validate(name).then(function () {
-        _this3.$http.put("authorities/user/".concat(_this3.props.id), _this3.update).then(function () {
-          _this3.loading = false;
+        _this3.loading = true;
 
+        _this3.$http.put("authorities/user/".concat(_this3.props.id), _this3.update).then(function () {
           _this3.closeDrawer(false);
+        }).finally(function () {
+          _this3.loading = false;
         });
       }).catch();
     }

@@ -61,10 +61,13 @@
         }, methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.post(`authorities/authority`,
                         Object.assign({}, this.create, {menus: this.checkedMenus})
                     ).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
                 }).catch(() => {
                 });

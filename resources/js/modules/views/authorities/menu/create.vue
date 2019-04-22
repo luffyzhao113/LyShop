@@ -76,12 +76,13 @@
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.post(`authorities/menu`, this.create).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
-                }).catch(() => {
-
-                });
+                })
             },
             handleChange(newTargetKeys) {
                 this.create.authorities = newTargetKeys

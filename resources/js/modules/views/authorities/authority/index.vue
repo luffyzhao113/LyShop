@@ -30,13 +30,14 @@
                             confirm
                             title="你确定要删除这个权限吗？"
                             @on-ok="remove(row)">
-                    <Button type="error" size="small">删除</Button>
+                        <Button type="error" size="small">删除</Button>
                     </Poptip>
                 </template>
             </Table>
         </i-table>
 
-        <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent" @on-refresh="getLists"></component>
+        <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent"
+                   @on-refresh="getLists"></component>
     </i-content>
 </template>
 
@@ -52,7 +53,7 @@
         name: "index",
         mixins: [contentListPage],
         components: {ITable, ISearch, IContent, Create, Update},
-        data(){
+        data() {
             return {
                 table: {
                     columns: [
@@ -78,7 +79,7 @@
             }
         },
         methods: {
-            getLists(page = 1){
+            getLists(page = 1) {
                 this.loading = true;
                 this.$http.get(`authorities/authority`, {
                     params: Object.assign({}, this.search, {page: page})
@@ -86,12 +87,18 @@
                     this.table.data = data.data
                     this.page.total = data.total
                     this.page.current = data.current_page
-                }).finally(()=> {this.loading = false;});
+                }).finally(() => {
+                    this.loading = false;
+                });
             },
-            remove(data){
+            remove(data) {
                 this.loading = true;
                 this.$http.delete(`authorities/authority/${data.id}`)
-                    .then(() => {this.getLists(this.page.current)});
+                    .then(() => {
+                        this.getLists(this.page.current)
+                    }).finally(() => {
+                    this.loading = false;
+                });
             }
         }
     }

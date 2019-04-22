@@ -70,13 +70,23 @@ export const home = [
         component: () => import('./../../views/authorities/authority/index')
     },
     {
-        path: 'Setting/express',
-        name: 'setting.express',
+        path: 'Setting/express/company',
+        name: 'setting.express.company',
         meta: {
-            title: '快递设置',
+            title: '快递公司',
             cache: true,
             tags: true
         },
-        component: () => import('./../../views/setting/express/index')
+        component: () => import('../../views/setting/express/company')
+    },
+    {
+        path: 'Setting/express/template',
+        name: 'setting.express.template',
+        meta: {
+            title: '快递模板',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/setting/express/template')
     }
 ]

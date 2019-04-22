@@ -76,12 +76,14 @@
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.put(`authorities/authority/${this.props.id}`,
                         Object.assign({}, this.update, {menus: this.checkedMenus})
                     ).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
-                }).catch(() => {
                 });
             },
             setTreeData(source) {

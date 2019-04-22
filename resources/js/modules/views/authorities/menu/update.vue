@@ -74,13 +74,15 @@
         },
         methods: {
             submit(name) {
+
                 this.validate(name).then(() => {
+                    this.loading = true;
                     this.$http.put(`authorities/menu/${this.props.id}`, this.update).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false;
                     });
-                }).catch(() => {
-
-                });
+                })
             },
             handleChange(newTargetKeys) {
                 this.update.authorities = newTargetKeys

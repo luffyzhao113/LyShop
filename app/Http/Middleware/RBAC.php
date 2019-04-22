@@ -31,7 +31,7 @@ class RBAC extends Authenticate
         $this->authenticate($request, $guards);
 
         if ($request->route()->getName() !== null && $user = $this->auth->guard()->user()) {
-            if (!$user->role->hasPermission($request->route()->getName())) {
+            if (!($user->role && $user->role->hasPermission($request->route()->getName()))) {
                 throw new AuthorizationException('没有相关权限，请联系管理员添加');
             }
         }

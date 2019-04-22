@@ -13,15 +13,28 @@ class CreateExpressTable extends Migration
      */
     public function up()
     {
+        Schema::create('express_companies', function (Blueprint $table){
+            $table->increments('id');
+            $table->string('name', 50)->comment('快递公司');
+            $table->enum('view', ['yes', 'no'])->comment('支持查看物流轨迹');
+            $table->string('code', 50)->nullable()->default(null)->comment('快递公司物流接口代码');
+            $table->string('description', 255)->nullable()->default(null)->comment('模板说明');
+            $table->timestamps();
+        });
+
         Schema::create('express', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50)->comment('模板名称');
             $table->enum('type', ['piece', 'weigh'])->comment('类型');
-            $table->string('description', 255)->comment('模板说明');
+            $table->string('description', 255)->nullable()->default(null)->comment('模板说明');
             $table->enum('status', ['off', 'on'])->comment('状态');
-            $table->enum('view', ['yes', 'no'])->comment('是否接入快递100');
-            $table->string('com', 50)->nullable()->default(null)->comment('快递100物流公司编码');
+            $table->unsignedInteger('company_id')->comment('所属快递公司');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('express_companies')
+                ->onUpdate('cascade')->onDelete('restrict');
+
+            $table->index('type');
         });
 
         Schema::create('express_details', function (Blueprint $table){
@@ -57,7 +70,7 @@ class CreateExpressTable extends Migration
         Schema::create('express_detail_areas', function (Blueprint $table){
             $table->unsignedInteger('area_id')->comment('地区ID');
             $table->unsignedInteger('express_detail_id')->comment('记件id');
-            $table->enum('type', ['piece', 'weigh']);
+            $table->enum('type', ['piece', 'weigh'])->comment('类型');
             $table->primary(['area_id', 'express_detail_id']);
 
             $table->foreign('express_detail_id')->references('id')->on('express_details')
@@ -85,5 +98,6 @@ class CreateExpressTable extends Migration
         Schema::dropIfExists('express_details');
         Schema::dropIfExists('areas');
         Schema::dropIfExists('express');
+        Schema::dropIfExists('express_companies');
     }
 }

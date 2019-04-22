@@ -95,11 +95,15 @@
                 this.create.authorities = newTargetKeys
             },
             submit(name) {
+
                 this.validate('formCreate').then(() => {
+                    this.loading = true
                     this.$http.post(`authorities/role`, this.create).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
-                }).catch();
+                });
             },
             getAuthorities(){
                 this.$http.get(`authorities/menu/authority`, {

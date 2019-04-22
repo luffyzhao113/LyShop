@@ -127,7 +127,9 @@
                 this.$http.put(`authorities/user/${data.id}/status`, {status: data.status === 'on' ? 'off' : 'on'})
                     .then(() => {
                         this.getLists(this.page.current)
-                    });
+                    }).finally(() => {
+                    this.loading = false
+                });
             }
         }
     }

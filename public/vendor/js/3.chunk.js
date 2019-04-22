@@ -170,10 +170,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate('formCreate').then(function () {
+        _this2.loading = true;
+
         _this2.$http.post("authorities/role", _this2.create).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
-      }).catch();
+      });
     },
     getAuthorities: function getAuthorities() {
       var _this3 = this;
@@ -372,6 +376,8 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.$http.delete("authorities/role/".concat(data.id)).then(function () {
         _this2.getLists(_this2.page.current);
+      }).finally(function () {
+        _this2.loading = false;
       });
     }
   }
@@ -462,7 +468,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
       _this.menus.data = _this.setTreeData(data);
-    }).then(function () {
+    }).finally(function () {
       _this.loading = false;
     });
   },
@@ -515,8 +521,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate('formUpdate').then(function () {
+        _this2.loading = true;
+
         _this2.$http.put("authorities/role/".concat(_this2.props.id), _this2.update).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
       }).catch();
     },

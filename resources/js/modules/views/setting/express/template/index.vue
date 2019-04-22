@@ -16,10 +16,10 @@
 </template>
 
 <script>
-    import IContent from "../../../components/content/index";
-    import contentListPage from "../../../mixins/content-list-page"
-    import ISearch from "../../../components/content/search";
-    import ITable from "../../../components/content/table";
+    import IContent from "../../../../components/content";
+    import contentListPage from "../../../../mixins/content-list-page"
+    import ISearch from "../../../../components/content/search";
+    import ITable from "../../../../components/content/table";
     import Create from "./create"
 
     export default {
@@ -47,11 +47,11 @@
                             slot: 'status'
                         },
                         {
-                            title: '是否接入快递100',
+                            title: '查看物流轨迹',
                             slot: 'view'
                         },
                         {
-                            title: '快递100编码',
+                            title: '物流公司编码',
                             slot: 'com'
                         },
                         {

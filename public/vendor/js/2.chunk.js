@@ -144,10 +144,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate(name).then(function () {
+        _this2.loading = true;
+
         _this2.$http.post("authorities/authority", Object.assign({}, _this2.create, {
           menus: _this2.checkedMenus
         })).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
       }).catch(function () {});
     },
@@ -205,6 +209,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_list_page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../mixins/content-list-page */ "./resources/js/modules/mixins/content-list-page.js");
 /* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create */ "./resources/js/modules/views/authorities/authority/create.vue");
 /* harmony import */ var _update__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./update */ "./resources/js/modules/views/authorities/authority/update.vue");
+//
 //
 //
 //
@@ -307,6 +312,8 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.$http.delete("authorities/authority/".concat(data.id)).then(function () {
         _this2.getLists(_this2.page.current);
+      }).finally(function () {
+        _this2.loading = false;
       });
     }
   }
@@ -424,12 +431,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.validate(name).then(function () {
+        _this2.loading = true;
+
         _this2.$http.put("authorities/authority/".concat(_this2.props.id), Object.assign({}, _this2.update, {
           menus: _this2.checkedMenus
         })).then(function () {
           _this2.closeDrawer(false);
+        }).finally(function () {
+          _this2.loading = false;
         });
-      }).catch(function () {});
+      });
     },
     setTreeData: function setTreeData(source) {
       var cloneData = JSON.parse(JSON.stringify(source));

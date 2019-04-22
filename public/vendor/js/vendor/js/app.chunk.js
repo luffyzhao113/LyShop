@@ -47054,7 +47054,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
+    return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
   }
 }, {
   path: 'profile',
@@ -47065,7 +47065,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
+    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
   }
 }, {
   path: 'setting/spec',
@@ -47123,15 +47123,26 @@ var home = [{
     return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/authority/index */ "./resources/js/modules/views/authorities/authority/index.vue"));
   }
 }, {
-  path: 'Setting/express',
-  name: 'setting.express',
+  path: 'Setting/express/company',
+  name: 'setting.express.company',
   meta: {
-    title: '快递设置',
+    title: '快递公司',
     cache: true,
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/express/index */ "./resources/js/modules/views/setting/express/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/company */ "./resources/js/modules/views/setting/express/company/index.vue"));
+  }
+}, {
+  path: 'Setting/express/template',
+  name: 'setting.express.template',
+  meta: {
+    title: '快递模板',
+    cache: true,
+    tags: true
+  },
+  component: function component() {
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/template */ "./resources/js/modules/views/setting/express/template/index.vue"));
   }
 }];
 
@@ -47155,7 +47166,7 @@ var loyout = [{
     cache: false
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
   }
 }, {
   path: '*',
@@ -47165,7 +47176,7 @@ var loyout = [{
     cache: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ../../components/layout/error.vue */ "./resources/js/modules/components/layout/error.vue"));
+    return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ../../components/layout/error.vue */ "./resources/js/modules/components/layout/error.vue"));
   }
 }];
 
@@ -47560,7 +47571,7 @@ instance.interceptors.response.use(function (response) {
   } else if (error.response.status === 404) {
     iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('数据不存在!');
   } else {
-    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error('服务器错误,请联系管理员!');
+    iview__WEBPACK_IMPORTED_MODULE_3__["Message"].error(error.response.data.message);
   }
 
   return Promise.reject(error.response);
