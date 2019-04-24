@@ -30,6 +30,7 @@ class CreateExpressTable extends Migration
             $table->enum('status', ['off', 'on'])->comment('状态');
             $table->unsignedInteger('company_id')->comment('所属快递公司');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('company_id')->references('id')->on('express_companies')
                 ->onUpdate('cascade')->onDelete('restrict');
@@ -40,10 +41,10 @@ class CreateExpressTable extends Migration
         Schema::create('express_details', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('express_id')->comment('模板ID');
-            $table->decimal('first', 10, 3)->comment('首重(首件)：kg');
-            $table->decimal('first_fee', 10, 2)->comment('首重(首件)收费：分');
-            $table->decimal('continue', 10, 3)->comment('续重(件)：kg');
-            $table->decimal('continue_fee', 10, 2)->comment('续重(件)收费：分');
+            $table->integer('first', false, true)->comment('首重(首件)');
+            $table->integer('first_fee', false, true)->comment('首重(首件)收费：分');
+            $table->integer('continue', false, true)->comment('续重(件)');
+            $table->integer('continue_fee', false, true)->comment('续重(件)收费：分');
             $table->timestamps();
 
             $table->foreign('express_id')->references('id')->on('express')
@@ -75,9 +76,6 @@ class CreateExpressTable extends Migration
 
             $table->foreign('express_detail_id')->references('id')->on('express_details')
                 ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('type')->references('type')->on('express')
-                ->onUpdate('restrict')->onDelete('cascade');
         });
 
 
