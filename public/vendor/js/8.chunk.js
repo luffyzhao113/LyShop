@@ -38,6 +38,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "login",
@@ -45,6 +48,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       login: {},
+      loading: false,
       ruleValidate: {
         email: [{
           required: true,
@@ -74,8 +78,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.validate(name).then(function () {
+        _this.loading = true;
+
         _this.$http.post('login', _this.login).then(function (res) {
           _this.$store.dispatch('auth/afterLogin', res);
+        }).finally(function () {
+          _this.loading = false;
         });
       });
     }
@@ -224,14 +232,22 @@ var render = function() {
                     _c(
                       "Button",
                       {
-                        attrs: { type: "primary", long: "" },
+                        attrs: {
+                          type: "primary",
+                          long: "",
+                          loading: _vm.loading
+                        },
                         on: {
                           click: function($event) {
                             return _vm.submit("login")
                           }
                         }
                       },
-                      [_vm._v("登录")]
+                      [
+                        !_vm.loading
+                          ? _c("span", [_vm._v("登录")])
+                          : _c("span", [_vm._v("Loading...")])
+                      ]
                     )
                   ],
                   1

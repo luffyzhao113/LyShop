@@ -15,3 +15,9 @@ Route::resource('express/company', 'ExpressCompanyController', [
         'edit' => 'company.update'
     ]
 ])->except(['show', 'create']);
+
+Route::resource('focus/position', 'FocusPositionController', [
+    'names' => [
+        'edit' => 'company.update'
+    ]
+])->except(['show', 'create']);

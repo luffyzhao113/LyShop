@@ -68,7 +68,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     spinShow: {
       type: Boolean,
-      default: false
+      default: true
     }
   }
 });
@@ -299,18 +299,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     setTreeData: function setTreeData(source) {
       var cloneData = JSON.parse(JSON.stringify(source));
-      var tree = cloneData.filter(function (father) {
+      return cloneData.map(function (val) {
+        val.expand = true;
+        return val;
+      }).filter(function (father) {
         var branchArr = cloneData.filter(function (child) {
-          return father['id'] == child['parent_id'];
+          return father['id'] === child['parent_id'];
         });
 
         if (branchArr.length > 0) {
           father['children'] = branchArr;
         }
 
-        return father['parent_id'] == 0;
+        return father['parent_id'] === 0;
       });
-      return tree;
     }
   }
 });
@@ -1481,6 +1483,12 @@ __webpack_require__.r(__webpack_exports__);
     closeComponent: function closeComponent() {
       this.component.is = '';
       this.component.prop = null;
+    },
+    openRoute: function openRoute(name, query) {
+      this.$router.push({
+        name: name,
+        query: query
+      });
     },
     getLists: function getLists() {}
   }

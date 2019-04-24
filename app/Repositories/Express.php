@@ -86,11 +86,15 @@ class Express extends RepositoryAbstract
      */
     public function editFind($id){
         $row = $this->model->with(['details.areas:id'])->findOrFail($id)->toArray();
-        $row['details'] = collect($row['details'])->map(function ($item){
-            $item['areas'] = collect($item['areas'])->pluck('id');
+        return collect($row)->map(function ($item, $key){
+            if($key === 'details'){
+                return collect($item)->map(function ($val){
+                    $val['areas'] = collect($val['areas'])->pluck('id');
+                    return $val;
+                });
+            }
             return $item;
         });
-        return $row;
     }
 
 }

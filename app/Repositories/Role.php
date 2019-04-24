@@ -79,9 +79,10 @@ class Role extends RepositoryAbstract
     public function findEdit($id){
         $row = $this->model->with(['authorities:id', 'menus:id'])->findOrFail($id)->toArray();
 
-        return collect($row)->map(function ($item){
-            $item['authorities'] = collect($item['authorities'])->pluck('id');
-            $item['menus'] = collect($item['menus'])->pluck('id');
+        return collect($row)->map(function ($item, $key){
+            if($key === 'authorities' || $key === 'menus'){
+                return collect($item)->pluck('id');
+            }
             return $item;
         });
     }

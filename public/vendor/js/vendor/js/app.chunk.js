@@ -31,7 +31,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "html,\nbody {\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "html,\nbody {\n  height: 100%;\n  width: 100%;\n  margin: 0;\n  padding: 0;\n}\n.ivu-menu-item-group {\n  padding-left: 13px;\n}\n", ""]);
 
 // exports
 
@@ -47068,17 +47068,6 @@ var home = [{
     return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
   }
 }, {
-  path: 'setting/spec',
-  name: 'setting.spec',
-  meta: {
-    title: '商品规格',
-    cache: true,
-    tags: true
-  },
-  component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./../../views/setting/spec/index */ "./resources/js/modules/views/setting/spec/index.vue"));
-  }
-}, {
   path: 'Authorities/user',
   name: 'authorities.user',
   meta: {
@@ -47143,6 +47132,39 @@ var home = [{
   },
   component: function component() {
     return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/template */ "./resources/js/modules/views/setting/express/template/index.vue"));
+  }
+}, {
+  path: 'Setting/shop',
+  name: 'setting.shop',
+  meta: {
+    title: '店铺管理',
+    cache: true,
+    tags: true
+  },
+  component: function component() {
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! ../../views/setting/shop */ "./resources/js/modules/views/setting/shop/index.vue"));
+  }
+}, {
+  path: 'Setting/focus',
+  name: 'setting.focus',
+  meta: {
+    title: '焦点图管理',
+    cache: true,
+    tags: true
+  },
+  component: function component() {
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus */ "./resources/js/modules/views/setting/focus/index.vue"));
+  }
+}, {
+  path: 'Setting/focus/position',
+  name: 'setting.focus.position',
+  meta: {
+    title: '焦点图位置管理',
+    cache: true,
+    tags: true
+  },
+  component: function component() {
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(15)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus/position */ "./resources/js/modules/views/setting/focus/position/index.vue"));
   }
 }];
 

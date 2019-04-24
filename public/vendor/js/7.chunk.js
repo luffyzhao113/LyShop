@@ -231,6 +231,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -366,7 +367,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     return {
-      loading: false,
+      loading: true,
       update: {},
       ruleValidate: {
         name: [{
@@ -409,6 +410,8 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$http.get("setting/express/company/".concat(this.props.id, "/edit")).then(function (res) {
       _this2.update = res;
+    }).finally(function () {
+      _this2.loading = false;
     });
   },
   methods: {
@@ -810,6 +813,19 @@ var render = function() {
                   }
                 },
                 [_vm._v("添加")]
+              ),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: { type: "info" },
+                  on: {
+                    click: function($event) {
+                      return _vm.openRoute("setting.express.template")
+                    }
+                  }
+                },
+                [_vm._v("快递模板管理")]
               )
             ],
             1
@@ -1208,6 +1224,93 @@ __webpack_require__.r(__webpack_exports__);
         this.$emit('on-close', false);
         this.$emit('on-refresh');
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/modules/mixins/content-list-page.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/modules/mixins/content-list-page.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _from_submit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./from-submit */ "./resources/js/modules/mixins/from-submit.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_from_submit__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  data: function data() {
+    return {
+      page: {
+        current: 1,
+        total: 100
+      },
+      table: {
+        columns: [],
+        data: []
+      },
+      component: {
+        is: '',
+        prop: null
+      },
+      loading: true
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$nextTick(function () {
+      _this.getLists();
+    });
+  },
+  methods: {
+    pageChange: function pageChange(v) {
+      this.getLists(v);
+    },
+    openComponent: function openComponent(is) {
+      var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      this.component.is = is;
+      this.component.prop = prop;
+    },
+    closeComponent: function closeComponent() {
+      this.component.is = '';
+      this.component.prop = null;
+    },
+    openRoute: function openRoute(name, query) {
+      this.$router.push({
+        name: name,
+        query: query
+      });
+    },
+    getLists: function getLists() {}
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/modules/mixins/from-submit.js":
+/*!****************************************************!*\
+  !*** ./resources/js/modules/mixins/from-submit.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    validate: function validate(name) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        _this.$refs[name].validate(function (valid) {
+          valid ? resolve() : reject();
+        });
+      });
     }
   }
 });

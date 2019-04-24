@@ -15,4 +15,7 @@
         margin: 0;
         padding: 0;
     }
+    .ivu-menu-item-group{
+        padding-left: 13px;
+    }
 </style>

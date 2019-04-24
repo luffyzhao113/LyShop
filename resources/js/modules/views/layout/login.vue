@@ -17,7 +17,10 @@
                             <Input prefix="md-lock" type="password" v-model="login.password" placeholder="请输入密码" @on-enter="submit('login')"/>
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" long @click="submit('login')">登录</Button>
+                            <Button type="primary" long @click="submit('login')" :loading="loading">
+                                <span v-if="!loading">登录</span>
+                                <span v-else>Loading...</span>
+                            </Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -35,6 +38,7 @@
         data(){
             return {
                 login: {},
+                loading: false,
                 ruleValidate: {
                     email: [
                         {required: true, message: '用户邮箱不能为空', trigger: 'blur'},
@@ -50,8 +54,11 @@
         methods: {
             submit(name){
                 this.validate(name).then(() => {
+                    this.loading = true;
                     this.$http.post('login', this.login).then((res) => {
                         this.$store.dispatch('auth/afterLogin', res);
+                    }).finally(() => {
+                        this.loading = false;
                     });
                 });
             }

@@ -66,8 +66,10 @@ class Authority extends RepositoryAbstract
     public function editFind($id){
         $row = $this->model->with(['menus'])->findOrFail($id)->toArray();
 
-        return collect($row)->map(function ($item){
-            $item['menus'] = collect($item['menus'])->pluck('id');
+        return collect($row)->map(function ($item, $key){
+            if($key === 'menus'){
+                return collect($item)->pluck('id');
+            }
             return $item;
         });
     }

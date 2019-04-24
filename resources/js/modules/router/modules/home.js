@@ -20,16 +20,6 @@ export const home = [
         component: () => import('./../../views/profile/index')
     },
     {
-        path: 'setting/spec',
-        name: 'setting.spec',
-        meta: {
-            title: '商品规格',
-            cache: true,
-            tags: true
-        },
-        component: () => import('./../../views/setting/spec/index')
-    },
-    {
         path: 'Authorities/user',
         name: 'authorities.user',
         meta: {
@@ -88,5 +78,35 @@ export const home = [
             tags: true
         },
         component: () => import('../../views/setting/express/template')
-    }
+    },
+    {
+        path: 'Setting/shop',
+        name: 'setting.shop',
+        meta: {
+            title: '店铺管理',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/setting/shop')
+    },
+    {
+        path: 'Setting/focus',
+        name: 'setting.focus',
+        meta: {
+            title: '焦点图管理',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/setting/focus')
+    },
+    {
+        path: 'Setting/focus/position',
+        name: 'setting.focus.position',
+        meta: {
+            title: '焦点图位置管理',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/setting/focus/position')
+    },
 ]

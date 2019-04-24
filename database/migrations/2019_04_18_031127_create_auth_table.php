@@ -17,7 +17,7 @@ class CreateAuthTable extends Migration
         Schema::create('authorities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 20)->comment('权限名称');
-            $table->string('uri', 100)->comment('权限name');
+            $table->string('uri', 100)->unique()->comment('权限name');
             $table->string('description', 255)->default('')->comment('权限描述');
             $table->timestamps();
         });

@@ -40,7 +40,7 @@
         components: {IDrawer},
         data(){
             return {
-                loading: false,
+                loading: true,
                 update: {},
                 ruleValidate:{
                     name: [
@@ -70,6 +70,8 @@
         mounted(){
             this.$http.get(`setting/express/company/${this.props.id}/edit`).then((res) => {
                 this.update = res
+            }).finally(() => {
+                this.loading = false
             })
         },
         methods: {

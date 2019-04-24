@@ -13,6 +13,7 @@
             <FormItem :label-width="1">
                 <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
                 <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
+                <Button type="info" @click="openRoute('setting.express.template')">快递模板管理</Button>
             </FormItem>
         </i-search>
         <i-table>
