@@ -428,10 +428,10 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.$http.get("authorities/menu/".concat(this.props.id, "/edit")).then(function (res) {
-      res.data.parent = res.data.parent || {
+      res.row.parent = res.row.parent || {
         name: '顶级菜单'
       };
-      _this.update = res.data;
+      _this.update = res.row;
       _this.authorities.data = res.authorities;
     }).finally(function () {
       return _this.loading = false;

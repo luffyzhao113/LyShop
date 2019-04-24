@@ -184,6 +184,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_list_page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../mixins/content-list-page */ "./resources/js/modules/mixins/content-list-page.js");
 /* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create */ "./resources/js/modules/views/setting/express/company/create.vue");
 /* harmony import */ var _update__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./update */ "./resources/js/modules/views/setting/express/company/update.vue");
+/* harmony import */ var iview_src__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! iview/src */ "./node_modules/iview/src/index.js");
 //
 //
 //
@@ -219,6 +220,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -229,6 +239,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "index.vue",
   mixins: [_mixins_content_list_page__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
+    Select: iview_src__WEBPACK_IMPORTED_MODULE_6__["default"],
     ITable: _components_content_table__WEBPACK_IMPORTED_MODULE_2__["default"],
     ISearch: _components_content_search__WEBPACK_IMPORTED_MODULE_1__["default"],
     IContent: _components_content_index__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -237,19 +248,28 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      loading: true,
+      search: {},
       table: {
         columns: [{
           title: '快递公司名称',
-          slot: 'name'
+          slot: 'name',
+          width: 120
         }, {
-          title: '是否支持查看物流信息',
-          slot: 'view'
+          title: '支持查看物流信息',
+          slot: 'view',
+          width: 180
         }, {
           title: '物流接口编号',
-          slot: 'code'
+          slot: 'code',
+          width: 150
+        }, {
+          title: '公司说明',
+          slot: 'description'
         }, {
           title: '操作',
-          slot: 'action'
+          slot: 'action',
+          width: 150
         }]
       }
     };
@@ -279,6 +299,11 @@ __webpack_require__.r(__webpack_exports__);
       }).finally(function () {
         _this2.loading = false;
       });
+    }
+  },
+  filters: {
+    status: function status(val) {
+      return val === 'yes' ? '支持' : '不支持';
     }
   }
 });
@@ -707,10 +732,28 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "i-content",
+    { attrs: { "spin-show": _vm.loading } },
     [
       _c(
         "i-search",
         [
+          _c(
+            "FormItem",
+            { attrs: { label: "公司名称" } },
+            [
+              _c("Input", {
+                model: {
+                  value: _vm.search.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.search, "name", $$v)
+                  },
+                  expression: "search.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c(
             "FormItem",
             { attrs: { "label-width": 1 } },
@@ -762,11 +805,21 @@ var render = function() {
                 }
               },
               {
+                key: "description",
+                fn: function(ref) {
+                  var row = ref.row
+                  var index = ref.index
+                  return [_c("span", [_vm._v(_vm._s(row.description))])]
+                }
+              },
+              {
                 key: "view",
                 fn: function(ref) {
                   var row = ref.row
                   var index = ref.index
-                  return [_c("span", [_vm._v(_vm._s(row.view))])]
+                  return [
+                    _c("span", [_vm._v(_vm._s(_vm._f("status")(row.view)))])
+                  ]
                 }
               },
               {

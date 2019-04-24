@@ -93,4 +93,13 @@ class Menu extends RepositoryAbstract
         $model = $this->model->findMany($data['ids']??[]);
         return $model->load('authorities');
     }
+
+    public function editFind($id){
+        $row = $this->model->with(['authorities:id', 'parent'])->findOrFail($id)->toArray();
+
+        return collect($row)->map(function ($item){
+            $item['authorities'] = collect($item['authorities'])->pluck('id');
+            return $item;
+        });
+    }
 }

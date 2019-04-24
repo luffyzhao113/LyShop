@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Setting\Express\Company\StoreRequest;
 use App\Http\Requests\Api\Setting\Express\Company\UpdateRequest;
+use App\Http\Searchs\Api\Setting\CompanySearch;
 use App\Repositories\ExpressCompany;
 
 class ExpressCompanyController extends Controller
@@ -29,11 +30,12 @@ class ExpressCompanyController extends Controller
     /**
      * index
      * @author luffyzhao@vip.126.com
+     * @param CompanySearch $search
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(){
+    public function index(CompanySearch $search){
         return $this->response(
-            $this->company->paginate([])
+            $this->company->paginate($search->toArray())
         );
     }
 

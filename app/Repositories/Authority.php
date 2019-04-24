@@ -56,4 +56,19 @@ class Authority extends RepositoryAbstract
         $model->fill($values)->saveOrFail();
         return $model->menus()->sync($values['menus']??[]);
     }
+
+    /**
+     * editFind
+     * @param $id
+     * @author luffyzhao@vip.126.com
+     * @return array
+     */
+    public function editFind($id){
+        $row = $this->model->with(['menus'])->findOrFail($id)->toArray();
+
+        return collect($row)->map(function ($item){
+            $item['menus'] = collect($item['menus'])->pluck('id');
+            return $item;
+        });
+    }
 }

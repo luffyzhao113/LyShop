@@ -77,17 +77,9 @@ class AuthorityController extends Controller
      * @datetime: 2019/4/1 15:43
      */
     public function edit(Menu $menu, $id){
-        $row = $this->authority->find($id);
         return $this->response([
             'menus' => $menu->get(['id', 'name as title', 'parent_id']),
-            'data' => [
-                'id' => $row['id'],
-                'name' => $row['name'],
-                'uri' => $row['uri'],
-                'method' => $row['method'],
-                'description' => $row['description'],
-                'menus' => $row->menus->pluck('id')
-            ]
+            'row' => $this->authority->editFind($id)
         ]);
     }
 

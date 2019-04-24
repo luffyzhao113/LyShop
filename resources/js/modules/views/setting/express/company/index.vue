@@ -1,6 +1,15 @@
 <template>
-    <i-content>
+    <i-content :spin-show="loading">
         <i-search>
+            <FormItem label="公司名称">
+                <Input v-model="search.name"></Input>
+            </FormItem>
+            <FormItem label="查看物流">
+                <Select v-model="search.view" clearable>
+                    <Option value="yes">支持</Option>
+                    <Option value="no">不支持</Option>
+                </Select>
+            </FormItem>
             <FormItem :label-width="1">
                 <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
                 <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
@@ -11,8 +20,11 @@
                 <template slot-scope="{ row, index }" slot="name">
                     <span>{{ row.name }}</span>
                 </template>
+                <template slot-scope="{ row, index }" slot="description">
+                    <span>{{ row.description }}</span>
+                </template>
                 <template slot-scope="{ row, index }" slot="view">
-                    <span>{{ row.view }}</span>
+                    <span>{{ row.view | status}}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="code">
                     <span>{{ row.code }}</span>
@@ -47,23 +59,34 @@
         components: {ITable, ISearch, IContent, Create, Update},
         data() {
             return {
+                loading:true,
+                search: {},
                 table: {
                     columns: [
                         {
                             title: '快递公司名称',
-                            slot: 'name'
+                            slot: 'name',
+                            width: 120
                         },
                         {
-                            title: '是否支持查看物流信息',
-                            slot: 'view'
+                            title: '支持查看物流信息',
+                            slot: 'view',
+                            width: 180
                         },
                         {
                             title: '物流接口编号',
-                            slot: 'code'
+                            slot: 'code',
+                            width: 150
+                        },
+                        {
+                            title: '公司说明',
+                            slot: 'description',
+
                         },
                         {
                             title: '操作',
-                            slot: 'action'
+                            slot: 'action',
+                            width: 150
                         }
                     ]
                 }
@@ -86,6 +109,11 @@
                 }).finally(() => {
                     this.loading = false;
                 })
+            }
+        },
+        filters: {
+            status(val) {
+                return val === 'yes' ? '支持' : '不支持';
             }
         }
     }

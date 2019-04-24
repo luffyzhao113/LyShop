@@ -69,4 +69,20 @@ class Role extends RepositoryAbstract
         $model::clearCache();
         return $model;
     }
+
+    /**
+     * findEdit
+     * @param $id
+     * @author luffyzhao@vip.126.com
+     * @return array
+     */
+    public function findEdit($id){
+        $row = $this->model->with(['authorities:id', 'menus:id'])->findOrFail($id)->toArray();
+
+        return collect($row)->map(function ($item){
+            $item['authorities'] = collect($item['authorities'])->pluck('id');
+            $item['menus'] = collect($item['menus'])->pluck('id');
+            return $item;
+        });
+    }
 }

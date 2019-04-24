@@ -74,19 +74,9 @@ class MenuController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Authority $authority, $id){
-        $row = $this->menu->find($id);
         return $this->response([
             'authorities' => $authority->get(['id as key', 'name as label']),
-            'data' => [
-                'name' => $row['name'],
-                'id' => $row['id'],
-                'parent_id' => $row['parent_id'],
-                'url' => $row['url'],
-                'sort' => $row['sort'],
-                'description' => $row['description'],
-                'authorities' => $row->authorities->pluck('id'),
-                'parent' => $row->parent
-            ]
+            'row' => $this->menu->editFind($id)
         ]);
     }
 

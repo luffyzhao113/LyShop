@@ -24,7 +24,7 @@
                     <span>{{ row.role.name }}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="sex">
-                    <span>{{ row.sex }}</span>
+                    <span>{{ row.sex | sex }}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="birthday">
                     <span>{{ row.birthday }}</span>
@@ -37,8 +37,7 @@
                             confirm
                             title="你确定要更改这个用户的状态吗？"
                             @on-ok="status(row)">
-                        <Button :type="row.status === 'off' ? 'error' : 'success'" size="small">{{row.status === 'off' ?
-                            '关闭' : '开启'}}
+                        <Button :type="row.status === 'off' ? 'error' : 'success'" size="small">{{row.status | status}}
                         </Button>
                     </Poptip>
                 </template>
@@ -130,6 +129,14 @@
                     }).finally(() => {
                     this.loading = false
                 });
+            }
+        },
+        filters: {
+            status(val) {
+                return val === 'yes' ? '开启' : '关闭';
+            },
+            sex(val){
+                return val === 'man' ? '男' : '女';
             }
         }
     }

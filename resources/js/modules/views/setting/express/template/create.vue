@@ -41,62 +41,83 @@
             <Row class="express_details-box" :gutter="5">
                 <div class="express_details-title">
                     <Col span="6">
+                        <span class="item-required">*</span>
                         地区
                     </Col>
                     <Col span="4">
-                        首重
+                        <span class="item-required">*</span>
+                        首重(件)
                     </Col>
                     <Col span="4">
-                        首重费用
+                        <span class="item-required">*</span>
+                        首重(件)费用
                     </Col>
                     <Col span="4">
-                        续重
+                        <span class="item-required">*</span>
+                        续重(件)
                     </Col>
                     <Col span="4">
-                        续重费用
+                        <span class="item-required">*</span>
+                        续重(件)费用
                     </Col>
                     <Col span="2">
                         操作
+                        <Poptip placement="top-end" width="410" transfer word-wrap trigger="hover">
+                            <span slot="content">ceil(商品总重量(件) - 首重(件) / 续重(件)) * 续重(件)费用 = 续重(件)费用</span>
+                            <Icon type="md-alert" size="16"/>
+                        </Poptip>
                     </Col>
                 </div>
                 <template v-for="(item, index) in create.details">
-                    <Col span="6">
-                        <FormItem :prop="'details.' + index + 'areas'" :label-width="0">
-                            <Button size="small" type="dashed" v-if="item.areas.length === 0">添加地区</Button>
-                            <template v-for="(area, key) in item.areas">
-                                <span> {{area}} </span>
+                    <Col span="6" class="express_details-city">
+                        <FormItem :prop="'details.' + index + '.areas'" :label-width="0"
+                                  :rules="[{required: true, type: 'array', message: '城市必须选择', trigger: 'change'}]">
+                            <Button size="small" type="dashed" @click="openAreasModal(index)"
+                                    v-if="item.areas.length === 0">添加城市
+                            </Button>
+                            <template v-else>
+                                <Tooltip placement="top" content="点击修改" theme="light" transfer style="width: 100%;">
+                                    <div @click="openAreasModal(index)" class="areas-lists">
+                                        <span> {{showAreaNames(item.areas)}} </span>
+                                    </div>
+                                </Tooltip>
                             </template>
+                            <TriggerFormItem ref="details.areas"></TriggerFormItem>
                         </FormItem>
                     </Col>
                     <Col span="4">
-                        <FormItem :prop="'details.' + index + 'first'" :label-width="0">
-                            <Input v-model="item.first"></Input>
+                        <FormItem :prop="'details.' + index + '.first'" :label-width="0"
+                                  :rules="[{required: true, type: 'number', message: '首重(件)必须填写', trigger: 'blur'}]">
+                            <Input v-model="item.first" number></Input>
                         </FormItem>
                     </Col>
                     <Col span="4">
-                        <FormItem :prop="'details.' + index + 'first_fee'" :label-width="0">
-                            <Input v-model="item.first_fee"></Input>
+                        <FormItem :prop="'details.' + index + '.first_fee'" :label-width="0"
+                                  :rules="[{required: true, type: 'number', message: '首重费用必须填写', trigger: 'blur'}]">
+                            <Input v-model="item.first_fee" number></Input>
                         </FormItem>
                     </Col>
                     <Col span="4">
-                        <FormItem :prop="'details.' + index + 'continue'" :label-width="0">
-                            <Input v-model="item.continue"></Input>
+                        <FormItem :prop="'details.' + index + '.continue'" :label-width="0"
+                                  :rules="[{required: true, type: 'number', message: '续重(件)必须填写', trigger: 'blur'}]">
+                            <Input v-model="item.continue" number></Input>
                         </FormItem>
                     </Col>
                     <Col span="4">
-                        <FormItem :prop="'details.' + index + 'continue_fee'" :label-width="0">
-                            <Input v-model="item.continue_fee"></Input>
+                        <FormItem :prop="'details.' + index + '.continue_fee'" :label-width="0"
+                                  :rules="[{required: true, type: 'number', message: '首重(件)费用必须填写', trigger: 'blur'}]">
+                            <Input v-model="item.continue_fee" number></Input>
                         </FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem :label-width="0">
-                            <Button>删除</Button>
+                            <Button @click="remove(index)">删除</Button>
                         </FormItem>
                     </Col>
                 </template>
 
                 <Col offset="18" span="6">
-                    <Button long size="small" @click="addAreaItme" type="dashed">添加一行</Button>
+                    <Button long size="small" @click="addAreaItem" type="dashed">添加一行</Button>
                 </Col>
             </Row>
         </Form>
@@ -105,7 +126,20 @@
             <Button type="primary" icon="ios-add" @click="submit('formCreate')">提交</Button>
         </div>
 
-        <Modal v-model="modal2" width="360">
+        <Modal v-model="areas.modal" width="455">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>城市列表</span>
+            </p>
+            <Transfer
+                    :data="areas.data"
+                    :target-keys="areas.wait"
+                    :render-format="render"
+                    :list-style="{height: '500px'}"
+                    @on-change="handleChange"></Transfer>
+            <div slot="footer">
+                <Button type="primary" size="large" long @click="handleChangeOk">选择</Button>
+            </div>
         </Modal>
     </i-drawer>
 </template>
@@ -113,14 +147,15 @@
 <script>
     import IDrawer from "../../../../components/content/drawer";
     import contentDrawer from '../../../../mixins/content-drawer'
+    import TriggerFormItem from "./trigger-form-item.js";
 
     export default {
         name: "create",
-        components: {IDrawer},
+        components: {TriggerFormItem, IDrawer},
         mixins: [contentDrawer],
         data() {
             return {
-                loading: false,
+                loading: true,
                 create: {
                     view: 'no',
                     status: 'off',
@@ -136,7 +171,7 @@
                         }
                     ]
                 },
-                areas: {data: []},
+                areas: {data: [], modal: false, index: undefined, wait: []},
                 companies: {data: []},
                 ruleValidate: {
                     name: [
@@ -163,17 +198,23 @@
         mounted() {
             this.$http.get(`setting/express/template/create`).then((res) => {
                 this.companies.data = res.companies
-            })
+                this.areas.data = res.areas
+            }).finally(() => {
+                this.loading = false;
+            });
         },
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.post(`setting/express/template`, this.create).then((res) => {
-                        console.log(res)
+                        this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
                 })
             },
-            addAreaItme(){
+            addAreaItem() {
                 this.create.details.push({
                     areas: [],
                     first: 0.00,
@@ -181,18 +222,88 @@
                     continue: 0.00,
                     continue_fee: 0.00,
                 });
+            },
+            remove(item) {
+                this.create.details.splice(item, 1);
+            },
+            openAreasModal(index) {
+                this.areas.index = index;
+                this.areas.wait = this.create.details[this.areas.index].areas;
+                this.updateAreas(index);
+                this.areas.modal = true;
+            },
+            render(item) {
+                return item.label;
+            },
+            showAreaName(id) {
+                return this.areas.data.find(val => val.key === id)['label'];
+            },
+            showAreaNames(items) {
+                if (items.length > 2) {
+                    return this.showAreaName(items[0]) + ` 等 ${items.length} 个城市`;
+                } else if (items.length > 0) {
+                    let str = '';
+                    items.forEach(val => {
+                        str += ' ' + this.showAreaName(val) + ',';
+                    });
+                    return str.substr(0, str.length - 1);
+                }
+            },
+            handleChange(newTargetKeys) {
+                this.areas.wait = newTargetKeys;
+            },
+            handleChangeOk() {
+                this.create.details[this.areas.index].areas = this.areas.wait;
+                this.areas.modal = false;
+                this.$refs['details.areas'][this.areas.index].trigger(this.create.details[this.areas.index].areas)
+            },
+            updateAreas(index) {
+                let changeAreas = [];
+                this.create.details.forEach(({areas}, key) => {
+                    if (index !== key)
+                        changeAreas = changeAreas.concat(areas);
+                });
+                this.areas.data.map((item, index) => {
+                    if (changeAreas.find(val => item.key === val)) {
+                        item.disabled = true;
+                    } else {
+                        item.disabled = false
+                    }
+                })
             }
         }
     }
 </script>
 
 <style scoped lang="less">
-.express_details-box{
-    .express_details-title{
-        margin-bottom: 30px;
+    .express_details-box {
+        .express_details-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .express_details-city{
+            text-align: center;
+        }
+
+        .areas-lists {
+            padding: 0 5px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .ivu-form-item {
+            height: 32px;
+        }
+        .item-required{
+            display: inline-block;
+            margin-right: 4px;
+            line-height: 1;
+            font-family: SimSun;
+            font-size: 12px;
+            color: #ed4014;
+        }
     }
-    .ivu-col{
-        text-align: center;
-    }
-}
 </style>

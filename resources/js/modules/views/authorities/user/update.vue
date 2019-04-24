@@ -80,7 +80,7 @@
         mixins: [contentDrawer],
         mounted() {
             this.$http(`authorities/user/${this.props.id}/edit`).then((res) => {
-                this.update = res.data
+                this.update = res.row
                 this.roles.data = res.roles;
             }).finally(() => {
                 this.loading = false

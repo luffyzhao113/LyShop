@@ -80,17 +80,10 @@ class RoleController extends Controller
      */
     public function edit(Menu $menu, $id)
     {
-        $row = $this->role->find($id);
         return $this->response(
             [
                 'menus' => $menu->get(['id', 'name as title', 'parent_id']),
-                'data' => [
-                    'id' => $row->id,
-                    'name' => $row->name,
-                    'description' => $row->description,
-                    'authorities' => $row->authorities->pluck('id'),
-                    'menus' => $row->menus->pluck('id'),
-                ]
+                'row' => $this->role->findEdit($id)
             ]
         );
     }

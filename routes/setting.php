@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('express/template/view', 'ExpressTemplateController@view')->name('template.index');
 Route::resource('express/template', 'ExpressTemplateController', [
     'names' => [
         'edit' => 'template.update',
