@@ -25,6 +25,7 @@ class CreateFocusTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('position_id')->comment('所属焦点图位置');
             $table->string('name', 50)->comment('焦点图名称');
+            $table->string('url', 255)->comment('跳转连接');
             $table->string('file', 255)->comment('焦点图文件:图片或者视频');
             $table->string('description', 255)->comment('焦点图说明');
             $table->tinyInteger('sort', false, true)->comment('排序');

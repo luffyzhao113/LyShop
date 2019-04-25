@@ -1,8 +1,13 @@
 <template>
     <i-content :spin-show="loading">
         <i-search>
-            <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
-            <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
+            <FormItem label="名称">
+                <Input v-model="search.name"></Input>
+            </FormItem>
+            <FormItem :label-width="1">
+                <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
+                <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
+            </FormItem>
         </i-search>
         <i-table>
             <Table :columns="table.columns" :data="table.data">

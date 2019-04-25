@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Setting\Focus\Position\StoreRequest;
 use App\Http\Requests\Api\Setting\Focus\Position\UpdateRequest;
+use App\Http\Searchs\Api\Setting\FocusPositionSearch;
 use App\Repositories\FocusPosition;
 
 class FocusPositionController extends Controller
@@ -29,12 +30,13 @@ class FocusPositionController extends Controller
     /**
      * index
      * @author luffyzhao@vip.126.com
+     * @param FocusPositionSearch $search
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(FocusPositionSearch $search)
     {
         return $this->response(
-            $this->position->paginate([])
+            $this->position->paginate($search->toArray())
         );
     }
 

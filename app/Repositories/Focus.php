@@ -17,4 +17,11 @@ class Focus extends RepositoryAbstract
     {
         $this->model = $model;
     }
+
+    public function paginate(array $attributes, int $perPage = null, array $columns = ['*'], $pageName = 'page', int $page = null)
+    {
+        return $this->model->with(['positions'])->where(
+            $attributes
+        )->paginate($perPage, $columns, $pageName, $page);
+    }
 }

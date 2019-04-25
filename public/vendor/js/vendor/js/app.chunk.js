@@ -47054,7 +47054,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
+    return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./../../views/index/index */ "./resources/js/modules/views/index/index.vue"));
   }
 }, {
   path: 'profile',
@@ -47065,7 +47065,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
+    return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./../../views/profile/index */ "./resources/js/modules/views/profile/index.vue"));
   }
 }, {
   path: 'Authorities/user',
@@ -47153,7 +47153,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus */ "./resources/js/modules/views/setting/focus/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus */ "./resources/js/modules/views/setting/focus/index.vue"));
   }
 }, {
   path: 'Setting/focus/position',
@@ -47164,7 +47164,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(15)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus/position */ "./resources/js/modules/views/setting/focus/position/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus/position */ "./resources/js/modules/views/setting/focus/position/index.vue"));
   }
 }];
 
@@ -47188,7 +47188,7 @@ var loyout = [{
     cache: false
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
+    return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ../../views/layout/login.vue */ "./resources/js/modules/views/layout/login.vue"));
   }
 }, {
   path: '*',
@@ -47198,7 +47198,7 @@ var loyout = [{
     cache: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ../../components/layout/error.vue */ "./resources/js/modules/components/layout/error.vue"));
+    return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ../../components/layout/error.vue */ "./resources/js/modules/components/layout/error.vue"));
   }
 }];
 

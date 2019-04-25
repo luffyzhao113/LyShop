@@ -18,6 +18,10 @@ class Focus extends Model
 
     protected $table = 'focus';
 
-    protected $fillable = ['position_id', 'name', 'file', 'description', 'sort', 'status'];
+    protected $fillable = ['name', 'url', 'file', 'sort', 'status', 'description', 'position_id'];
+
+    public function positions(){
+        return $this->belongsTo(FocusPosition::class, 'position_id', 'id');
+    }
 
 }
