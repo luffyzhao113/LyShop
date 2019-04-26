@@ -27,7 +27,7 @@ class CreateFocusTable extends Migration
             $table->string('name', 50)->comment('焦点图名称');
             $table->string('url', 255)->comment('跳转连接');
             $table->string('file', 255)->comment('焦点图文件:图片或者视频');
-            $table->string('description', 255)->comment('焦点图说明');
+            $table->string('description', 255)->nullable()->comment('焦点图说明');
             $table->tinyInteger('sort', false, true)->comment('排序');
             $table->enum('status', ['on', 'off'])->comment('状态');
             $table->timestamps();

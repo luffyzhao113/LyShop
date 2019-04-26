@@ -109,4 +109,14 @@ export const home = [
         },
         component: () => import('../../views/setting/focus/position')
     },
+    {
+        path: 'Goods/category',
+        name: 'goods.category',
+        meta: {
+            title: '类目管理',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/goods/category')
+    }
 ]

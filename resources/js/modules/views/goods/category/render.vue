@@ -1,6 +1,6 @@
 <template>
-    <span class="tree-li">
-        <span>
+    <div class="tree-li">
+        <span class="tree-li-span">
             <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
             <span>
                 {{ data.name }}
@@ -8,7 +8,7 @@
         </span>
         <span class="tree-li-buttons">
             <template v-if="parent">
-                <Button type="dashed" size="small" icon="ios-add" style="width: 65px" @click="append(data)"></Button>
+                <Button type="dashed" size="small" icon="ios-add" style="width: 90px" @click="append(data)"></Button>
             </template>
             <template v-else>
                 <Button type="dashed" size="small" icon="ios-checkmark-circle-outline"
@@ -24,7 +24,7 @@
                 </Poptip>
             </template>
         </span>
-    </span>
+    </div>
 </template>
 
 <script>

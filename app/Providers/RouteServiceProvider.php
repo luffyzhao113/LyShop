@@ -66,6 +66,11 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace . '\Setting')
             ->group(base_path('routes/setting.php'));
 
+        Route::prefix('api/goods')
+            ->middleware(['api', 'rbac'])
+            ->namespace($this->namespace . '\Goods')
+            ->group(base_path('routes/goods.php'));
+
     }
 
     /**
