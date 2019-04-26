@@ -31,7 +31,8 @@ class CreateFocusTable extends Migration
             $table->tinyInteger('sort', false, true)->comment('排序');
             $table->enum('status', ['on', 'off'])->comment('状态');
             $table->timestamps();
-
+			$table->softDeletes();
+			
             $table->foreign('position_id')->references('id')->on('focus_positions')
                 ->onUpdate('cascade')->onDelete('restrict');
         });
@@ -44,7 +45,7 @@ class CreateFocusTable extends Migration
      */
     public function down()
     {
+		Schema::dropIfExists('focus');
         Schema::dropIfExists('focus_positions');
-        Schema::dropIfExists('focus');
     }
 }
