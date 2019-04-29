@@ -18,7 +18,7 @@ class CreateAuthTable extends Migration
             $table->increments('id');
             $table->string('name', 20)->comment('权限名称');
             $table->string('uri', 100)->unique()->comment('权限name');
-            $table->string('description', 255)->default('')->comment('权限描述');
+            $table->string('description', 255)->nullable()->default('')->comment('权限描述');
             $table->timestamps();
         });
 
@@ -28,7 +28,7 @@ class CreateAuthTable extends Migration
             $table->string('name', 20)->comment('菜单名称');
             $table->string('url', 100)->comment('菜单URL');
             $table->tinyInteger('sort', false, true)->comment('排序');
-            $table->string('description', 255)->default('')->comment('权限描述');
+            $table->string('description', 255)->nullable()->default('')->comment('权限描述');
             $table->timestamps();
         });
 
@@ -47,7 +47,7 @@ class CreateAuthTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 20)->comment('角色名称');
-            $table->string('description', 255)->default('')->comment('角色描述');
+            $table->string('description', 255)->nullable()->default('')->comment('角色描述');
             $table->timestamps();
 
         });

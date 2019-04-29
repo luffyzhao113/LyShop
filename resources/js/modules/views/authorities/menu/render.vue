@@ -1,6 +1,6 @@
 <template>
     <span class="tree-li">
-        <span>
+        <span class="tree-li-span">
             <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
             <span>
                 {{ data.name }}
