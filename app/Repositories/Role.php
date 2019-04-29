@@ -35,6 +35,9 @@ class Role extends RepositoryAbstract
      */
     public function create(array $attributes = [])
     {
+        /**
+         * @var $model \App\Models\Role
+         */
         $model = parent::create($attributes);
         if (isset($attributes['authorities'])) {
             $model->authorities()->attach($attributes['authorities']);
@@ -55,10 +58,32 @@ class Role extends RepositoryAbstract
      */
     public function update($id, array $values)
     {
+        /**
+         * @var $model \App\Models\Role
+         */
         $model = $this->find($id);
         $model->fill($values)->saveOrFail();
         $model->authorities()->sync($values['authorities'] ?? []);
         $model->menus()->sync($values['menus'] ?? []);
+
+        $model::clearCache();
         return $model;
+    }
+
+    /**
+     * findEdit
+     * @param $id
+     * @author luffyzhao@vip.126.com
+     * @return array
+     */
+    public function findEdit($id){
+        $row = $this->model->with(['authorities:id', 'menus:id'])->findOrFail($id)->toArray();
+
+        return collect($row)->map(function ($item, $key){
+            if($key === 'authorities' || $key === 'menus'){
+                return collect($item)->pluck('id');
+            }
+            return $item;
+        });
     }
 }

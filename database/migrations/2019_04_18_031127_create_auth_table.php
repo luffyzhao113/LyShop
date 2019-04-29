@@ -17,7 +17,7 @@ class CreateAuthTable extends Migration
         Schema::create('authorities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 20)->comment('权限名称');
-            $table->string('uri', 100)->comment('权限name');
+            $table->string('uri', 100)->unique()->comment('权限name');
             $table->string('description', 255)->default('')->comment('权限描述');
             $table->timestamps();
         });
@@ -87,9 +87,10 @@ class CreateAuthTable extends Migration
             $table->date('entryday')->default(null)->nullable()->comment('入职日期');
             $table->enum('sex', ['man', 'women'])->default('man')->comment('性别');
             $table->enum('status', ['on', 'off'])->default('off')->comment('状态');
+            $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles')
-                ->onUpdate('cascade')->onDelete('set null');
+                ->onUpdate('cascade')->onDelete('restrict');
         });
 
         DB::statement("ALTER TABLE `authorities` COMMENT '权限表'");

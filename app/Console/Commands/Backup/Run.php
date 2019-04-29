@@ -17,6 +17,8 @@ class Run extends Command
      * @var string
      */
     protected $description = 'backup your databases';
+
+    protected $time;
     /**
      * Create a new command instance.
      *
@@ -33,6 +35,7 @@ class Run extends Command
      */
     public function handle()
     {
+        $this->time = date('YmdHis');
         $tables = $this->getTables();
         $this->toFiles($tables);
     }
@@ -55,12 +58,13 @@ class Run extends Command
         $config = config('database.connections.'.DB::getDefaultConnection());
         foreach ($tables as $table) {
             $tableName = $table->{'Tables_in_'.$config['database']};
-            if ($tableName === 'migrations' || $tableName === 'base_logs') {
+            // 地区表不导出
+            if ($tableName === 'migrations' || $tableName === 'areas') {
                 continue;
             }
             $columns = DB::selectOne('show columns from `'.$tableName.'`');
             DB::table($tableName)->orderBy($columns->Field)->chunk(
-                100,
+                1000,
                 function (Collection $results, int $page) use ($tableName) {
                     $json = $results->toJson();
                     $this->saveFile($tableName, $page, $json);
@@ -77,7 +81,7 @@ class Run extends Command
      */
     protected function saveFile($table, int $page, string $json)
     {
-        $dir = database_path('back-up/'.date('Y-m-d-His').'/'.$table);
+        $dir = database_path('back-up/'.$this->time.'/'.$table);
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }

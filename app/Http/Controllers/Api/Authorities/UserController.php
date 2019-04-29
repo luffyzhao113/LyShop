@@ -98,7 +98,7 @@ class UserController extends Controller
     {
         return $this->response([
             'roles' => $role->get(['id', 'name']),
-            'data' => $this->user->find($id)
+            'row' => $this->user->find($id)
         ]);
     }
 

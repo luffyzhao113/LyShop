@@ -21,7 +21,7 @@
             },
             width: {
                 type: Number,
-                default: 520
+                default: 720
             },
             loading: {
                 type: Boolean,

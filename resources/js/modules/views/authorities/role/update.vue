@@ -54,7 +54,7 @@
         mixins: [contentDrawer],
         mounted() {
             this.$http.get(`authorities/role/${this.props.id}/edit`).then((res) => {
-                this.update = res.data
+                this.update = res.row
                 this.menus.data = res.menus
                 let data = [];
                 JSON.parse(JSON.stringify(this.menus.data)).forEach((item) => {
@@ -68,7 +68,7 @@
                     })
                 });
                 this.menus.data = this.setTreeData(data)
-            }).then(() => {
+            }).finally(() => {
                 this.loading = false
             });
         },
@@ -109,8 +109,11 @@
             },
             submit(name) {
                 this.validate('formUpdate').then(() => {
+                    this.loading = true
                     this.$http.put(`authorities/role/${this.props.id}`, this.update).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
                 }).catch();
             },

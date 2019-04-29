@@ -11,7 +11,7 @@
         props: {
             spinShow: {
                 type: Boolean,
-                default: false
+                default: true
             }
         }
     }

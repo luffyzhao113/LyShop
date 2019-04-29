@@ -135,6 +135,7 @@
             line-height: 64px;
             background: #000;
             text-align: center;
+            overflow: hidden;
             img{
                 height: 64px;
             }

@@ -2,7 +2,7 @@ import fromSubmit from './from-submit'
 
 export default {
     mixins: [fromSubmit],
-    data(){
+    data() {
         return {
             page: {
                 current: 1,
@@ -19,23 +19,27 @@ export default {
             loading: true
         }
     },
-    mounted(){
+    mounted() {
         this.$nextTick(() => {
             this.getLists();
         });
     },
     methods: {
-        pageChange(v){
+        pageChange(v) {
             this.getLists(v);
         },
-        openComponent(is, prop = null){
+        openComponent(is, prop = null) {
             this.component.is = is;
             this.component.prop = prop;
         },
-        closeComponent(){
+        closeComponent() {
             this.component.is = '';
             this.component.prop = null;
         },
-        getLists(){}
+        openRoute(name, query) {
+            this.$router.push({name, query});
+        },
+        getLists() {
+        }
     }
 }

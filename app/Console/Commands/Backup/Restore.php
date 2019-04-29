@@ -22,6 +22,13 @@ class Restore extends Command
      * @var string
      */
     protected $description = 'restore your databases';
+
+
+    /**
+     * @var array 外键
+     */
+    protected $foreignKey = [];
+
     /**
      * Create a new command instance.
      *
@@ -54,6 +61,7 @@ class Restore extends Command
      */
     protected function restorePath($dir)
     {
+
         $tables = $this->getPaths($dir);
         foreach ($tables as $table) {
             if (basename($table) === 'migrations') {
@@ -62,6 +70,14 @@ class Restore extends Command
             $this->restoreTable($table);
         }
     }
+
+    /**
+     * 关闭外键约束
+     * @author luffyzhao@vip.126.com
+     */
+    protected function disableForeignKey(){
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+    }
     /**
      * restoreTable
      * @param $table
@@ -69,6 +85,7 @@ class Restore extends Command
      */
     protected function restoreTable($table)
     {
+        $this->disableForeignKey();
         $files = $this->getFiles($table);
         foreach ($files as $file) {
             $string = file_get_contents($file);

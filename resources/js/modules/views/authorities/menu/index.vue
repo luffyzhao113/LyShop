@@ -55,20 +55,21 @@
                 this.$http.delete(`authorities/menu/${data.id}`)
                 .then((res) =>{
                     this.getLists();
+                }).finally(() => {
+                    this.loading = false;
                 });
             },
             setTreeData(source) {
-                let cloneData = JSON.parse(JSON.stringify(source))
-                let tree = cloneData.filter(father => {
+                let cloneData = JSON.parse(JSON.stringify(source));
+                return cloneData.map((val) => {val.expand = true; return val;}).filter(father => {
                     let branchArr = cloneData.filter(child => {
-                        return father['id'] == child['parent_id']
+                        return father['id'] === child['parent_id']
                     });
                     if (branchArr.length > 0) {
                         father['children'] = branchArr
                     }
-                    return father['parent_id'] == 0
-                })
-                return tree
+                    return father['parent_id'] === 0
+                });
             }
         }
     }

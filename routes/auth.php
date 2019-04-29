@@ -8,6 +8,10 @@ Route::group(['middleware' => 'guest'], function () {
     Route::put('refresh', 'AuthController@refresh');
 });
 
+Route::get('/', function (){
+   echo phpinfo();
+});
+
 // 登录才可以进入
 Route::group(['middleware' => 'auth'], function () {
     Route::delete('logout', 'AuthController@logout');
@@ -16,18 +20,18 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 // 要验证权限
-Route::group(['middleware' => 'rbac'], function () {
-    Route::get('authorities/menu/authority', 'Authorities\MenuController@authority')->name('role.menu_authority');
+Route::group(['middleware' => 'rbac', 'prefix' => 'authorities'], function () {
+    Route::get('menu/authority', 'Authorities\MenuController@authority')->name('role.menu_authority');
 
-    Route::resource('authorities/role', 'Authorities\RoleController', [
+    Route::resource('role', 'Authorities\RoleController', [
         'names' => [
             'create' => 'role.store',
             'edit' => 'role.update',
         ]
     ])->except(['show']);
 
-    Route::put('authorities/user/{user}/status', 'Authorities\UserController@status')->name('user.update');
-    Route::resource('authorities/user', 'Authorities\UserController', [
+    Route::put('user/{user}/status', 'Authorities\UserController@status')->name('user.update');
+    Route::resource('user', 'Authorities\UserController', [
         'names' => [
             'create' => 'user.store',
             'edit' => 'user.update',
@@ -35,14 +39,14 @@ Route::group(['middleware' => 'rbac'], function () {
     ])->except(['show', 'destroy']);
 
 
-    Route::resource('authorities/menu', 'Authorities\MenuController', [
+    Route::resource('menu', 'Authorities\MenuController', [
         'names' => [
             'create' => 'menu.store',
             'edit' => 'menu.update',
         ]
     ])->except(['show']);
 
-    Route::resource('authorities/authority', 'Authorities\AuthorityController', [
+    Route::resource('authority', 'Authorities\AuthorityController', [
         'names' => [
             'create' => 'authority.store',
             'edit' => 'authority.update',

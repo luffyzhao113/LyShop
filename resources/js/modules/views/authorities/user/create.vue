@@ -79,6 +79,7 @@
         mounted() {
             this.$http(`authorities/user/create`).then((res) => {
                 this.roles.data = res;
+            }).finally(() => {
                 this.loading = false
             });
         },
@@ -140,9 +141,11 @@
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
+                    this.loading = true
                     this.$http.post(`authorities/user`, this.create).then(() => {
-                        this.loading = false;
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false
                     });
                 }).catch();
             }

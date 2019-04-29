@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use LTools\Exceptions\TokenException;
 
@@ -50,6 +51,11 @@ class Handler extends ExceptionHandler
     {
         if($exception instanceof TokenException){
             return $this->unauthenticated($request, $exception);
+        }
+        if($exception instanceof QueryException){
+            if($exception->getCode() === "23000"){
+                return $this->prepareJsonResponse($request, new Exception('不能删除这条数据,因为其他地方有引用这条数!'));
+            }
         }
         return parent::render($request, $exception);
     }

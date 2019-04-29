@@ -49,7 +49,7 @@ class Menu extends RepositoryAbstract
     {
         $model = $this->find($id);
         $model->fill($values)->saveOrFail();
-        return $model->authorities()->sync($values['authorities']??[]);
+        return $model->authorities()->sync($values['authorities'] ?? []);
     }
 
     /**
@@ -75,9 +75,10 @@ class Menu extends RepositoryAbstract
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/27 19:27
      */
-    public function delete($id){
+    public function delete($id)
+    {
         $model = parent::find($id);
-        if($model->children()->count()){
+        if ($model->children()->count()) {
             throw new PrintMessageException('该菜单还有子菜单，不可删除！');
         }
         return $model->delete();
@@ -89,8 +90,27 @@ class Menu extends RepositoryAbstract
      * @datetime: 2019/4/1 16:00
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function finds(array $data){
-        $model = $this->model->findMany($data['ids']??[]);
+    public function finds(array $data)
+    {
+        $model = $this->model->findMany($data['ids'] ?? []);
         return $model->load('authorities');
+    }
+
+    /**
+     * editFind
+     * @param $id
+     * @author luffyzhao@vip.126.com
+     * @return \Illuminate\Support\Collection
+     */
+    public function editFind($id)
+    {
+        $row = $this->model->with(['authorities:id', 'parent'])->findOrFail($id)->toArray();
+
+        return collect($row)->map(function ($item, $key) {
+            if ($key === 'authorities') {
+                return collect($item)->pluck('id');
+            }
+            return $item;
+        });
     }
 }

@@ -40,7 +40,7 @@ instance.interceptors.response.use((response) => {
     }else if(error.response.status === 404){
         Message.error('数据不存在!');
     }else{
-        Message.error('服务器错误,请联系管理员!');
+        Message.error(error.response.data.message);
     }
     return Promise.reject(error.response);
 });

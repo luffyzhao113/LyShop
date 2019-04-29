@@ -41,8 +41,8 @@
         components: {IDrawer},
         mounted(){
             this.$http.get(`authorities/menu/${this.props.id}/edit`).then((res) => {
-                res.data.parent = res.data.parent || {name: '顶级菜单'};
-                this.update = res.data
+                res.row.parent = res.row.parent || {name: '顶级菜单'};
+                this.update = res.row
                 this.authorities.data = res.authorities
             }).finally(() => this.loading = false);
         },
@@ -74,13 +74,15 @@
         },
         methods: {
             submit(name) {
+
                 this.validate(name).then(() => {
+                    this.loading = true;
                     this.$http.put(`authorities/menu/${this.props.id}`, this.update).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false;
                     });
-                }).catch(() => {
-
-                });
+                })
             },
             handleChange(newTargetKeys) {
                 this.update.authorities = newTargetKeys

@@ -14,7 +14,7 @@ return [
     // token-cache验证
     'token-cache' => [
         'key_prefix' => 'token:cache:',
-        'exp' => 3600,
+        'exp' => 86400,
         'ttl' => 86400
     ]
 ];
