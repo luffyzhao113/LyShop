@@ -13,11 +13,12 @@ class CreateAttributeTable extends Migration
      */
     public function up()
     {
-        Schema::create('attribute', function (Blueprint $table) {
+        Schema::create('attributes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 20)->comment('属性名称');
             $table->enum('type', ['attr', 'spec'])->comment('类型: 属性或者规格');
             $table->text('values')->comment('属性值:用 "," 分开');
+            $table->string('description', 255)->nullable()->comment('描述');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateAttributeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute');
+        Schema::dropIfExists('attributes');
     }
 }

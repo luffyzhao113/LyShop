@@ -8,3 +8,9 @@ Route::resource('category', 'CategoryController', [
         'edit' => 'category.update',
     ]
 ])->except(['show']);
+
+Route::resource('attribute', 'AttributeController', [
+    'names' => [
+        'edit' => 'category.update',
+    ]
+])->except(['show', 'create']);

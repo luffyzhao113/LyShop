@@ -118,5 +118,14 @@ export const home = [
             tags: true
         },
         component: () => import('../../views/goods/category')
+    }, {
+        path: 'Goods/attribute',
+        name: 'goods.attribute',
+        meta: {
+            title: '商品属性',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/goods/attribute')
     }
 ]
