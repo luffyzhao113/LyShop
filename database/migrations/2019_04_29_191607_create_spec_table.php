@@ -16,6 +16,7 @@ class CreateSpecTable extends Migration
         Schema::create('specs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 20)->comment('属性名称');
+            $table->enum('type', ['attr', 'spec'])->comment('类型');
             $table->text('values')->comment('属性值:用 "," 分开');
             $table->string('description', 255)->nullable()->comment('描述');
             $table->timestamps();

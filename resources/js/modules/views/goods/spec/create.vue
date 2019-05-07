@@ -5,6 +5,13 @@
                 <Input v-model="create.name"></Input>
             </FormItem>
 
+            <FormItem label="类型" prop="type">
+                <Select v-model="create.type">
+                    <Option value="attr">属性</Option>
+                    <Option value="spec">规格</Option>
+                </Select>
+            </FormItem>
+
             <FormItem label="值" prop="values">
                 <form-tags placeholder="属性值" v-model="create.values"></form-tags>
             </FormItem>
@@ -40,6 +47,9 @@
                     ],
                     values: [
                         {required: true, type: 'array', message: '属性值必须填写', trigger: 'blur'}
+                    ],
+                    type: [
+                        {required: true,  message: '类型必须填写', trigger: 'blur'}
                     ],
                     description: [
                         {max: 255, message: '属性描述字符长度最多255个字条', trigger: 'blur'}

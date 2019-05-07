@@ -49,7 +49,7 @@ class SpecController extends Controller
         return $this->response(
             $this->attribute->create(
                 $request->only([
-                    'name', 'values', 'description'
+                    'name', 'values', 'description', 'type'
                 ])
             )
         );
@@ -80,7 +80,7 @@ class SpecController extends Controller
             $this->attribute->update(
                 $id,
                 $request->only([
-                    'name', 'values', 'description'
+                    'name', 'values', 'description', 'type'
                 ])
             )
         );

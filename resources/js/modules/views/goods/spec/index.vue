@@ -20,6 +20,9 @@
                 <template slot-scope="{ row, index }" slot="name">
                     <span>{{row.name}}</span>
                 </template>
+                <template slot-scope="{ row, index }" slot="type">
+                    <span>{{row.type | type}}</span>
+                </template>
                 <template slot-scope="{ row, index }" slot="description">
                     <span>{{row.description}}</span>
                 </template>
@@ -62,6 +65,9 @@
                         title: '名称',
                         slot: 'name'
                     }, {
+                        title: '类型',
+                        slot: 'type'
+                    }, {
                         title: '值',
                         slot: 'values'
                     }, {
@@ -100,6 +106,9 @@
         filters: {
             values(val){
                 return val.join(',')
+            },
+            type(val){
+                return val === 'attr' ? '属性' : '规格' ;
             }
         }
     }

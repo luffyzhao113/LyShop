@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Spec extends Model
 {
-    protected $fillable = ['name', 'values', 'description'];
+    protected $fillable = ['name', 'values', 'description', 'type'];
 
 
     /**

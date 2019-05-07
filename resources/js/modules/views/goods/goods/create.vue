@@ -85,19 +85,21 @@
                             <Col v-for="(header, index) in specs.headers" span="4" :key="index">
                                 {{header}}
                             </Col>
-                            <Col span="4">价格</Col>
-                            <Col span="4">库存</Col>
+                            <Col span="4">价格<span class="item-required">*</span></Col>
+                            <Col span="4">库存<span class="item-required">*</span></Col>
                             <Col span="4">操作</Col>
                         </Row>
                         <Row class="spec-list" v-for="(item, index) in create.specs" :key="index" :gutter="10">
                             <Col v-for="(val, key) in item.items" :key="key + '-' + index" span="4">{{val.value}}</Col>
                             <Col span="4">
-                                <FormItem :label-width="0" :prop="'specs.'+index+'.price'" :rules="[{required: true, type:'number', message: '价格必须填写', trigger: 'blur'}]">
+                                <FormItem :label-width="0" :prop="'specs.'+index+'.price'"
+                                          :rules="[{required: true, type:'number', message: '价格必须填写', trigger: 'blur'}]">
                                     <Input v-model="item.price" size="small" number></Input>
                                 </FormItem>
                             </Col>
                             <Col span="4">
-                                <FormItem :label-width="0" :prop="'specs.'+index+'.stock'" :rules="[{required: true, type:'number', message: '库存必须填写', trigger: 'blur'}]">
+                                <FormItem :label-width="0" :prop="'specs.'+index+'.stock'"
+                                          :rules="[{required: true, type:'number', message: '库存必须填写', trigger: 'blur'}]">
                                     <Input v-model="item.stock" size="small" number></Input>
                                 </FormItem>
                             </Col>
@@ -108,6 +110,11 @@
                     </div>
                 </div>
             </div>
+
+            <FormItem label="商品属性">
+                <Tag v-for="(item, index) in create.attributes" :key="index">{{item.name}}:{{item.values | join}}</Tag>
+                <Button size="small" @click="attributes.modal = true" type="dashed">添加商品属性</Button>
+            </FormItem>
 
             <FormItem label="商品描述">
                 <ueditor v-model="create.details.describe"
@@ -127,7 +134,8 @@
             </div>
         </Modal>
 
-        <Modal v-model="specs.modal" title="选择商品类目">
+
+        <Modal v-model="specs.modal" title="选择商品规格">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="ios-information-circle"></Icon>
                 <span>商品规格</span>
@@ -143,6 +151,25 @@
             </template>
             <div slot="footer">
                 <Button type="primary" size="large" long @click="handleChangeSpec">选择</Button>
+            </div>
+        </Modal>
+
+        <Modal v-model="attributes.modal" title="选择商品属性">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>商品属性</span>
+            </p>
+            <template v-for="(item, index) in attributes.data">
+                <div class="checkbox-item">
+                    <Checkbox :indeterminate="attributes.wait[item.name] && attributes.wait[item.name].length > 0">{{item.name}}
+                    </Checkbox>
+                    <CheckboxGroup v-model="attributes.wait[item.name]">
+                        <Checkbox v-for="(val, key) in item.values" :key="key" :label="val">{{val}}</Checkbox>
+                    </CheckboxGroup>
+                </div>
+            </template>
+            <div slot="footer">
+                <Button type="primary" size="large" long @click="handleChangeAttribute">选择</Button>
             </div>
         </Modal>
     </i-drawer>
@@ -171,7 +198,8 @@
                     categories: [],
                     details: {},
                     gallery: [],
-                    specs: []
+                    specs: [],
+                    attributes: []
                 },
                 ruleValidate: {},
                 categories: {
@@ -190,6 +218,11 @@
                     wait: {},
                     headers: []
                 },
+                attributes: {
+                    modal: false,
+                    wait: {},
+                    data: []
+                },
                 ueditor: {
                     serverUrl: '/api/goods/goods/create/ueditor',
                     initialFrameHeight: 600
@@ -201,6 +234,7 @@
                 this.categories.data = res.categories
                 this.units.data = res.units
                 this.specs.data = res.specs
+                this.attributes.data = res.attributes
                 this.config = res.config
             }).finally(() => {
                 this.loading = false
@@ -230,18 +264,41 @@
                     this.specs.headers.push(waitKey)
                     array.push(arr)
                 }
-                if(array.length > 3){
+                if (array.length > 3) {
                     this.$Message.error('商品规格最多只能选择3个！')
-                }else{
+                } else {
                     this.create.specs = product(array);
                     this.specs.modal = false;
                 }
             },
-            deleteSpec(index){
+            handleChangeAttribute(){
+                let array = [];
+                for (let waitKey in this.attributes.wait) {
+                    let item = this.attributes.wait[waitKey];
+                    if (item.length === 0) {
+                        continue;
+                    }
+                    array.push({
+                        name: waitKey,
+                        values: item
+                    })
+                }
+                this.create.attributes = array;
+                this.attributes.modal = false;
+            },
+            deleteSpec(index) {
                 this.create.specs.splice(index, 1);
             },
             categoriesName(id) {
                 return this.categories.data.find((v) => v.id === id)['title'];
+            }
+        },
+        filters:{
+            join(val){
+                if(Array.isArray(val)){
+                    return val.join();
+                }
+                return val;
             }
         }
     }
@@ -271,17 +328,27 @@
         border-radius: 4px;
         border: 1px solid #dcdee2;
         text-align: center;
-        .spec-header{
+
+        .spec-header {
             border-bottom: 1px #dcdee2 solid;
             height: 30px;
             line-height: 30px;
+
+            .item-required {
+                display: inline-block;
+                margin-right: 4px;
+                line-height: 1;
+                font-family: SimSun;
+                font-size: 12px;
+                color: #ed4014;
+            }
         }
     }
 </style>
 
 <style lang="less">
-    .spec-list{
-        .ivu-form-item-error-tip{
+    .spec-list {
+        .ivu-form-item-error-tip {
             top: 50%;
             transform: translateY(-50%);
             left: 104%;

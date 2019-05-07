@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
         return [
             'name' => ['required', 'min:2', 'max:20'],
             'values' => ['required', 'array'],
+            'type' => ['required', 'in:attr,spec'],
             'values.*' => ['required', 'max:10'],
             'description' => ['nullable', 'max:255']
         ];
@@ -38,6 +39,7 @@ class UpdateRequest extends FormRequest
         return [
             'name' => '名称',
             'values' => '值',
+            'type' => '类型',
             'description' => '描述'
         ];
     }

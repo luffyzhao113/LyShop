@@ -33,13 +33,17 @@ class GoodsController extends Controller
     /**
      * create
      * @param Category $category
-     * @author luffyzhao@vip.126.com
+     * @param Spec $spec
      * @return \Illuminate\Http\JsonResponse
+     * @author luffyzhao@vip.126.com
      */
     public function create(Category $category, Spec $spec){
+        $specs = $spec->get(['id', 'name', 'values', 'type'])->groupBy('type');
+
         return $this->response([
             'categories' => $category->get(['id', 'name as title', 'parent_id']),
-            'specs' => $spec->get(['id', 'name', 'values']),
+            'specs' => $specs['spec'],
+            'attributes' => $specs['attr'],
             'units' => ['个', '箱', '袋'],
             'config' => [
                 'default_gallery' => '/vendor/images/profile.jpeg'

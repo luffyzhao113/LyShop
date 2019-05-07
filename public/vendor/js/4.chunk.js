@@ -187,6 +187,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -217,6 +224,11 @@ __webpack_require__.r(__webpack_exports__);
           required: true,
           type: 'array',
           message: '属性值必须填写',
+          trigger: 'blur'
+        }],
+        type: [{
+          required: true,
+          message: '类型必须填写',
           trigger: 'blur'
         }],
         description: [{
@@ -305,6 +317,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -328,6 +343,9 @@ __webpack_require__.r(__webpack_exports__);
         columns: [{
           title: '名称',
           slot: 'name'
+        }, {
+          title: '类型',
+          slot: 'type'
         }, {
           title: '值',
           slot: 'values'
@@ -373,6 +391,9 @@ __webpack_require__.r(__webpack_exports__);
   filters: {
     values: function values(val) {
       return val.join(',');
+    },
+    type: function type(val) {
+      return val === 'attr' ? '属性' : '规格';
     }
   }
 });
@@ -391,6 +412,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/tags */ "./resources/js/modules/components/form/tags.vue");
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -443,6 +471,11 @@ __webpack_require__.r(__webpack_exports__);
           required: true,
           type: 'array',
           message: '属性值必须填写',
+          trigger: 'blur'
+        }],
+        type: [{
+          required: true,
+          message: '类型必须填写',
           trigger: 'blur'
         }],
         description: [{
@@ -813,6 +846,32 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
+            { attrs: { label: "类型", prop: "type" } },
+            [
+              _c(
+                "Select",
+                {
+                  model: {
+                    value: _vm.create.type,
+                    callback: function($$v) {
+                      _vm.$set(_vm.create, "type", $$v)
+                    },
+                    expression: "create.type"
+                  }
+                },
+                [
+                  _c("Option", { attrs: { value: "attr" } }, [_vm._v("属性")]),
+                  _vm._v(" "),
+                  _c("Option", { attrs: { value: "spec" } }, [_vm._v("规格")])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "FormItem",
             { attrs: { label: "值", prop: "values" } },
             [
               _c("form-tags", {
@@ -1002,6 +1061,16 @@ var render = function() {
                 }
               },
               {
+                key: "type",
+                fn: function(ref) {
+                  var row = ref.row
+                  var index = ref.index
+                  return [
+                    _c("span", [_vm._v(_vm._s(_vm._f("type")(row.type)))])
+                  ]
+                }
+              },
+              {
                 key: "description",
                 fn: function(ref) {
                   var row = ref.row
@@ -1133,6 +1202,32 @@ var render = function() {
                   expression: "update.name"
                 }
               })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "FormItem",
+            { attrs: { label: "类型", prop: "type" } },
+            [
+              _c(
+                "Select",
+                {
+                  model: {
+                    value: _vm.update.type,
+                    callback: function($$v) {
+                      _vm.$set(_vm.update, "type", $$v)
+                    },
+                    expression: "update.type"
+                  }
+                },
+                [
+                  _c("Option", { attrs: { value: "attr" } }, [_vm._v("属性")]),
+                  _vm._v(" "),
+                  _c("Option", { attrs: { value: "spec" } }, [_vm._v("规格")])
+                ],
+                1
+              )
             ],
             1
           ),

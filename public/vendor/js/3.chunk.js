@@ -322,6 +322,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -348,7 +375,8 @@ __webpack_require__.r(__webpack_exports__);
         categories: [],
         details: {},
         gallery: [],
-        specs: []
+        specs: [],
+        attributes: []
       },
       ruleValidate: {},
       categories: {
@@ -367,6 +395,11 @@ __webpack_require__.r(__webpack_exports__);
         wait: {},
         headers: []
       },
+      attributes: {
+        modal: false,
+        wait: {},
+        data: []
+      },
       ueditor: {
         serverUrl: '/api/goods/goods/create/ueditor',
         initialFrameHeight: 600
@@ -380,6 +413,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.categories.data = res.categories;
       _this.units.data = res.units;
       _this.specs.data = res.specs;
+      _this.attributes.data = res.attributes;
       _this.config = res.config;
     }).finally(function () {
       _this.loading = false;
@@ -430,6 +464,25 @@ __webpack_require__.r(__webpack_exports__);
         this.specs.modal = false;
       }
     },
+    handleChangeAttribute: function handleChangeAttribute() {
+      var array = [];
+
+      for (var waitKey in this.attributes.wait) {
+        var item = this.attributes.wait[waitKey];
+
+        if (item.length === 0) {
+          continue;
+        }
+
+        array.push({
+          name: waitKey,
+          values: item
+        });
+      }
+
+      this.create.attributes = array;
+      this.attributes.modal = false;
+    },
     deleteSpec: function deleteSpec(index) {
       this.create.specs.splice(index, 1);
     },
@@ -437,6 +490,15 @@ __webpack_require__.r(__webpack_exports__);
       return this.categories.data.find(function (v) {
         return v.id === id;
       })['title'];
+    }
+  },
+  filters: {
+    join: function join(val) {
+      if (Array.isArray(val)) {
+        return val.join();
+      }
+
+      return val;
     }
   }
 });
@@ -707,7 +769,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".thumbnail[data-v-3e04efb5] {\n  width: 100%;\n  height: 220px;\n}\n.checkbox-item[data-v-3e04efb5] {\n  border-bottom: 1px solid #e9e9e9;\n  padding: 6px;\n}\n.checkbox-item[data-v-3e04efb5]:last-child {\n  border-bottom-width: 0px;\n}\n.checkbox-item .ivu-checkbox-group[data-v-3e04efb5] {\n  margin-top: 10px;\n  margin-left: 20px;\n}\n.spec-box[data-v-3e04efb5] {\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  text-align: center;\n}\n.spec-box .spec-header[data-v-3e04efb5] {\n  border-bottom: 1px #dcdee2 solid;\n  height: 30px;\n  line-height: 30px;\n}\n", ""]);
+exports.push([module.i, ".thumbnail[data-v-3e04efb5] {\n  width: 100%;\n  height: 220px;\n}\n.checkbox-item[data-v-3e04efb5] {\n  border-bottom: 1px solid #e9e9e9;\n  padding: 6px;\n}\n.checkbox-item[data-v-3e04efb5]:last-child {\n  border-bottom-width: 0px;\n}\n.checkbox-item .ivu-checkbox-group[data-v-3e04efb5] {\n  margin-top: 10px;\n  margin-left: 20px;\n}\n.spec-box[data-v-3e04efb5] {\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  text-align: center;\n}\n.spec-box .spec-header[data-v-3e04efb5] {\n  border-bottom: 1px #dcdee2 solid;\n  height: 30px;\n  line-height: 30px;\n}\n.spec-box .spec-header .item-required[data-v-3e04efb5] {\n  display: inline-block;\n  margin-right: 4px;\n  line-height: 1;\n  font-family: SimSun;\n  font-size: 12px;\n  color: #ed4014;\n}\n", ""]);
 
 // exports
 
@@ -1449,11 +1511,17 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("Col", { attrs: { span: "4" } }, [
-                              _vm._v("价格")
+                              _vm._v("价格"),
+                              _c("span", { staticClass: "item-required" }, [
+                                _vm._v("*")
+                              ])
                             ]),
                             _vm._v(" "),
                             _c("Col", { attrs: { span: "4" } }, [
-                              _vm._v("库存")
+                              _vm._v("库存"),
+                              _c("span", { staticClass: "item-required" }, [
+                                _vm._v("*")
+                              ])
                             ]),
                             _vm._v(" "),
                             _c("Col", { attrs: { span: "4" } }, [
@@ -1593,6 +1661,36 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
+            { attrs: { label: "商品属性" } },
+            [
+              _vm._l(_vm.create.attributes, function(item, index) {
+                return _c("Tag", { key: index }, [
+                  _vm._v(
+                    _vm._s(item.name) +
+                      ":" +
+                      _vm._s(_vm._f("join")(item.values))
+                  )
+                ])
+              }),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: { size: "small", type: "dashed" },
+                  on: {
+                    click: function($event) {
+                      _vm.attributes.modal = true
+                    }
+                  }
+                },
+                [_vm._v("添加商品属性")]
+              )
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "FormItem",
             { attrs: { label: "商品描述" } },
             [
               _c("ueditor", {
@@ -1673,7 +1771,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { title: "选择商品类目" },
+          attrs: { title: "选择商品规格" },
           model: {
             value: _vm.specs.modal,
             callback: function($$v) {
@@ -1751,6 +1849,97 @@ var render = function() {
                 {
                   attrs: { type: "primary", size: "large", long: "" },
                   on: { click: _vm.handleChangeSpec }
+                },
+                [_vm._v("选择")]
+              )
+            ],
+            1
+          )
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { title: "选择商品属性" },
+          model: {
+            value: _vm.attributes.modal,
+            callback: function($$v) {
+              _vm.$set(_vm.attributes, "modal", $$v)
+            },
+            expression: "attributes.modal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "ios-information-circle" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v("商品属性")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.attributes.data, function(item, index) {
+            return [
+              _c(
+                "div",
+                { staticClass: "checkbox-item" },
+                [
+                  _c(
+                    "Checkbox",
+                    {
+                      attrs: {
+                        indeterminate:
+                          _vm.attributes.wait[item.name] &&
+                          _vm.attributes.wait[item.name].length > 0
+                      }
+                    },
+                    [_vm._v(_vm._s(item.name) + "\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "CheckboxGroup",
+                    {
+                      model: {
+                        value: _vm.attributes.wait[item.name],
+                        callback: function($$v) {
+                          _vm.$set(_vm.attributes.wait, item.name, $$v)
+                        },
+                        expression: "attributes.wait[item.name]"
+                      }
+                    },
+                    _vm._l(item.values, function(val, key) {
+                      return _c(
+                        "Checkbox",
+                        { key: key, attrs: { label: val } },
+                        [_vm._v(_vm._s(val))]
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
+            ]
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "primary", size: "large", long: "" },
+                  on: { click: _vm.handleChangeAttribute }
                 },
                 [_vm._v("选择")]
               )
