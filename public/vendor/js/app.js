@@ -60980,7 +60980,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/user/index */ "./resources/js/modules/views/authorities/user/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/user/index */ "./resources/js/modules/views/authorities/user/index.vue"));
   }
 }, {
   path: 'Authorities/role',
@@ -60991,7 +60991,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(1), __webpack_require__.e(14)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/role/index */ "./resources/js/modules/views/authorities/role/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(14)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/role/index */ "./resources/js/modules/views/authorities/role/index.vue"));
   }
 }, {
   path: 'Authorities/menu',
@@ -61002,7 +61002,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/menu/index */ "./resources/js/modules/views/authorities/menu/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/menu/index */ "./resources/js/modules/views/authorities/menu/index.vue"));
   }
 }, {
   path: 'Authorities/authority',
@@ -61013,7 +61013,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(1), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/authority/index */ "./resources/js/modules/views/authorities/authority/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(13)]).then(__webpack_require__.bind(null, /*! ./../../views/authorities/authority/index */ "./resources/js/modules/views/authorities/authority/index.vue"));
   }
 }, {
   path: 'Setting/express/company',
@@ -61024,7 +61024,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/company */ "./resources/js/modules/views/setting/express/company/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/company */ "./resources/js/modules/views/setting/express/company/index.vue"));
   }
 }, {
   path: 'Setting/express/template',
@@ -61035,7 +61035,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/template */ "./resources/js/modules/views/setting/express/template/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! ../../views/setting/express/template */ "./resources/js/modules/views/setting/express/template/index.vue"));
   }
 }, {
   path: 'Setting/shop',
@@ -61057,7 +61057,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus */ "./resources/js/modules/views/setting/focus/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus */ "./resources/js/modules/views/setting/focus/index.vue"));
   }
 }, {
   path: 'Setting/focus/position',
@@ -61068,7 +61068,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus/position */ "./resources/js/modules/views/setting/focus/position/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ../../views/setting/focus/position */ "./resources/js/modules/views/setting/focus/position/index.vue"));
   }
 }, {
   path: 'Goods/category',
@@ -61079,7 +61079,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ../../views/goods/category */ "./resources/js/modules/views/goods/category/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ../../views/goods/category */ "./resources/js/modules/views/goods/category/index.vue"));
   }
 }, {
   path: 'Goods/spec',
@@ -61090,7 +61090,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ../../views/goods/spec */ "./resources/js/modules/views/goods/spec/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ../../views/goods/spec */ "./resources/js/modules/views/goods/spec/index.vue"));
   }
 }, {
   path: 'Goods/list',
@@ -61101,7 +61101,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(19), __webpack_require__.e(1), __webpack_require__.e(3)]).then(__webpack_require__.bind(null, /*! ../../views/goods/goods */ "./resources/js/modules/views/goods/goods/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ../../views/goods/goods */ "./resources/js/modules/views/goods/goods/index.vue"));
   }
 }];
 

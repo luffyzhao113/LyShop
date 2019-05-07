@@ -9,12 +9,12 @@
                     <Row>
                         <Col span="12">
                             <FormItem label="商品价格" prop="price">
-                                <Input v-model="create.price"></Input>
+                                <Input prefix="logo-usd" number v-model="create.price"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
                             <FormItem label="商品库存" prop="stock">
-                                <Input v-model="create.stock"></Input>
+                                <Input number v-model="create.stock"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -22,12 +22,12 @@
                     <Row>
                         <Col span="12">
                             <FormItem label="商品重量" prop="weight">
-                                <Input v-model="create.weight"></Input>
+                                <Input number v-model="create.weight"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
-                            <FormItem label="商品单位" prop="details.unit">
-                                <Select v-model="create.details.unit">
+                            <FormItem label="商品单位" prop="detail.unit">
+                                <Select v-model="create.detail.unit">
                                     <Option v-for="(item, key) in units.data" :key="key" :label="item"
                                             :value="item"></Option>
                                 </Select>
@@ -65,13 +65,15 @@
                 </Col>
 
                 <Col push="2" span="6">
-                    <l-upload :action="categories.url" v-model="create.file" class="thumbnail"></l-upload>
+                    <FormItem :label-width="0" prop="file">
+                        <l-upload :action="upload.url" v-model="create.file" class="thumbnail"></l-upload>
+                    </FormItem>
                 </Col>
 
             </Row>
 
             <FormItem label="商品组图" prop="gallery">
-                <l-galleries :action="categories.url" v-model="create.gallery"
+                <l-galleries :action="upload.url" v-model="create.galleries"
                              :default-gallery="config.default_gallery"></l-galleries>
             </FormItem>
 
@@ -117,11 +119,15 @@
             </FormItem>
 
             <FormItem label="商品描述">
-                <ueditor v-model="create.details.describe"
+                <ueditor v-model="create.detail.describe"
                          :config="ueditor"></ueditor>
             </FormItem>
 
         </Form>
+
+        <div slot="footer">
+            <Button type="primary" icon="ios-add" @click="submit('formCreate')">提交</Button>
+        </div>
 
         <Modal v-model="categories.modal" title="选择商品类目">
             <p slot="header" style="color:#f60;text-align:center">
@@ -161,7 +167,8 @@
             </p>
             <template v-for="(item, index) in attributes.data">
                 <div class="checkbox-item">
-                    <Checkbox :indeterminate="attributes.wait[item.name] && attributes.wait[item.name].length > 0">{{item.name}}
+                    <Checkbox :indeterminate="attributes.wait[item.name] && attributes.wait[item.name].length > 0">
+                        {{item.name}}
                     </Checkbox>
                     <CheckboxGroup v-model="attributes.wait[item.name]">
                         <Checkbox v-for="(val, key) in item.values" :key="key" :label="val">{{val}}</Checkbox>
@@ -195,17 +202,50 @@
                 loading: true,
                 create: {
                     type: 'normal',
+                    status: 'undercarriage',
+                    stock: 0,
+                    weight: 0,
                     categories: [],
-                    details: {},
-                    gallery: [],
+                    detail: {},
+                    galleries: [],
                     specs: [],
                     attributes: []
                 },
-                ruleValidate: {},
+                ruleValidate: {
+                    name: [
+                        {required: true, message: '商品名称必须填写', trigger: 'blur'}
+                    ],
+                    price: [
+                        {required: true, type: 'number', message: '商品价格必须填写', trigger: 'blur'}
+                    ],
+                    stock: [
+                        {required: true, type: 'number', message: '商品库存必须填写', trigger: 'blur'}
+                    ],
+                    weight: [
+                        {required: true, type: 'number', message: '商品重量必须填写', trigger: 'blur'}
+                    ],
+                    type: [
+                        {required: true, message: '商品类型必须选择', trigger: 'change'}
+                    ],
+                    status: [
+                        {required: true, message: '商品状态必须选择', trigger: 'change'}
+                    ],
+                    url: [
+                        {required: true, message: '商品图片必须选择', trigger: 'change'}
+                    ],
+                    categories: [
+                        {required: true, type: 'array', message: '商品分类必须选择', trigger: 'change'}
+                    ],
+                    galleries: [
+                        {required: true, type: 'array', message: '商品组图必须选择', trigger: 'change'},
+                    ]
+                },
                 categories: {
                     modal: false,
                     wait: [],
                     data: [],
+                },
+                upload:{
                     url: '/api/setting/focus/file'
                 },
                 config: {},
@@ -241,6 +281,16 @@
             })
         },
         methods: {
+            submit(name){
+                this.validate(name).then(() => {
+                    this.loading = true;
+                    this.$http.post(`goods/goods`, this.create).then(() => {
+
+                    }).finally(() => {
+                        this.loading = false;
+                    })
+                })
+            },
             handleChangeCategory() {
                 this.create.categories = this.categories.wait;
                 this.categories.modal = false;
@@ -264,14 +314,14 @@
                     this.specs.headers.push(waitKey)
                     array.push(arr)
                 }
-                if (array.length > 3) {
+                if (array.length > (this.config.max_specs || 3)) {
                     this.$Message.error('商品规格最多只能选择3个！')
                 } else {
                     this.create.specs = product(array);
                     this.specs.modal = false;
                 }
             },
-            handleChangeAttribute(){
+            handleChangeAttribute() {
                 let array = [];
                 for (let waitKey in this.attributes.wait) {
                     let item = this.attributes.wait[waitKey];
@@ -293,9 +343,9 @@
                 return this.categories.data.find((v) => v.id === id)['title'];
             }
         },
-        filters:{
-            join(val){
-                if(Array.isArray(val)){
+        filters: {
+            join(val) {
+                if (Array.isArray(val)) {
                     return val.join();
                 }
                 return val;
@@ -307,7 +357,7 @@
 <style scoped lang="less">
     .thumbnail {
         width: 100%;
-        height: 220px;
+        height: 196px;
     }
 
     .checkbox-item {

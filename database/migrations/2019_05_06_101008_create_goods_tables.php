@@ -16,7 +16,7 @@ class CreateGoodsTables extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->comment('商品名称');
-            $table->string('image', 255)->comment('商品主图');
+            $table->string('file', 255)->comment('商品主图');
             $table->unsignedInteger('price')->default(0)->comment('商品价格');
             $table->unsignedInteger('stock')->default(0)->comment('商品库存');
             $table->unsignedInteger('weight')->default(0)->comment('重量');
@@ -79,7 +79,7 @@ class CreateGoodsTables extends Migration
         Schema::create('goods_details', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('goods_id')->comment('商品ID');
-            $table->text('describe')->comment('商品描述');
+            $table->text('describe')->nullable()->comment('商品描述');
             $table->string('unit', 10)->comment('单位');
             $table->timestamps();
 
@@ -88,7 +88,7 @@ class CreateGoodsTables extends Migration
         });
 
 
-        Schema::create('gods_attributes', function (Blueprint $table){
+        Schema::create('goods_attributes', function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('goods_id')->comment('商品ID');
             $table->string('name', 20)->comment('规格名称');
@@ -109,7 +109,7 @@ class CreateGoodsTables extends Migration
     public function down()
     {
         Schema::dropIfExists('goods_categories');
-        Schema::dropIfExists('gods_attributes');
+        Schema::dropIfExists('goods_attributes');
         Schema::dropIfExists('goods_galleries');
         Schema::dropIfExists('goods_spec_items');
         Schema::dropIfExists('goods_specs');
