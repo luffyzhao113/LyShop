@@ -119,13 +119,22 @@ export const home = [
         },
         component: () => import('../../views/goods/category')
     }, {
-        path: 'Goods/attribute',
-        name: 'goods.attribute',
+        path: 'Goods/spec',
+        name: 'goods.spec',
         meta: {
             title: '商品属性',
             cache: true,
             tags: true
         },
-        component: () => import('../../views/goods/attribute')
+        component: () => import('../../views/goods/spec')
+    }, {
+        path: 'Goods/list',
+        name: 'goods.list',
+        meta: {
+            title: '商品列表',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/goods/goods')
     }
 ]

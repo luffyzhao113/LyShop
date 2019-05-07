@@ -24,10 +24,10 @@ export const getHomeRoute = (routers, homeName = 'home') => {
  * @description 如果该newRoute已经存在则不再添加
  */
 export const getNewTagList = (list, newRoute) => {
-    const { name, path, meta } = newRoute
+    const {name, path, meta} = newRoute
     let newList = [...list]
     if (newList.findIndex(item => item.name === name) >= 0) return newList
-    else newList.push({ name, path, meta })
+    else newList.push({name, path, meta})
     return newList
 }
 
@@ -123,7 +123,7 @@ export const localRead = (key) => {
 export const listConvertTree = (list) => {
     let root = null;
     if (list && list.length) {
-        root = { id: 0, parent_id: null, children: [] };
+        root = {id: 0, parent_id: null, children: []};
         const group = {};
         for (let index = 0; index < list.length; index += 1) {
             if (list[index].parent_id !== null && list[index].parent_id !== undefined) {
@@ -170,3 +170,64 @@ export const treeConvertList = (root) => {
     }
     return list;
 }
+
+/**
+ * 设置
+ * @param source
+ * @param id
+ * @param parentId
+ * @param children
+ * @returns {*}
+ */
+export const setTreeData = (source, id = 'id', parentId = 'parent_id', children = 'children') => {
+    let cloneData = JSON.parse(JSON.stringify(source));
+    let tree = cloneData.filter(father => {
+        let branchArr = cloneData.filter(child => {
+            return father[id] === child[parentId]
+        });
+        if (branchArr.length > 0) {
+            father[children] = branchArr
+        }
+        return father[parentId] === 0
+    });
+    return tree.map((item) => {
+        return Object.assign(item, {expand: true});
+    });
+};
+
+/**
+ *
+ * @param elements
+ * @returns {Array}
+ */
+export const product = (elements) => {
+    if (!Array.isArray(elements)) {
+        throw new TypeError();
+    }
+
+    var end = elements.length - 1,
+        result = [];
+
+    function addTo(curr, start) {
+        var first = elements[start],
+            last = (start === end);
+
+        for (var i = 0; i < first.length; ++i) {
+            var copy = curr.slice();
+            copy.push(first[i]);
+
+            if (last) {
+                result.push({items: copy});
+            } else {
+                addTo(copy, start + 1);
+            }
+        }
+    }
+
+    if (elements.length) {
+        addTo([], 0);
+    } else {
+        result.push([]);
+    }
+    return result;
+};

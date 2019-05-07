@@ -9,8 +9,16 @@ Route::resource('category', 'CategoryController', [
     ]
 ])->except(['show']);
 
-Route::resource('attribute', 'AttributeController', [
+Route::resource('spec', 'SpecController', [
     'names' => [
-        'edit' => 'category.update',
+        'edit' => 'spec.update',
     ]
 ])->except(['show', 'create']);
+
+
+Route::resource('goods', 'GoodsController', [
+    'names' => [
+        'edit' => 'goods.update',
+        'create' => 'goods.store',
+    ]
+])->except(['show']);

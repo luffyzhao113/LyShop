@@ -34,24 +34,8 @@
                 <Input v-model="create.url"></Input>
             </FormItem>
 
-            <FormItem label="图片" prop="file" :error="file.error">
-                <Upload type="drag" action="/api/setting/focus/file" :headers="file.headers"
-                        :on-success="file_success" :show-upload-list="false" class="upload-file"
-                        :before-upload="file_before" :on-error="file_error"
-                >
-                    <div class="drag-file">
-                        <div class="drag" v-if="create.file === undefined">
-                            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                            <p>点击或者拖拽文件到这里</p>
-                        </div>
-                        <div class="file" v-else>
-                            <img :src="create.file" alt="">
-                        </div>
-                        <div class="loading" v-if="fileLoading">
-                            <Spin size="large" fix></Spin>
-                        </div>
-                    </div>
-                </Upload>
+            <FormItem label="图片" prop="file">
+                <l-upload action="/api/setting/focus/file" v-model="create.file" class="thumbnail"></l-upload>
             </FormItem>
 
             <FormItem label="说明" prop="description">
@@ -68,27 +52,20 @@
 <script>
     import IDrawer from "../../../components/content/drawer";
     import contentDrawer from '../../../mixins/content-drawer'
+    import LUpload from "../../../components/form/upload";
 
     export default {
         name: "create",
         mixins: [contentDrawer],
-        components: {IDrawer},
+        components: {LUpload, IDrawer},
         data() {
             return {
                 loading: true,
-                fileLoading: false,
                 create: {
                     file: undefined,
                     status: 'off'
                 },
                 positions: {data: []},
-                file: {
-                    headers: {
-                        authorization: 'bearer ' + this.$store.state.auth.login,
-                        Accept: 'application/json'
-                    },
-                    error: undefined
-                },
                 ruleValidate: {
                     name: [
                         {required: true, message: '名称必须填写', trigger: 'blur'},
@@ -132,17 +109,6 @@
                         this.loading = false;
                     });
                 })
-            },
-            file_success(response, file, fileList) {
-                this.create.file = response.url;
-                this.fileLoading = false
-            },
-            file_before() {
-                this.fileLoading = true
-            },
-            file_error(error, {errors}) {
-                this.file.error = errors.file[0];
-                this.fileLoading = false
             }
         }
     }

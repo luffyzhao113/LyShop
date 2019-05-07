@@ -35,7 +35,7 @@ class Run extends Command
      */
     public function handle()
     {
-        $this->time = date('YmdHis');
+        $this->time = date('Y年m月d日H时i分s秒');
         $tables = $this->getTables();
         $this->toFiles($tables);
     }

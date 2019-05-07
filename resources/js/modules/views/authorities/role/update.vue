@@ -15,7 +15,7 @@
                 <FormItem label="分配菜单">
                     <div class="menu-box">
                         <div class="box-body">
-                            <Tree :data="menus.data" show-checkbox multiple></Tree>
+                            <l-tree :data="menus.data" v-model="update.menus" :contain-parent="true"></l-tree>
                         </div>
                     </div>
                 </FormItem>
@@ -47,27 +47,16 @@
 <script>
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
+    import LTree from "../../../components/form/tree";
 
     export default {
         name: "update",
-        components: {IDrawer},
+        components: {LTree, IDrawer},
         mixins: [contentDrawer],
         mounted() {
             this.$http.get(`authorities/role/${this.props.id}/edit`).then((res) => {
                 this.update = res.row
                 this.menus.data = res.menus
-                let data = [];
-                JSON.parse(JSON.stringify(this.menus.data)).forEach((item) => {
-                    data.push({
-                        id: item.id,
-                        parent_id: item.parent_id,
-                        title: item.title,
-                        expand: true,
-                        indeterminate: this.indeterminate(item),
-                        checked: this.checked(item)
-                    })
-                });
-                this.menus.data = this.setTreeData(data)
             }).finally(() => {
                 this.loading = false
             });
@@ -94,13 +83,7 @@
                     description: [
                         {type: 'string', max: 255, message: '权限描述最长255个字符', trigger: 'blur'}
                     ]
-                },
-                change: false
-            }
-        },
-        computed: {
-            checkedMenus() {
-                return this.toChecked(JSON.parse(JSON.stringify(this.menus.data)))
+                }
             }
         },
         methods: {
@@ -120,7 +103,7 @@
             getAuthorities(){
                 this.$http.get(`authorities/menu/authority`, {
                     params: {
-                        ids: this.checkedMenus
+                        ids: this.update.menus
                     }
                 }).then((res) => {
                     let lists = this.toTransfer(res);
@@ -133,66 +116,12 @@
             next() {
                 if (this.current === 0) {
                     this.validate('formUpdate').then(() => {
-                        if (this.change === true) {
-                            this.getAuthorities();
-                        }
+                        this.getAuthorities();
                         this.current = ++this.current
                     }).catch();
                 } else {
                     this.current = --this.current;
                 }
-            },
-            child(parent) {
-                return this.menus.data.filter(val => val.parent_id == parent)
-            },
-            indeterminate(item) {
-                let hasChild = this.child(item.id).length > 0
-                if (!hasChild) {
-                    return false
-                }
-                let has = typeof this.update.menus.find(val => val === item.id) !== 'undefined'
-                if (has) {
-                    return true
-                }
-                return false;
-            },
-            setTreeData(source) {
-                let cloneData = JSON.parse(JSON.stringify(source))
-                let tree = cloneData.filter(father => {
-                    let branchArr = cloneData.filter(child => {
-                        return father['id'] == child['parent_id']
-                    });
-                    if (branchArr.length > 0) {
-                        father['children'] = branchArr
-                    }
-                    return father['parent_id'] == 0
-                })
-                return tree.map((item) => {
-                    return Object.assign(item, {expand: true});
-                })
-            },
-            checked(item) {
-                let hasChild = this.child(item.id).length > 0
-                if (hasChild) {
-                    return false
-                }
-                let has = typeof this.update.menus.find(val => val === item.id) !== 'undefined'
-                if (has) {
-                    return true
-                }
-                return false;
-            },
-            toChecked(data) {
-                let arr = [];
-                data.forEach((item) => {
-                    if (item.indeterminate === true || item.checked === true) {
-                        arr.push(item.id)
-                        if (item.children && item.children.length > 0) {
-                            arr = arr.concat(this.toChecked(item.children));
-                        }
-                    }
-                });
-                return arr
             },
             toTransfer(data) {
                 let lists = [];
@@ -207,12 +136,6 @@
                     })
                 })
                 return lists
-            }
-        },
-        watch: {
-            checkedMenus(val) {
-                this.update.menus = val
-                this.change = true
             }
         }
     }

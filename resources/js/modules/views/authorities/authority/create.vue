@@ -13,7 +13,7 @@
             <FormItem label="分配菜单">
                 <div class="menu-box">
                     <div class="box-body">
-                        <Tree :data="menus.data" show-checkbox multiple></Tree>
+                        <l-tree v-model="create.menus" :data="menus.data"></l-tree>
                     </div>
                 </div>
             </FormItem>
@@ -27,10 +27,11 @@
 <script>
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
+    import LTree from "../../../components/form/tree";
 
     export default {
         name: "create",
-        components: {IDrawer},
+        components: {LTree, IDrawer},
         mixins: [contentDrawer],
         data() {
             return {
@@ -50,20 +51,18 @@
                     ]
                 }
             }
-        }, computed: {
-            checkedMenus() {
-                return this.toChecked(JSON.parse(JSON.stringify(this.menus.data)))
-            }
         }, mounted() {
             this.$http.get(`authorities/authority/create`).then((res) => {
-                this.menus.data = this.setTreeData(res)
-            }).finally(() => {this.loading = false})
+                this.menus.data = res
+            }).finally(() => {
+                this.loading = false
+            })
         }, methods: {
             submit(name) {
                 this.validate(name).then(() => {
                     this.loading = true
                     this.$http.post(`authorities/authority`,
-                        Object.assign({}, this.create, {menus: this.checkedMenus})
+                        Object.assign({}, this.create)
                     ).then(() => {
                         this.closeDrawer(false)
                     }).finally(() => {
@@ -71,33 +70,6 @@
                     });
                 }).catch(() => {
                 });
-            },
-            setTreeData(source) {
-                let cloneData = JSON.parse(JSON.stringify(source))
-                let tree = cloneData.filter(father => {
-                    let branchArr = cloneData.filter(child => {
-                        return father['id'] == child['parent_id']
-                    });
-                    if (branchArr.length > 0) {
-                        father['children'] = branchArr
-                    }
-                    return father['parent_id'] == 0
-                })
-                return tree.map((item) => {
-                    return Object.assign(item, {expand: true});
-                })
-            },
-            toChecked(data) {
-                let arr = [];
-                data.forEach((item) => {
-                    if (item.indeterminate === true || item.checked === true) {
-                        item.checked === true && arr.push(item.id);
-                        if (item.children && item.children.length > 0) {
-                            arr = arr.concat(this.toChecked(item.children));
-                        }
-                    }
-                });
-                return arr
             }
         }
     }

@@ -21,7 +21,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:2', 'max:20'],
-            'description' => ['required', 'max:254', 'nullable'],
+            'description' => ['max:254', 'nullable'],
             'authorities' => ['array', 'nullable'],
             'authorities.*' => ['integer'],
             'menus' => ['array', 'nullable'],
