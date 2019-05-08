@@ -10,8 +10,7 @@ namespace App\Http\Controllers\Api\Goods;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Goods\Spec\StoreRequest;
-use App\Http\Requests\Api\Goods\Spec\UpdateRequest;
+use App\Http\Requests\Api\Goods\SpecRequest;
 use App\Http\Searchs\Api\Goods\SpecSearch;
 use App\Repositories\Spec;
 
@@ -41,11 +40,11 @@ class SpecController extends Controller
 
     /**
      * store
-     * @param StoreRequest $request
+     * @param SpecRequest $request
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRequest $request){
+    public function store(SpecRequest $request){
         return $this->response(
             $this->attribute->create(
                 $request->only([
@@ -69,13 +68,13 @@ class SpecController extends Controller
 
     /**
      * update
-     * @param UpdateRequest $request
+     * @param SpecRequest $request
      * @param $id
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function update(UpdateRequest $request, $id){
+    public function update(SpecRequest $request, $id){
         return $this->response(
             $this->attribute->update(
                 $id,

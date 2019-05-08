@@ -95,6 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
+/* harmony import */ var _company__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./company */ "./resources/js/modules/views/setting/express/company/company.js");
 //
 //
 //
@@ -134,70 +135,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _company__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  data: function data() {
-    var _this = this;
-
-    return {
-      loading: false,
-      create: {
-        view: 'no',
-        code: ''
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '快递公司名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '快递公司名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        view: [{
-          required: true,
-          message: '是否支持查看物流轨迹必须选择',
-          trigger: 'change'
-        }],
-        code: [{
-          validator: function validator(rule, value, callback) {
-            if (_this.create.view === 'yes' && value !== '' || _this.create.view === 'no') {
-              return callback();
-            } else {
-              return callback('物流接口编号必须填写');
-            }
-          },
-          message: '物流接口编号必须填写',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '快递公司简介最多支持255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
-  },
   methods: {
     submit: function submit(name) {
-      var _this2 = this;
+      var _this = this;
 
       this.validate(name).then(function () {
-        _this2.loading = true;
+        _this.loading = true;
 
-        _this2.$http.post("setting/express/company", _this2.create).then(function (res) {
-          _this2.closeDrawer(false);
+        _this.$http.post("setting/express/company", _this.data).then(function (res) {
+          _this.closeDrawer(false);
         }).finally(function () {
-          _this2.loading = false;
+          _this.loading = false;
         });
       });
     }
@@ -360,6 +317,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
+/* harmony import */ var _company__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./company */ "./resources/js/modules/views/setting/express/company/company.js");
 //
 //
 //
@@ -392,76 +350,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  name: "update",
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _company__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  data: function data() {
+  mounted: function mounted() {
     var _this = this;
 
-    return {
-      loading: true,
-      update: {},
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '快递公司名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '快递公司名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        view: [{
-          required: true,
-          message: '是否支持查看物流轨迹必须选择',
-          trigger: 'change'
-        }],
-        code: [{
-          validator: function validator(rule, value, callback) {
-            if (_this.update.view === 'yes' && value !== '' || _this.update.view === 'no') {
-              return callback();
-            } else {
-              return callback('物流接口编号必须填写');
-            }
-          },
-          message: '物流接口编号必须填写',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '快递公司简介最多支持255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
     this.$http.get("setting/express/company/".concat(this.props.id, "/edit")).then(function (res) {
-      _this2.update = res;
+      _this.data = res;
     }).finally(function () {
-      _this2.loading = false;
+      _this.loading = false;
     });
   },
   methods: {
     submit: function submit(name) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.validate(name).then(function () {
-        _this3.loading = true;
+        _this2.loading = true;
 
-        _this3.$http.put("setting/express/company/".concat(_this3.props.id), _this3.update).then(function (res) {
-          _this3.closeDrawer(false);
+        _this2.$http.put("setting/express/company/".concat(_this2.props.id), _this2.data).then(function (res) {
+          _this2.closeDrawer(false);
         }).finally(function () {
-          _this3.loading = false;
+          _this2.loading = false;
         });
       });
     }
@@ -624,7 +541,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -636,11 +553,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -663,11 +580,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.create.view,
+                            value: _vm.data.view,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "view", $$v)
+                              _vm.$set(_vm.data, "view", $$v)
                             },
-                            expression: "create.view"
+                            expression: "data.view"
                           }
                         },
                         [
@@ -725,11 +642,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("Input", {
                         model: {
-                          value: _vm.create.code,
+                          value: _vm.data.code,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "code", $$v)
+                            _vm.$set(_vm.data, "code", $$v)
                           },
-                          expression: "create.code"
+                          expression: "data.code"
                         }
                       })
                     ],
@@ -749,11 +666,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1038,7 +955,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -1050,11 +967,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1077,11 +994,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.update.view,
+                            value: _vm.data.view,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "view", $$v)
+                              _vm.$set(_vm.data, "view", $$v)
                             },
-                            expression: "update.view"
+                            expression: "data.view"
                           }
                         },
                         [
@@ -1112,11 +1029,11 @@ var render = function() {
                     [
                       _c("Input", {
                         model: {
-                          value: _vm.update.code,
+                          value: _vm.data.code,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "code", $$v)
+                            _vm.$set(_vm.data, "code", $$v)
                           },
-                          expression: "update.code"
+                          expression: "data.code"
                         }
                       })
                     ],
@@ -1136,11 +1053,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1333,6 +1250,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_table_vue_vue_type_template_id_36605e05_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/setting/express/company/company.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/modules/views/setting/express/company/company.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    var _this = this;
+
+    return {
+      loading: false,
+      data: {
+        view: 'no',
+        code: ''
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '快递公司名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '快递公司名称字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        view: [{
+          required: true,
+          message: '是否支持查看物流轨迹必须选择',
+          trigger: 'change'
+        }],
+        code: [{
+          validator: function validator(rule, value, callback) {
+            if (_this.create.view === 'yes' && value !== '' || _this.create.view === 'no') {
+              return callback();
+            } else {
+              return callback('物流接口编号必须填写');
+            }
+          },
+          message: '物流接口编号必须填写',
+          trigger: 'blur'
+        }],
+        description: [{
+          max: 255,
+          message: '快递公司简介最多支持255个字符',
+          trigger: 'blur'
+        }]
+      }
+    };
+  }
+});
 
 /***/ }),
 

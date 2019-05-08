@@ -25,7 +25,8 @@
         },
         data() {
             return {
-                editor: null
+                editor: null,
+                ready: true,
             }
         },
         mounted() {
@@ -33,10 +34,11 @@
                 this.$refs.editor.id = this.uuid;
                 this.editor = UE.getEditor(this.uuid, this.config);
                 this.editor.ready(() => {
-                    this.editor.setContent(this.value);
+                    this.editor.setContent(this.value || '');
                     this.editor.addListener("contentChange", () => {
                         const content = this.editor.getContent();
                         const plainTxt = this.editor.getPlainTxt();
+                        this.ready = false;
                         this.$emit('input', content);
                         this.$emit('plainTxt', plainTxt);
                         this.dispatch('FormItem', 'on-form-blur', content);
@@ -47,7 +49,7 @@
         },
         watch: {
             value(val, old){
-                if(this.editor){
+                if(this.editor && val !== null && this.ready){
                     this.editor.setContent(this.value);
                 }
             }

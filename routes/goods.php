@@ -15,7 +15,8 @@ Route::resource('spec', 'SpecController', [
     ]
 ])->except(['show', 'create']);
 
-
+Route::post('goods/file', 'GoodsController@file')->name('goods.store');
+Route::post('goods/file-edit', 'GoodsController@file')->name('goods.update');
 Route::resource('goods', 'GoodsController', [
     'names' => [
         'edit' => 'goods.update',

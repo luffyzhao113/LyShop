@@ -23,4 +23,46 @@ class ExpressDetail extends Model
     public function areas(){
         return $this->belongsToMany(Areas::class, 'express_detail_areas', 'express_detail_id', 'area_id');
     }
+
+    /**
+     * setPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     */
+    protected function setFirstFeeAttribute($value)
+    {
+        $this->attributes['first_fee'] = (int)$value * 100;
+    }
+
+    /**
+     * getPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     * @return float|int
+     */
+    protected function getFirstFeeAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    /**
+     * setPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     */
+    protected function setContinueFeeAttribute($value)
+    {
+        $this->attributes['continue_fee'] = (int)$value * 100;
+    }
+
+    /**
+     * getPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     * @return float|int
+     */
+    protected function getContinueFeeAttribute($value)
+    {
+        return $value / 100;
+    }
 }

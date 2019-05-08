@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/tree */ "./resources/js/modules/components/form/tree.vue");
+/* harmony import */ var _role__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./role */ "./resources/js/modules/views/authorities/role/role.js");
 //
 //
 //
@@ -58,6 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -67,7 +69,7 @@ __webpack_require__.r(__webpack_exports__);
     LTree: _components_form_tree__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _role__WEBPACK_IMPORTED_MODULE_3__["default"]],
   mounted: function mounted() {
     var _this = this;
 
@@ -77,97 +79,19 @@ __webpack_require__.r(__webpack_exports__);
       _this.loading = false;
     });
   },
-  data: function data() {
-    return {
-      current: 0,
-      loading: true,
-      create: {
-        authorities: [],
-        menus: []
-      },
-      authorities: {
-        data: []
-      },
-      menus: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '部门名称不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '用户名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        description: [{
-          type: 'string',
-          max: 255,
-          message: '部门描述最长255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
-  },
   methods: {
-    handleChange: function handleChange(newTargetKeys) {
-      this.create.authorities = newTargetKeys;
-    },
     submit: function submit(name) {
       var _this2 = this;
 
-      this.validate('formCreate').then(function () {
+      this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.post("authorities/role", _this2.create).then(function () {
+        _this2.$http.post("authorities/role", _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
       });
-    },
-    getAuthorities: function getAuthorities() {
-      var _this3 = this;
-
-      this.$http.get("authorities/menu/authority", {
-        params: {
-          ids: this.create.menus
-        }
-      }).then(function (res) {
-        _this3.authorities.data = _this3.toTransfer(res);
-      });
-    },
-    next: function next() {
-      var _this4 = this;
-
-      if (this.current === 0) {
-        this.validate('formCreate').then(function () {
-          _this4.getAuthorities();
-
-          _this4.current = ++_this4.current;
-        }).catch();
-      } else {
-        this.current = --this.current;
-      }
-    },
-    toTransfer: function toTransfer(data) {
-      var lists = [];
-      data.forEach(function (item) {
-        item.authorities.forEach(function (val) {
-          if (lists.findIndex(function (v) {
-            return v.key === val.id;
-          }) === -1) {
-            lists.push({
-              key: val.id,
-              label: "".concat(val.name)
-            });
-          }
-        });
-      });
-      return lists;
     }
   }
 });
@@ -305,6 +229,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/tree */ "./resources/js/modules/components/form/tree.vue");
+/* harmony import */ var _role__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./role */ "./resources/js/modules/views/authorities/role/role.js");
 //
 //
 //
@@ -351,6 +276,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -360,7 +286,7 @@ __webpack_require__.r(__webpack_exports__);
     LTree: _components_form_tree__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _role__WEBPACK_IMPORTED_MODULE_3__["default"]],
   mounted: function mounted() {
     var _this = this;
 
@@ -371,49 +297,11 @@ __webpack_require__.r(__webpack_exports__);
       _this.loading = false;
     });
   },
-  data: function data() {
-    return {
-      current: 0,
-      loading: true,
-      update: {
-        authorities: [],
-        menus: []
-      },
-      authorities: {
-        data: []
-      },
-      menus: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '部门名称不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '权限名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        description: [{
-          type: 'string',
-          max: 255,
-          message: '权限描述最长255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
-  },
   methods: {
-    handleChange: function handleChange(newTargetKeys) {
-      this.update.authorities = newTargetKeys;
-    },
     submit: function submit(name) {
       var _this2 = this;
 
-      this.validate('formUpdate').then(function () {
+      this.validate(name).then(function () {
         _this2.loading = true;
 
         _this2.$http.put("authorities/role/".concat(_this2.props.id), _this2.update).then(function () {
@@ -422,53 +310,6 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loading = false;
         });
       }).catch();
-    },
-    getAuthorities: function getAuthorities() {
-      var _this3 = this;
-
-      this.$http.get("authorities/menu/authority", {
-        params: {
-          ids: this.update.menus
-        }
-      }).then(function (res) {
-        var lists = _this3.toTransfer(res);
-
-        _this3.update.authorities = _this3.update.authorities.filter(function (val) {
-          return lists.findIndex(function (v) {
-            return val === v.key;
-          }) !== -1;
-        });
-        _this3.authorities.data = lists;
-      });
-    },
-    next: function next() {
-      var _this4 = this;
-
-      if (this.current === 0) {
-        this.validate('formUpdate').then(function () {
-          _this4.getAuthorities();
-
-          _this4.current = ++_this4.current;
-        }).catch();
-      } else {
-        this.current = --this.current;
-      }
-    },
-    toTransfer: function toTransfer(data) {
-      var lists = [];
-      data.forEach(function (item) {
-        item.authorities.forEach(function (val) {
-          if (lists.findIndex(function (v) {
-            return v.key === val.id;
-          }) === -1) {
-            lists.push({
-              key: val.id,
-              label: "".concat(val.name)
-            });
-          }
-        });
-      });
-      return lists;
     }
   }
 });
@@ -608,7 +449,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -633,11 +474,11 @@ var render = function() {
                 [
                   _c("Input", {
                     model: {
-                      value: _vm.create.name,
+                      value: _vm.data.name,
                       callback: function($$v) {
-                        _vm.$set(_vm.create, "name", $$v)
+                        _vm.$set(_vm.data, "name", $$v)
                       },
-                      expression: "create.name"
+                      expression: "data.name"
                     }
                   })
                 ],
@@ -651,11 +492,11 @@ var render = function() {
                   _c("Input", {
                     attrs: { type: "textarea", rows: 6 },
                     model: {
-                      value: _vm.create.description,
+                      value: _vm.data.description,
                       callback: function($$v) {
-                        _vm.$set(_vm.create, "description", $$v)
+                        _vm.$set(_vm.data, "description", $$v)
                       },
-                      expression: "create.description"
+                      expression: "data.description"
                     }
                   })
                 ],
@@ -671,11 +512,11 @@ var render = function() {
                       _c("l-tree", {
                         attrs: { data: _vm.menus.data, "contain-parent": true },
                         model: {
-                          value: _vm.create.menus,
+                          value: _vm.data.menus,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "menus", $$v)
+                            _vm.$set(_vm.data, "menus", $$v)
                           },
-                          expression: "create.menus"
+                          expression: "data.menus"
                         }
                       })
                     ],
@@ -709,7 +550,7 @@ var render = function() {
                       titles: ["可分配权限", "已有权限"],
                       "list-style": { width: "250px", height: "500px" },
                       data: _vm.authorities.data,
-                      "target-keys": _vm.create.authorities
+                      "target-keys": _vm.data.authorities
                     },
                     on: { "on-change": _vm.handleChange }
                   })
@@ -729,7 +570,14 @@ var render = function() {
           _vm.current === 1
             ? _c(
                 "Button",
-                { attrs: { type: "primary" }, on: { click: _vm.next } },
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.next("formCreate")
+                    }
+                  }
+                },
                 [
                   _c("Icon", { attrs: { type: "ios-arrow-back" } }),
                   _vm._v("\n            上一步\n        ")
@@ -756,7 +604,14 @@ var render = function() {
           _vm.current === 0
             ? _c(
                 "Button",
-                { attrs: { type: "primary" }, on: { click: _vm.next } },
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.next("formCreate")
+                    }
+                  }
+                },
                 [
                   _vm._v("下一步\n            "),
                   _c("Icon", { attrs: { type: "ios-arrow-forward" } })
@@ -1116,7 +971,14 @@ var render = function() {
           _vm.current === 1
             ? _c(
                 "Button",
-                { attrs: { type: "primary" }, on: { click: _vm.next } },
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.next("formUpdate")
+                    }
+                  }
+                },
                 [
                   _c("Icon", { attrs: { type: "ios-arrow-back" } }),
                   _vm._v("\n            上一步\n        ")
@@ -1143,7 +1005,14 @@ var render = function() {
           _vm.current === 0
             ? _c(
                 "Button",
-                { attrs: { type: "primary" }, on: { click: _vm.next } },
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.next("formUpdate")
+                    }
+                  }
+                },
                 [
                   _vm._v("下一步\n            "),
                   _c("Icon", { attrs: { type: "ios-arrow-forward" } })
@@ -1318,6 +1187,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_44a5d56e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/authorities/role/role.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/modules/views/authorities/role/role.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      current: 0,
+      loading: true,
+      data: {
+        authorities: [],
+        menus: []
+      },
+      authorities: {
+        data: []
+      },
+      menus: {
+        data: []
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '部门名称不能为空',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 20,
+          message: '权限名称字符长度是2-20个字符',
+          trigger: 'blur'
+        }],
+        description: [{
+          type: 'string',
+          max: 255,
+          message: '权限描述最长255个字符',
+          trigger: 'blur'
+        }]
+      }
+    };
+  },
+  methods: {
+    handleChange: function handleChange(newTargetKeys) {
+      this.data.authorities = newTargetKeys;
+    },
+    getAuthorities: function getAuthorities() {
+      var _this = this;
+
+      this.$http.get("authorities/menu/authority", {
+        params: {
+          ids: this.data.menus
+        }
+      }).then(function (res) {
+        _this.authorities.data = _this.toTransfer(res);
+      });
+    },
+    next: function next(name) {
+      var _this2 = this;
+
+      if (this.current === 0) {
+        this.validate(name).then(function () {
+          _this2.getAuthorities();
+
+          _this2.current = ++_this2.current;
+        }).catch();
+      } else {
+        this.current = --this.current;
+      }
+    },
+    toTransfer: function toTransfer(data) {
+      var lists = [];
+      data.forEach(function (item) {
+        item.authorities.forEach(function (val) {
+          if (lists.findIndex(function (v) {
+            return v.key === val.id;
+          }) === -1) {
+            lists.push({
+              key: val.id,
+              label: "".concat(val.name)
+            });
+          }
+        });
+      });
+      return lists;
+    }
+  }
+});
 
 /***/ }),
 

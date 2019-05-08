@@ -9,10 +9,8 @@ namespace App\Http\Controllers\Api\Authorities;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Authorities\Role\StoreRequest;
-use App\Http\Requests\Api\Authorities\Role\UpdateRequest;
+use App\Http\Requests\Api\Authorities\RoleRequest;
 use App\Http\Searchs\Api\Authorities\RoleSearch;
-use App\Repositories\Authority;
 use App\Repositories\Menu;
 use App\Repositories\Role;
 
@@ -55,12 +53,12 @@ class RoleController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
+     * @param RoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/28 16:33
      */
-    public function store(StoreRequest $request)
+    public function store(RoleRequest $request)
     {
         return $this->response(
             $this->role->create(
@@ -91,12 +89,12 @@ class RoleController extends Controller
     /**
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/28 17:13
-     * @param UpdateRequest $request
+     * @param RoleRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(RoleRequest $request, $id)
     {
         return $this->response(
             $this->role->update($id, $request->only([

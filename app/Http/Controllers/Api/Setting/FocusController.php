@@ -10,9 +10,8 @@ namespace App\Http\Controllers\Api\Setting;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Setting\Focus\FileRequest;
-use App\Http\Requests\Api\Setting\Focus\StoreRequest;
-use App\Http\Requests\Api\Setting\Focus\UpdateRequest;
+use App\Http\Requests\Api\FileRequest;
+use App\Http\Requests\Api\Setting\FocusRequest;
 use App\Repositories\Focus;
 use App\Repositories\FocusPosition;
 use Illuminate\Support\Facades\Storage;
@@ -84,11 +83,11 @@ class FocusController extends Controller
 
     /**
      * store
-     * @param StoreRequest $request
+     * @param FocusRequest $request
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRequest $request){
+    public function store(FocusRequest $request){
         return $this->response(
             $this->focus->create($request->only([
                 'name', 'url', 'file', 'sort', 'status', 'description', 'position_id'
@@ -112,13 +111,13 @@ class FocusController extends Controller
 
     /**
      * update
-     * @param UpdateRequest $request
+     * @param FocusRequest $request
      * @param $id
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function update(UpdateRequest $request, $id){
+    public function update(FocusRequest $request, $id){
         return $this->response(
             $this->focus->update($id, $request->only([
                 'name', 'url', 'file', 'sort', 'status', 'description', 'position_id'

@@ -1,19 +1,19 @@
 <template>
     <i-drawer title="权限添加" :width="720" :loading="loading">
-        <Form ref="formCreate" :model="create" :label-width="100" :rules="ruleValidate">
+        <Form ref="formCreate" :model="data" :label-width="100" :rules="ruleValidate">
             <FormItem label="权限名称" prop="name">
-                <Input v-model="create.name"></Input>
+                <Input v-model="data.name"></Input>
             </FormItem>
             <FormItem label="请求URI" prop="uri">
-                <Input v-model="create.uri"></Input>
+                <Input v-model="data.uri"></Input>
             </FormItem>
             <FormItem label="请求描述" prop="description">
-                <Input v-model="create.description" type="textarea" :rows="3"></Input>
+                <Input v-model="data.description" type="textarea" :rows="3"></Input>
             </FormItem>
             <FormItem label="分配菜单">
                 <div class="menu-box">
                     <div class="box-body">
-                        <l-tree v-model="create.menus" :data="menus.data"></l-tree>
+                        <l-tree v-model="data.menus" :data="menus.data"></l-tree>
                     </div>
                 </div>
             </FormItem>
@@ -28,30 +28,13 @@
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
     import LTree from "../../../components/form/tree";
+    import authority from "./authority";
 
     export default {
         name: "create",
         components: {LTree, IDrawer},
-        mixins: [contentDrawer],
-        data() {
-            return {
-                loading: true,
-                create: {},
-                menus: {
-                    data: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '权限名称必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    uri: [
-                        {required: true, message: '权限URI必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 50, message: '权限URI字符长度是2-50个字符', trigger: 'blur'}
-                    ]
-                }
-            }
-        }, mounted() {
+        mixins: [contentDrawer, authority],
+        mounted() {
             this.$http.get(`authorities/authority/create`).then((res) => {
                 this.menus.data = res
             }).finally(() => {
@@ -62,7 +45,7 @@
                 this.validate(name).then(() => {
                     this.loading = true
                     this.$http.post(`authorities/authority`,
-                        Object.assign({}, this.create)
+                        Object.assign({}, this.data)
                     ).then(() => {
                         this.closeDrawer(false)
                     }).finally(() => {

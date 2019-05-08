@@ -22,4 +22,25 @@ class GoodsSpec extends Model
     public function items(){
         return $this->hasMany(GoodsSpecItem::class, 'goods_spec_id', 'id');
     }
+
+    /**
+     * setPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     */
+    protected function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = (int)$value * 100;
+    }
+
+    /**
+     * getPriceAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     * @return float|int
+     */
+    protected function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
 }

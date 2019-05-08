@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! iview/src/utils/assist */ "./node_modules/iview/src/utils/assist.js");
+/* harmony import */ var _category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./category */ "./resources/js/modules/views/goods/category/category.js");
 //
 //
 //
@@ -100,69 +101,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _category__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: false,
-      create: {
-        parent_id: this.props.id,
-        status: 'off',
-        search_filters: [{
-          name: '',
-          values: []
-        }]
-      },
-      positions: {
-        data: []
-      },
-      filter: {
-        show: false,
-        index: undefined,
-        value: undefined
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        parent_id: [{
-          required: true,
-          message: '上级类目必须填写',
-          trigger: 'change'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '排序必须选择',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          message: '状态必须选择',
-          trigger: 'change'
-        }]
-      }
-    };
   },
   methods: {
     submit: function submit(name) {
@@ -171,40 +118,12 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this.loading = true;
 
-        _this.$http.post("goods/category", _this.create).then(function () {
+        _this.$http.post("goods/category", _this.data).then(function () {
           _this.closeDrawer(false);
         }).finally(function () {
           _this.loading = false;
         });
       });
-    },
-    handleChangeOk: function handleChangeOk() {
-      if (this.filter.value) {
-        if (!Object(iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_2__["oneOf"])(this.filter.value, this.create.search_filters[this.filter.index].values)) {
-          this.create.search_filters[this.filter.index].values.push(this.filter.value);
-          this.filter.value = undefined;
-          this.filter.show = false;
-          return;
-        }
-      }
-
-      this.$Message.warning('属性值已存在或者属性值不能为空！');
-    },
-    add: function add(index) {
-      this.filter.index = index;
-      this.filter.show = true;
-    },
-    close: function close(values, index) {
-      values.splice(index, 1);
-    },
-    addAreaItem: function addAreaItem(search_filters) {
-      search_filters.push({
-        name: '',
-        values: []
-      });
-    },
-    remove: function remove(search_filters, index) {
-      search_filters.splice(index, 1);
     }
   }
 });
@@ -253,7 +172,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loading: false,
       data: [{
-        id: 0,
+        id: '0',
         name: '顶级类目',
         expand: true,
         children: []
@@ -280,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
           root: root,
           node: node,
           data: data,
-          parent: data.id === 0
+          parent: data.id === '0'
         },
         on: {
           'on-append': this.append,
@@ -390,6 +309,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! iview/src/utils/assist */ "./node_modules/iview/src/utils/assist.js");
+/* harmony import */ var _category__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./category */ "./resources/js/modules/views/goods/category/category.js");
 //
 //
 //
@@ -478,75 +398,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "update",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _category__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: true,
-      update: {
-        parent_id: this.props.id,
-        status: 'off',
-        search_filters: [{
-          name: '',
-          values: []
-        }]
-      },
-      positions: {
-        data: []
-      },
-      filter: {
-        show: false,
-        index: undefined,
-        value: undefined
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        parent_id: [{
-          required: true,
-          message: '上级类目必须填写',
-          trigger: 'change'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '排序必须选择',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          message: '状态必须选择',
-          trigger: 'change'
-        }]
-      }
-    };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$http.get("goods/category/".concat(this.props.id, "/edit")).then(function (res) {
-      _this.update = res.row;
+      _this.data = res.row;
     }).finally(function () {
       _this.loading = false;
     });
@@ -558,40 +424,12 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("goods/category/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("goods/category/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
       });
-    },
-    handleChangeOk: function handleChangeOk() {
-      if (this.filter.value) {
-        if (!Object(iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_2__["oneOf"])(this.filter.value, this.update.search_filters[this.filter.index].values)) {
-          this.update.search_filters[this.filter.index].values.push(this.filter.value);
-          this.filter.value = undefined;
-          this.filter.show = false;
-          return;
-        }
-      }
-
-      this.$Message.warning('属性值已存在或者属性值不能为空！');
-    },
-    add: function add(index) {
-      this.filter.index = index;
-      this.filter.show = true;
-    },
-    close: function close(values, index) {
-      values.splice(index, 1);
-    },
-    addAreaItem: function addAreaItem(search_filters) {
-      search_filters.push({
-        name: '',
-        values: []
-      });
-    },
-    remove: function remove(search_filters, index) {
-      search_filters.splice(index, 1);
     }
   }
 });
@@ -1133,11 +971,7 @@ var render = function() {
         "Form",
         {
           ref: "formCreate",
-          attrs: {
-            model: _vm.create,
-            "label-width": 80,
-            rules: _vm.ruleValidate
-          }
+          attrs: { model: _vm.data, "label-width": 80, rules: _vm.ruleValidate }
         },
         [
           _c(
@@ -1146,11 +980,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1189,11 +1023,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { number: "" },
                         model: {
-                          value: _vm.create.sort,
+                          value: _vm.data.sort,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "sort", $$v)
+                            _vm.$set(_vm.data, "sort", $$v)
                           },
-                          expression: "create.sort"
+                          expression: "data.sort"
                         }
                       })
                     ],
@@ -1216,11 +1050,11 @@ var render = function() {
                         {
                           attrs: { "true-value": "on", "false-value": "off" },
                           model: {
-                            value: _vm.create.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "create.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1268,7 +1102,7 @@ var render = function() {
               _c(
                 "Col",
                 { attrs: { span: "24" } },
-                _vm._l(_vm.create.search_filters, function(item, index) {
+                _vm._l(_vm.data.search_filters, function(item, index) {
                   return _c(
                     "Row",
                     { key: index, attrs: { gutter: 10 } },
@@ -1380,7 +1214,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       return _vm.remove(
-                                        _vm.create.search_filters,
+                                        _vm.data.search_filters,
                                         index
                                       )
                                     }
@@ -1415,7 +1249,7 @@ var render = function() {
                           attrs: { long: "", size: "small", type: "dashed" },
                           on: {
                             click: function($event) {
-                              return _vm.addAreaItem(_vm.create.search_filters)
+                              return _vm.addAreaItem(_vm.data.search_filters)
                             }
                           }
                         },
@@ -1438,11 +1272,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 4 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1720,11 +1554,7 @@ var render = function() {
         "Form",
         {
           ref: "formUpdate",
-          attrs: {
-            model: _vm.update,
-            "label-width": 80,
-            rules: _vm.ruleValidate
-          }
+          attrs: { model: _vm.data, "label-width": 80, rules: _vm.ruleValidate }
         },
         [
           _c(
@@ -1733,11 +1563,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1776,11 +1606,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { number: "" },
                         model: {
-                          value: _vm.update.sort,
+                          value: _vm.data.sort,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "sort", $$v)
+                            _vm.$set(_vm.data, "sort", $$v)
                           },
-                          expression: "update.sort"
+                          expression: "data.sort"
                         }
                       })
                     ],
@@ -1803,11 +1633,11 @@ var render = function() {
                         {
                           attrs: { "true-value": "on", "false-value": "off" },
                           model: {
-                            value: _vm.update.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "update.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1855,7 +1685,7 @@ var render = function() {
               _c(
                 "Col",
                 { attrs: { span: "24" } },
-                _vm._l(_vm.update.search_filters, function(item, index) {
+                _vm._l(_vm.data.search_filters, function(item, index) {
                   return _c(
                     "Row",
                     { key: index, attrs: { gutter: 10 } },
@@ -1967,7 +1797,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       return _vm.remove(
-                                        _vm.update.search_filters,
+                                        _vm.data.search_filters,
                                         index
                                       )
                                     }
@@ -2002,7 +1832,7 @@ var render = function() {
                           attrs: { long: "", size: "small", type: "dashed" },
                           on: {
                             click: function($event) {
-                              return _vm.addAreaItem(_vm.update.search_filters)
+                              return _vm.addAreaItem(_vm.data.search_filters)
                             }
                           }
                         },
@@ -2025,11 +1855,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 4 },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -2123,6 +1953,105 @@ var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/goods/category/category.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/modules/views/goods/category/category.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: false,
+      data: {
+        parent_id: this.props.id,
+        status: 'off',
+        search_filters: [{
+          name: '',
+          values: []
+        }]
+      },
+      positions: {
+        data: []
+      },
+      filter: {
+        show: false,
+        index: undefined,
+        value: undefined
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '名称字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        parent_id: [{
+          required: true,
+          message: '上级类目必须填写',
+          trigger: 'change'
+        }],
+        sort: [{
+          required: true,
+          type: 'number',
+          message: '排序必须选择',
+          trigger: 'blur'
+        }],
+        description: [{
+          max: 255,
+          message: '位置说明最多支持255个字符',
+          trigger: 'blur'
+        }],
+        status: [{
+          required: true,
+          message: '状态必须选择',
+          trigger: 'change'
+        }]
+      }
+    };
+  },
+  methods: {
+    handleChangeOk: function handleChangeOk() {
+      if (this.filter.value) {
+        if (!oneOf(this.filter.value, this.data.search_filters[this.filter.index].values)) {
+          this.data.search_filters[this.filter.index].values.push(this.filter.value);
+          this.filter.value = undefined;
+          this.filter.show = false;
+          return;
+        }
+      }
+
+      this.$Message.warning('属性值已存在或者属性值不能为空！');
+    },
+    add: function add(index) {
+      this.filter.index = index;
+      this.filter.show = true;
+    },
+    close: function close(values, index) {
+      values.splice(index, 1);
+    },
+    addAreaItem: function addAreaItem(search_filters) {
+      search_filters.push({
+        name: '',
+        values: []
+      });
+    },
+    remove: function remove(search_filters, index) {
+      search_filters.splice(index, 1);
+    }
+  }
+});
 
 /***/ }),
 

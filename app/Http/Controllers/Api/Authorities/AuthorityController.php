@@ -7,8 +7,7 @@
 
 namespace App\Http\Controllers\Api\Authorities;
 
-use App\Http\Requests\Api\Authorities\Authority\StoreRequest;
-use App\Http\Requests\Api\Authorities\Authority\UpdateRequest;
+use App\Http\Requests\Api\Authorities\AuthoritiesRequest;
 use App\Http\Searchs\Api\Authorities\AuthoritySearch;
 use App\Repositories\Authority;
 use App\Http\Controllers\Controller;
@@ -40,12 +39,12 @@ class AuthorityController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
+     * @param AuthoritiesRequest $request
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/28 13:27
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRequest $request)
+    public function store(AuthoritiesRequest $request)
     {
         return $this->response(
             $this->authority->create(
@@ -84,14 +83,14 @@ class AuthorityController extends Controller
     }
 
     /**
-     * @param UpdateRequest $request
+     * @param AuthoritiesRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/28 15:20
      */
-    public function update(UpdateRequest $request, $id){
+    public function update(AuthoritiesRequest $request, $id){
         return $this->response(
             $this->authority->update($id, $request->only([
                 'name', 'uri', 'description', 'menus'

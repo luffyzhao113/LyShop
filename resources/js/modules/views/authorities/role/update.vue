@@ -32,12 +32,12 @@
             </div>
         </Form>
         <div slot="footer">
-            <Button type="primary" v-if="current === 1" @click="next">
+            <Button type="primary" v-if="current === 1" @click="next('formUpdate')">
                 <Icon type="ios-arrow-back"></Icon>
                 上一步
             </Button>
             <Button type="primary" v-if="current === 1" icon="ios-add" @click="submit('formUpdate')">提交</Button>
-            <Button type="primary" v-if="current === 0" @click="next">下一步
+            <Button type="primary" v-if="current === 0" @click="next('formUpdate')">下一步
                 <Icon type="ios-arrow-forward"></Icon>
             </Button>
         </div>
@@ -48,11 +48,12 @@
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
     import LTree from "../../../components/form/tree";
+    import role from "./role";
 
     export default {
         name: "update",
         components: {LTree, IDrawer},
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, role],
         mounted() {
             this.$http.get(`authorities/role/${this.props.id}/edit`).then((res) => {
                 this.update = res.row
@@ -61,37 +62,9 @@
                 this.loading = false
             });
         },
-        data() {
-            return {
-                current: 0,
-                loading: true,
-                update: {
-                    authorities: [],
-                    menus: []
-                },
-                authorities: {
-                    data: []
-                },
-                menus: {
-                    data: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '部门名称不能为空', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    description: [
-                        {type: 'string', max: 255, message: '权限描述最长255个字符', trigger: 'blur'}
-                    ]
-                }
-            }
-        },
         methods: {
-            handleChange(newTargetKeys) {
-                this.update.authorities = newTargetKeys
-            },
             submit(name) {
-                this.validate('formUpdate').then(() => {
+                this.validate(name).then(() => {
                     this.loading = true
                     this.$http.put(`authorities/role/${this.props.id}`, this.update).then(() => {
                         this.closeDrawer(false)
@@ -99,43 +72,6 @@
                         this.loading = false
                     });
                 }).catch();
-            },
-            getAuthorities(){
-                this.$http.get(`authorities/menu/authority`, {
-                    params: {
-                        ids: this.update.menus
-                    }
-                }).then((res) => {
-                    let lists = this.toTransfer(res);
-                    this.update.authorities = this.update.authorities.filter((val) => {
-                        return lists.findIndex((v) => val === v.key) !== -1;
-                    });
-                    this.authorities.data = lists
-                });
-            },
-            next() {
-                if (this.current === 0) {
-                    this.validate('formUpdate').then(() => {
-                        this.getAuthorities();
-                        this.current = ++this.current
-                    }).catch();
-                } else {
-                    this.current = --this.current;
-                }
-            },
-            toTransfer(data) {
-                let lists = [];
-                data.forEach((item) => {
-                    item.authorities.forEach((val) => {
-                        if (lists.findIndex((v) => v.key === val.id) === -1) {
-                            lists.push({
-                                key: val.id,
-                                label: `${val.name}`
-                            })
-                        }
-                    })
-                })
-                return lists
             }
         }
     }

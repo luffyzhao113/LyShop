@@ -9,7 +9,8 @@
                     <img :src="item.file">
                     <div class="item-poptip" slot="content">
                         <Button size="small" @click="handleTop(index)" :disabled="index === 0">上移</Button>
-                        <Button size="small" @click="handleBottom(index)" :disabled="index === images.length">下移</Button>
+                        <Button size="small" @click="handleBottom(index)" :disabled="index === images.length">下移
+                        </Button>
                         <Button size="small" @click="handleRemove(index)">删除</Button>
                     </div>
                 </Poptip>
@@ -69,36 +70,39 @@
             }
         },
         methods: {
-            view(index){
+            view(index) {
                 this.index = index;
             },
             handleRemove(index) {
                 this.images.splice(index, 1);
-                if(this.index === this.images.length){
+                if (this.index === this.images.length && this.index > 0) {
                     this.index--;
                 }
+                this.valueChange();
             },
             handleTop(x) {
                 let y = x - 1;
                 if (y < 0) {
                     return false;
                 }
-                this.images.splice(x, 1, ...this.images.splice(y, 1, this.images[x]))
+                this.images.splice(x, 1, ...this.images.splice(y, 1, this.images[x]));
+                this.valueChange();
             },
             handleBottom(x) {
                 let y = x + 1;
                 if (this.images.length <= y) {
                     return false;
                 }
-                this.images.splice(y, 1, ...this.images.splice(x, 1, this.images[y]))
+                this.images.splice(y, 1, ...this.images.splice(x, 1, this.images[y]));
+                this.valueChange();
             },
             file_success(response, file, fileList) {
                 this.file.before--;
                 this.images.push({
                     file: response.url
                 });
-                this.$emit('input', this.images);
                 this.file.loading = false
+                this.valueChange();
             },
             file_before(file, fileList) {
                 this.file.before++;
@@ -108,6 +112,22 @@
                 this.file.before--;
                 this.$Message.error(errors.file[0]);
                 this.file.loading = false
+            },
+            valueChange() {
+                let images = [];
+                this.images.forEach((item, key) => {
+                    images.push({
+                        file: item.file,
+                        sort: key
+                    });
+                });
+                this.$emit('input', images);
+            }
+        },
+        watch: {
+            value(val, old) {
+                if (val !== old)
+                    this.images = val;
             }
         }
     }

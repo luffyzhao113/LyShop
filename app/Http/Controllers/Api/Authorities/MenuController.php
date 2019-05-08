@@ -7,8 +7,7 @@
 
 namespace App\Http\Controllers\Api\Authorities;
 
-use App\Http\Requests\Api\Authorities\Menu\StoreRequest;
-use App\Http\Requests\Api\Authorities\Menu\UpdateRequest;
+use App\Http\Requests\Api\Authorities\MenuRequest;
 use App\Repositories\Authority;
 use App\Repositories\Menu;
 use App\Http\Controllers\Controller;
@@ -50,12 +49,12 @@ class MenuController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
+     * @param MenuRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/26 15:16
      */
-    public function store(StoreRequest $request)
+    public function store(MenuRequest $request)
     {
         return $this->response(
             $this->menu->create(
@@ -82,18 +81,18 @@ class MenuController extends Controller
 
 
     /**
-     * @param UpdateRequest $request
+     * @param MenuRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      * @author: luffyzhao@vip.126.com
      * @datetime: 2019/3/27 19:03
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(MenuRequest $request, $id)
     {
         return $this->response(
             $this->menu->update($id, $request->only([
-                'parent_id', 'name', 'url', 'sort', 'description', 'authorities'
+                'name', 'url', 'sort', 'description', 'authorities'
             ]))
         );
     }

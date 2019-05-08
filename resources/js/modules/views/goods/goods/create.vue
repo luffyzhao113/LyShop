@@ -1,20 +1,20 @@
 <template>
     <i-drawer :loading="loading" title="添加商品" :width="920">
-        <Form ref="formCreate" :model="create" :label-width="100" :rules="ruleValidate">
+        <Form ref="formCreat1e" :model="data" :label-width="100" :rules="ruleValidate">
             <FormItem label="商品名称" prop="name">
-                <Input v-model="create.name"></Input>
+                <Input v-model="data.name"></Input>
             </FormItem>
             <Row>
                 <Col span="16">
                     <Row>
                         <Col span="12">
                             <FormItem label="商品价格" prop="price">
-                                <Input prefix="logo-usd" number v-model="create.price"></Input>
+                                <Input prefix="logo-usd" number v-model="data.price"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
                             <FormItem label="商品库存" prop="stock">
-                                <Input number v-model="create.stock"></Input>
+                                <Input number v-model="data.stock"></Input>
                             </FormItem>
                         </Col>
                     </Row>
@@ -22,12 +22,12 @@
                     <Row>
                         <Col span="12">
                             <FormItem label="商品重量" prop="weight">
-                                <Input number v-model="create.weight"></Input>
+                                <Input number v-model="data.weight"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
                             <FormItem label="商品单位" prop="detail.unit">
-                                <Select v-model="create.detail.unit">
+                                <Select v-model="data.detail.unit">
                                     <Option v-for="(item, key) in units.data" :key="key" :label="item"
                                             :value="item"></Option>
                                 </Select>
@@ -38,7 +38,7 @@
                     <Row>
                         <Col span="12">
                             <FormItem label="商品类型" prop="type">
-                                <RadioGroup v-model="create.type">
+                                <RadioGroup v-model="data.type">
                                     <Radio label="normal">正常</Radio>
                                     <Radio label="group">团购</Radio>
                                     <Radio label="seckill">秒杀</Radio>
@@ -47,7 +47,7 @@
                         </Col>
                         <Col span="12">
                             <FormItem label="商品状态" prop="status">
-                                <RadioGroup v-model="create.status">
+                                <RadioGroup v-model="data.status">
                                     <Radio label="grounding">上架</Radio>
                                     <Radio label="undercarriage">下架</Radio>
                                 </RadioGroup>
@@ -56,7 +56,7 @@
                     </Row>
 
                     <FormItem label="商品分类" prop="categories">
-                        <tag v-for="(item, key) in create.categories" :key="key">{{categoriesName(item)}}</tag>
+                        <tag v-for="(item, key) in data.categories" :key="key">{{categoriesName(item)}}</tag>
                         <Button type="dashed" size="small" @click="categories.modal = true">
                             选择分类
                         </Button>
@@ -66,14 +66,14 @@
 
                 <Col push="2" span="6">
                     <FormItem :label-width="0" prop="file">
-                        <l-upload :action="upload.url" v-model="create.file" class="thumbnail"></l-upload>
+                        <l-upload :action="upload.url" v-model="data.file" class="thumbnail"></l-upload>
                     </FormItem>
                 </Col>
 
             </Row>
 
             <FormItem label="商品组图" prop="gallery">
-                <l-galleries :action="upload.url" v-model="create.galleries"
+                <l-galleries :action="upload.url" v-model="data.galleries"
                              :default-gallery="config.default_gallery"></l-galleries>
             </FormItem>
 
@@ -82,7 +82,7 @@
                 <div class="ivu-form-item-content" style="margin-left: 100px;">
                     <Button size="small" @click="specs.modal = true" type="dashed">添加商品规格</Button>
 
-                    <div v-if="create.specs && create.specs.length > 0" class="spec-box">
+                    <div v-if="data.specs && data.specs.length > 0" class="spec-box">
                         <Row class="spec-header">
                             <Col v-for="(header, index) in specs.headers" span="4" :key="index">
                                 {{header}}
@@ -91,7 +91,7 @@
                             <Col span="4">库存<span class="item-required">*</span></Col>
                             <Col span="4">操作</Col>
                         </Row>
-                        <Row class="spec-list" v-for="(item, index) in create.specs" :key="index" :gutter="10">
+                        <Row class="spec-list" v-for="(item, index) in data.specs" :key="index" :gutter="10">
                             <Col v-for="(val, key) in item.items" :key="key + '-' + index" span="4">{{val.value}}</Col>
                             <Col span="4">
                                 <FormItem :label-width="0" :prop="'specs.'+index+'.price'"
@@ -102,7 +102,7 @@
                             <Col span="4">
                                 <FormItem :label-width="0" :prop="'specs.'+index+'.stock'"
                                           :rules="[{required: true, type:'number', message: '库存必须填写', trigger: 'blur'}]">
-                                    <Input v-model="item.stock" size="small" number></Input>
+                                    <Input v-model="item.stock" size="small" number @input="setStock"></Input>
                                 </FormItem>
                             </Col>
                             <Col span="4">
@@ -114,19 +114,19 @@
             </div>
 
             <FormItem label="商品属性">
-                <Tag v-for="(item, index) in create.attributes" :key="index">{{item.name}}:{{item.values | join}}</Tag>
+                <Tag v-for="(item, index) in data.attributes" :key="index">{{item.name}}:{{item.values | join}}</Tag>
                 <Button size="small" @click="attributes.modal = true" type="dashed">添加商品属性</Button>
             </FormItem>
 
             <FormItem label="商品描述">
-                <ueditor v-model="create.detail.describe"
+                <ueditor v-model="data.detail.describe"
                          :config="ueditor"></ueditor>
             </FormItem>
 
         </Form>
 
         <div slot="footer">
-            <Button type="primary" icon="ios-add" @click="submit('formCreate')">提交</Button>
+            <Button type="primary" icon="ios-add" @click="submit('formCreat1e')">提交</Button>
         </div>
 
         <Modal v-model="categories.modal" title="选择商品类目">
@@ -190,83 +190,22 @@
     import Emitter from 'iview/src/mixins/emitter'
     import LGalleries from "./galleries";
     import Ueditor from "../../../components/form/ueditor";
-    import {product} from "../../../../libs/util";
+    import goods from "./goods";
 
 
     export default {
         name: "create",
-        mixins: [contentDrawer, Emitter],
+        mixins: [contentDrawer, Emitter, goods],
         components: {Ueditor, LGalleries, LTree, LUpload, IDrawer},
         data() {
             return {
-                loading: true,
-                create: {
-                    type: 'normal',
-                    status: 'undercarriage',
-                    stock: 0,
-                    weight: 0,
-                    categories: [],
-                    detail: {},
-                    galleries: [],
-                    specs: [],
-                    attributes: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '商品名称必须填写', trigger: 'blur'}
-                    ],
-                    price: [
-                        {required: true, type: 'number', message: '商品价格必须填写', trigger: 'blur'}
-                    ],
-                    stock: [
-                        {required: true, type: 'number', message: '商品库存必须填写', trigger: 'blur'}
-                    ],
-                    weight: [
-                        {required: true, type: 'number', message: '商品重量必须填写', trigger: 'blur'}
-                    ],
-                    type: [
-                        {required: true, message: '商品类型必须选择', trigger: 'change'}
-                    ],
-                    status: [
-                        {required: true, message: '商品状态必须选择', trigger: 'change'}
-                    ],
-                    url: [
-                        {required: true, message: '商品图片必须选择', trigger: 'change'}
-                    ],
-                    categories: [
-                        {required: true, type: 'array', message: '商品分类必须选择', trigger: 'change'}
-                    ],
-                    galleries: [
-                        {required: true, type: 'array', message: '商品组图必须选择', trigger: 'change'},
-                    ]
-                },
-                categories: {
-                    modal: false,
-                    wait: [],
-                    data: [],
-                },
                 upload:{
-                    url: '/api/setting/focus/file'
-                },
-                config: {},
-                units: {
-                    data: []
-                },
-                specs: {
-                    modal: false,
-                    data: [],
-                    wait: {},
-                    headers: []
-                },
-                attributes: {
-                    modal: false,
-                    wait: {},
-                    data: []
+                    url: '/api/goods/goods/file'
                 },
                 ueditor: {
-                    serverUrl: '/api/goods/goods/create/ueditor',
+                    serverUrl: '/api/goods/goods/ueditor/create',
                     initialFrameHeight: 600
-                }
+                },
             }
         },
         mounted() {
@@ -284,71 +223,12 @@
             submit(name){
                 this.validate(name).then(() => {
                     this.loading = true;
-                    this.$http.post(`goods/goods`, this.create).then(() => {
-
+                    this.$http.post(`goods/goods`, this.data).then(() => {
+                        this.closeDrawer(false);
                     }).finally(() => {
                         this.loading = false;
                     })
                 })
-            },
-            handleChangeCategory() {
-                this.create.categories = this.categories.wait;
-                this.categories.modal = false;
-                this.dispatch('FormItem', 'on-form-change', this.create.categories);
-            },
-            handleChangeSpec() {
-                let array = [];
-                this.specs.headers = [];
-                for (let waitKey in this.specs.wait) {
-                    let item = this.specs.wait[waitKey];
-                    if (item.length === 0) {
-                        continue;
-                    }
-                    let arr = [];
-                    item.forEach(val => {
-                        arr.push({
-                            name: waitKey,
-                            value: val
-                        });
-                    });
-                    this.specs.headers.push(waitKey)
-                    array.push(arr)
-                }
-                if (array.length > (this.config.max_specs || 3)) {
-                    this.$Message.error('商品规格最多只能选择3个！')
-                } else {
-                    this.create.specs = product(array);
-                    this.specs.modal = false;
-                }
-            },
-            handleChangeAttribute() {
-                let array = [];
-                for (let waitKey in this.attributes.wait) {
-                    let item = this.attributes.wait[waitKey];
-                    if (item.length === 0) {
-                        continue;
-                    }
-                    array.push({
-                        name: waitKey,
-                        values: item
-                    })
-                }
-                this.create.attributes = array;
-                this.attributes.modal = false;
-            },
-            deleteSpec(index) {
-                this.create.specs.splice(index, 1);
-            },
-            categoriesName(id) {
-                return this.categories.data.find((v) => v.id === id)['title'];
-            }
-        },
-        filters: {
-            join(val) {
-                if (Array.isArray(val)) {
-                    return val.join();
-                }
-                return val;
             }
         }
     }

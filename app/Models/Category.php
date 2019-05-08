@@ -34,7 +34,7 @@ class Category extends Model
             $parentId = $category->getAttribute('parent_id');
             $count = Category::withTrashed()->where('parent_id', '=', $parentId)->count();
             $id = str_pad(dechex($count+1), 3, '0', STR_PAD_LEFT);
-            if($parentId !== 0){
+            if($parentId !== '0'){
                 $id = $parentId . $id;
             }
             $category->setAttribute('id', $id);

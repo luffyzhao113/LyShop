@@ -1,14 +1,14 @@
 <template>
     <i-drawer title="权限添加" :loading="loading" :width="720">
-        <Form ref="formUpdate" :model="update" :label-width="100" :rules="ruleValidate">
+        <Form ref="formUpdate" :model="data" :label-width="100" :rules="ruleValidate">
             <FormItem label="权限名称" prop="name">
-                <Input v-model="update.name"></Input>
+                <Input v-model="data.name"></Input>
             </FormItem>
             <FormItem label="请求URI" prop="uri">
-                <Input v-model="update.uri"></Input>
+                <Input v-model="data.uri"></Input>
             </FormItem>
             <FormItem label="请求描述" prop="description">
-                <Input v-model="update.description" type="textarea" :rows="3"></Input>
+                <Input v-model="data.description" type="textarea" :rows="3"></Input>
             </FormItem>
             <FormItem label="分配菜单">
                 <div class="menu-box">
@@ -28,43 +28,25 @@
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
     import LTree from "../../../components/form/tree";
+    import authority from "./authority";
 
 
     export default {
         name: "update",
         components: {LTree, IDrawer},
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, authority],
         mounted() {
             this.$http.get(`authorities/authority/${this.props.id}/edit`).then((res) => {
-                this.update = res.row;
+                this.data = res.row;
                 this.menus.data = res.menus;
             }).finally(() => this.loading = false);
-        },
-        data() {
-            return {
-                loading: true,
-                update: {},
-                menus: {
-                    data: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '权限名称必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    uri: [
-                        {required: true, message: '权限URI必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 50, message: '权限URI字符长度是2-50个字符', trigger: 'blur'}
-                    ]
-                }
-            }
         },
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
                     this.loading = true
                     this.$http.put(`authorities/authority/${this.props.id}`,
-                        Object.assign({}, this.update)
+                        Object.assign({}, this.data)
                     ).then(() => {
                         this.closeDrawer(false)
                     }).finally(() => {

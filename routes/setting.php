@@ -2,21 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('express/template/view', 'ExpressTemplateController@view')->name('template.index');
-Route::resource('express/template', 'ExpressTemplateController', [
+Route::get('express/template/view', 'TemplateController@view')->name('template.index');
+Route::resource('express/template', 'TemplateController', [
     'names' => [
         'edit' => 'template.update',
         'create' => 'template.store',
     ]
 ])->except(['show']);
 
-Route::resource('express/company', 'ExpressCompanyController', [
+Route::resource('express/company', 'CompanyController', [
     'names' => [
         'edit' => 'company.update'
     ]
 ])->except(['show', 'create']);
 
-Route::resource('focus/position', 'FocusPositionController', [
+Route::resource('focus/position', 'PositionController', [
     'names' => [
         'edit' => 'company.update'
     ]

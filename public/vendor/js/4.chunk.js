@@ -165,6 +165,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/tags */ "./resources/js/modules/components/form/tags.vue");
+/* harmony import */ var _spec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./spec */ "./resources/js/modules/views/goods/spec/spec.js");
 //
 //
 //
@@ -194,50 +195,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _spec__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     FormTags: _components_form_tags__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {
-      loading: false,
-      create: {},
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        values: [{
-          required: true,
-          type: 'array',
-          message: '属性值必须填写',
-          trigger: 'blur'
-        }],
-        type: [{
-          required: true,
-          message: '类型必须填写',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '属性描述字符长度最多255个字条',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   methods: {
     submit: function submit(name) {
@@ -246,7 +213,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this.loading = true;
 
-        _this.$http.post("goods/spec", _this.create).then(function () {
+        _this.$http.post("goods/spec", _this.data).then(function () {
           _this.closeDrawer(false);
         }).finally(function () {
           _this.loading = false;
@@ -412,6 +379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/tags */ "./resources/js/modules/components/form/tags.vue");
+/* harmony import */ var _spec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./spec */ "./resources/js/modules/views/goods/spec/spec.js");
 //
 //
 //
@@ -441,56 +409,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "update",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _spec__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     FormTags: _components_form_tags__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {
-      loading: true,
-      update: {},
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        values: [{
-          required: true,
-          type: 'array',
-          message: '属性值必须填写',
-          trigger: 'blur'
-        }],
-        type: [{
-          required: true,
-          message: '类型必须填写',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '属性描述字符长度最多255个字条',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$http.get("goods/spec/".concat(this.props.id, "/edit")).then(function (res) {
-      _this.update = res.row;
+      _this.data = res.row;
     }).finally(function () {
       _this.loading = false;
     });
@@ -502,7 +436,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("goods/spec/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("goods/spec/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
@@ -821,7 +755,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -833,11 +767,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -852,11 +786,11 @@ var render = function() {
                 "Select",
                 {
                   model: {
-                    value: _vm.create.type,
+                    value: _vm.data.type,
                     callback: function($$v) {
-                      _vm.$set(_vm.create, "type", $$v)
+                      _vm.$set(_vm.data, "type", $$v)
                     },
-                    expression: "create.type"
+                    expression: "data.type"
                   }
                 },
                 [
@@ -877,11 +811,11 @@ var render = function() {
               _c("form-tags", {
                 attrs: { placeholder: "属性值" },
                 model: {
-                  value: _vm.create.values,
+                  value: _vm.data.values,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "values", $$v)
+                    _vm.$set(_vm.data, "values", $$v)
                   },
-                  expression: "create.values"
+                  expression: "data.values"
                 }
               })
             ],
@@ -895,11 +829,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 3 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1183,7 +1117,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -1195,11 +1129,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1214,11 +1148,11 @@ var render = function() {
                 "Select",
                 {
                   model: {
-                    value: _vm.update.type,
+                    value: _vm.data.type,
                     callback: function($$v) {
-                      _vm.$set(_vm.update, "type", $$v)
+                      _vm.$set(_vm.data, "type", $$v)
                     },
-                    expression: "update.type"
+                    expression: "data.type"
                   }
                 },
                 [
@@ -1239,11 +1173,11 @@ var render = function() {
               _c("form-tags", {
                 attrs: { placeholder: "属性值" },
                 model: {
-                  value: _vm.update.values,
+                  value: _vm.data.values,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "values", $$v)
+                    _vm.$set(_vm.data, "values", $$v)
                   },
-                  expression: "update.values"
+                  expression: "data.values"
                 }
               })
             ],
@@ -1257,11 +1191,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 3 },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1679,6 +1613,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_7df194de_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/goods/spec/spec.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/modules/views/goods/spec/spec.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: false,
+      data: {},
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 20,
+          message: '名称字符长度是2-20个字符',
+          trigger: 'blur'
+        }],
+        values: [{
+          required: true,
+          type: 'array',
+          message: '属性值必须填写',
+          trigger: 'blur'
+        }],
+        type: [{
+          required: true,
+          message: '类型必须填写',
+          trigger: 'blur'
+        }],
+        description: [{
+          max: 255,
+          message: '属性描述字符长度最多255个字条',
+          trigger: 'blur'
+        }]
+      }
+    };
+  }
+});
 
 /***/ }),
 

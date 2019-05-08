@@ -95,6 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./resources/js/modules/views/authorities/user/user.js");
 //
 //
 //
@@ -165,6 +166,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -172,7 +174,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _user__WEBPACK_IMPORTED_MODULE_2__["default"]],
   mounted: function mounted() {
     var _this = this;
 
@@ -182,108 +184,17 @@ __webpack_require__.r(__webpack_exports__);
       _this.loading = false;
     });
   },
-  data: function data() {
-    var _this2 = this;
-
-    return {
-      loading: true,
-      create: {
-        sex: 'women',
-        status: 'on'
-      },
-      departments: {
-        data: []
-      },
-      roles: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '用户姓名必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '用户姓名字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        email: [{
-          required: true,
-          message: '用户邮箱不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'email',
-          message: '用户邮箱格式不正确',
-          trigger: 'blur'
-        }],
-        phone: [{
-          required: true,
-          message: '手机号码必须填写',
-          trigger: 'blur'
-        }, {
-          pattern: /^1[34578]\d{9}$/,
-          message: '手机号码格式不正确',
-          trigger: 'blur'
-        }],
-        role_id: [{
-          required: true,
-          type: 'number',
-          message: '所属部门不能为空',
-          trigger: 'change'
-        }],
-        password: [{
-          required: true,
-          message: '用户密码不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 6,
-          max: 20,
-          message: '用户密码字符长度是6-20个字符',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          type: 'enum',
-          enum: ['off', 'on'],
-          message: '用户状态不能为空'
-        }],
-        sex: [{
-          required: true,
-          type: 'enum',
-          enum: ['women', 'man'],
-          message: '性别状态不能为空'
-        }],
-        password_confirmation: [{
-          required: true,
-          message: '二次输入密码不正确',
-          trigger: 'blur'
-        }, {
-          trigger: 'blur',
-          validator: function validator(rule, value, callback) {
-            if (value === _this2.create.password) {
-              return callback();
-            } else {
-              return callback('二次输入密码不正确');
-            }
-          }
-        }]
-      }
-    };
-  },
   methods: {
     submit: function submit(name) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.validate(name).then(function () {
-        _this3.loading = true;
+        _this2.loading = true;
 
-        _this3.$http.post("authorities/user", _this3.create).then(function () {
-          _this3.closeDrawer(false);
+        _this2.$http.post("authorities/user", _this2.data).then(function () {
+          _this2.closeDrawer(false);
         }).finally(function () {
-          _this3.loading = false;
+          _this2.loading = false;
         });
       }).catch();
     }
@@ -465,6 +376,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./resources/js/modules/views/authorities/user/user.js");
 //
 //
 //
@@ -537,118 +449,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "create",
+  name: "update",
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _user__WEBPACK_IMPORTED_MODULE_2__["default"]],
   mounted: function mounted() {
     var _this = this;
 
     this.$http("authorities/user/".concat(this.props.id, "/edit")).then(function (res) {
-      _this.update = res.row;
+      _this.data = res.row;
       _this.roles.data = res.roles;
     }).finally(function () {
       _this.loading = false;
     });
   },
-  data: function data() {
-    var _this2 = this;
-
-    return {
-      loading: true,
-      update: {
-        sex: 'women',
-        status: 'on'
-      },
-      departments: {
-        data: []
-      },
-      roles: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '用户姓名必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '用户姓名字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        email: [{
-          required: true,
-          message: '用户邮箱不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'email',
-          message: '用户邮箱格式不正确',
-          trigger: 'blur'
-        }],
-        phone: [{
-          required: true,
-          message: '手机号码必须填写',
-          trigger: 'blur'
-        }, {
-          pattern: /^1[34578]\d{9}$/,
-          message: '手机号码格式不正确',
-          trigger: 'blur'
-        }],
-        role_id: [{
-          required: true,
-          type: 'number',
-          message: '所属部门不能为空',
-          trigger: 'change'
-        }],
-        password: [{
-          type: 'string',
-          min: 6,
-          max: 20,
-          message: '用户密码字符长度是6-20个字符',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          type: 'enum',
-          enum: ['off', 'on'],
-          message: '用户状态不能为空'
-        }],
-        sex: [{
-          required: true,
-          type: 'enum',
-          enum: ['women', 'man'],
-          message: '性别状态不能为空'
-        }],
-        password_confirmation: [{
-          trigger: 'blur',
-          validator: function validator(rule, value, callback) {
-            if (value === _this2.update.password) {
-              return callback();
-            } else {
-              return callback('二次输入密码不正确');
-            }
-          }
-        }]
-      }
-    };
-  },
   methods: {
     submit: function submit(name) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.validate(name).then(function () {
-        _this3.loading = true;
+        _this2.loading = true;
 
-        _this3.$http.put("authorities/user/".concat(_this3.props.id), _this3.update).then(function () {
-          _this3.closeDrawer(false);
+        _this2.$http.put("authorities/user/".concat(_this2.props.id), _this2.data).then(function () {
+          _this2.closeDrawer(false);
         }).finally(function () {
-          _this3.loading = false;
+          _this2.loading = false;
         });
       }).catch();
     }
@@ -811,7 +641,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -824,11 +654,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入姓名" },
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -842,11 +672,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入邮箱" },
                 model: {
-                  value: _vm.create.email,
+                  value: _vm.data.email,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "email", $$v)
+                    _vm.$set(_vm.data, "email", $$v)
                   },
-                  expression: "create.email"
+                  expression: "data.email"
                 }
               })
             ],
@@ -867,11 +697,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { placeholder: "手机号码" },
                         model: {
-                          value: _vm.create.phone,
+                          value: _vm.data.phone,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "phone", $$v)
+                            _vm.$set(_vm.data, "phone", $$v)
                           },
-                          expression: "create.phone"
+                          expression: "data.phone"
                         }
                       })
                     ],
@@ -898,11 +728,11 @@ var render = function() {
                             size: "large"
                           },
                           model: {
-                            value: _vm.create.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "create.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -947,7 +777,7 @@ var render = function() {
                         },
                         on: {
                           "on-change": function(val) {
-                            return (_vm.create.birthday = val)
+                            return (_vm.data.birthday = val)
                           }
                         }
                       })
@@ -975,11 +805,11 @@ var render = function() {
                             size: "large"
                           },
                           model: {
-                            value: _vm.create.sex,
+                            value: _vm.data.sex,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "sex", $$v)
+                              _vm.$set(_vm.data, "sex", $$v)
                             },
-                            expression: "create.sex"
+                            expression: "data.sex"
                           }
                         },
                         [
@@ -1024,7 +854,7 @@ var render = function() {
                         },
                         on: {
                           "on-change": function(val) {
-                            return (_vm.create.entryday = val)
+                            return (_vm.data.entryday = val)
                           }
                         }
                       })
@@ -1047,11 +877,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.create.role_id,
+                            value: _vm.data.role_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "role_id", $$v)
+                              _vm.$set(_vm.data, "role_id", $$v)
                             },
-                            expression: "create.role_id"
+                            expression: "data.role_id"
                           }
                         },
                         _vm._l(_vm.roles.data, function(item) {
@@ -1086,11 +916,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入密码", type: "password" },
                 model: {
-                  value: _vm.create.password,
+                  value: _vm.data.password,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "password", $$v)
+                    _vm.$set(_vm.data, "password", $$v)
                   },
-                  expression: "create.password"
+                  expression: "data.password"
                 }
               })
             ],
@@ -1104,11 +934,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入确认密码", type: "password" },
                 model: {
-                  value: _vm.create.password_confirmation,
+                  value: _vm.data.password_confirmation,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "password_confirmation", $$v)
+                    _vm.$set(_vm.data, "password_confirmation", $$v)
                   },
-                  expression: "create.password_confirmation"
+                  expression: "data.password_confirmation"
                 }
               })
             ],
@@ -1403,7 +1233,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -1416,11 +1246,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入姓名" },
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1434,11 +1264,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入邮箱" },
                 model: {
-                  value: _vm.update.email,
+                  value: _vm.data.email,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "email", $$v)
+                    _vm.$set(_vm.data, "email", $$v)
                   },
-                  expression: "update.email"
+                  expression: "data.email"
                 }
               })
             ],
@@ -1459,11 +1289,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { placeholder: "手机号码" },
                         model: {
-                          value: _vm.update.phone,
+                          value: _vm.data.phone,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "phone", $$v)
+                            _vm.$set(_vm.data, "phone", $$v)
                           },
-                          expression: "update.phone"
+                          expression: "data.phone"
                         }
                       })
                     ],
@@ -1490,11 +1320,11 @@ var render = function() {
                             size: "large"
                           },
                           model: {
-                            value: _vm.update.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "update.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1535,12 +1365,12 @@ var render = function() {
                       _c("DatePicker", {
                         attrs: {
                           placeholder: "出生日期",
-                          value: _vm.update.birthday,
+                          value: _vm.data.birthday,
                           format: "yyyy-MM-dd"
                         },
                         on: {
                           "on-change": function(val) {
-                            return (_vm.update.birthday = val)
+                            return (_vm.data.birthday = val)
                           }
                         }
                       })
@@ -1568,11 +1398,11 @@ var render = function() {
                             size: "large"
                           },
                           model: {
-                            value: _vm.update.sex,
+                            value: _vm.data.sex,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "sex", $$v)
+                              _vm.$set(_vm.data, "sex", $$v)
                             },
-                            expression: "update.sex"
+                            expression: "data.sex"
                           }
                         },
                         [
@@ -1613,12 +1443,12 @@ var render = function() {
                       _c("DatePicker", {
                         attrs: {
                           placeholder: "入职时间",
-                          value: _vm.update.entryday,
+                          value: _vm.data.entryday,
                           format: "yyyy-MM-dd"
                         },
                         on: {
                           "on-change": function(val) {
-                            return (_vm.update.entryday = val)
+                            return (_vm.data.entryday = val)
                           }
                         }
                       })
@@ -1641,11 +1471,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.update.department_id,
+                            value: _vm.data.department_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "department_id", $$v)
+                              _vm.$set(_vm.data, "department_id", $$v)
                             },
-                            expression: "update.department_id"
+                            expression: "data.department_id"
                           }
                         },
                         _vm._l(_vm.departments.data, function(item) {
@@ -1680,11 +1510,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入密码", type: "password" },
                 model: {
-                  value: _vm.update.password,
+                  value: _vm.data.password,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "password", $$v)
+                    _vm.$set(_vm.data, "password", $$v)
                   },
-                  expression: "update.password"
+                  expression: "data.password"
                 }
               })
             ],
@@ -1698,11 +1528,11 @@ var render = function() {
               _c("Input", {
                 attrs: { placeholder: "请输入确认密码", type: "password" },
                 model: {
-                  value: _vm.update.password_confirmation,
+                  value: _vm.data.password_confirmation,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "password_confirmation", $$v)
+                    _vm.$set(_vm.data, "password_confirmation", $$v)
                   },
-                  expression: "update.password_confirmation"
+                  expression: "data.password_confirmation"
                 }
               })
             ],
@@ -2102,6 +1932,111 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_update_vue_vue_type_template_id_effaac30_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/authorities/user/user.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/modules/views/authorities/user/user.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    var _this = this;
+
+    return {
+      loading: true,
+      data: {
+        sex: 'women',
+        status: 'on'
+      },
+      departments: {
+        data: []
+      },
+      roles: {
+        data: []
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '用户姓名必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 20,
+          message: '用户姓名字符长度是2-20个字符',
+          trigger: 'blur'
+        }],
+        email: [{
+          required: true,
+          message: '用户邮箱不能为空',
+          trigger: 'blur'
+        }, {
+          type: 'email',
+          message: '用户邮箱格式不正确',
+          trigger: 'blur'
+        }],
+        phone: [{
+          required: true,
+          message: '手机号码必须填写',
+          trigger: 'blur'
+        }, {
+          pattern: /^1[34578]\d{9}$/,
+          message: '手机号码格式不正确',
+          trigger: 'blur'
+        }],
+        role_id: [{
+          required: true,
+          type: 'number',
+          message: '所属部门不能为空',
+          trigger: 'change'
+        }],
+        password: [{
+          required: true,
+          message: '用户密码不能为空',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 6,
+          max: 20,
+          message: '用户密码字符长度是6-20个字符',
+          trigger: 'blur'
+        }],
+        status: [{
+          required: true,
+          type: 'enum',
+          enum: ['off', 'on'],
+          message: '用户状态不能为空'
+        }],
+        sex: [{
+          required: true,
+          type: 'enum',
+          enum: ['women', 'man'],
+          message: '性别状态不能为空'
+        }],
+        password_confirmation: [{
+          required: true,
+          message: '二次输入密码不正确',
+          trigger: 'blur'
+        }, {
+          trigger: 'blur',
+          validator: function validator(rule, value, callback) {
+            if (value === _this.create.password) {
+              return callback();
+            } else {
+              return callback('二次输入密码不正确');
+            }
+          }
+        }]
+      }
+    };
+  }
+});
 
 /***/ })
 

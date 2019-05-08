@@ -10,8 +10,7 @@ namespace App\Http\Controllers\Api\Goods;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Goods\Category\StoreRequest;
-use App\Http\Requests\Api\Goods\Category\UpdateRequest;
+use App\Http\Requests\Api\Goods\CategoryRequest;
 use App\Repositories\Category;
 
 class CategoryController extends Controller
@@ -40,11 +39,11 @@ class CategoryController extends Controller
 
     /**
      * store
-     * @param StoreRequest $request
+     * @param CategoryRequest $request
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRequest $request)
+    public function store(CategoryRequest $request)
     {
         return $this->response(
             $this->category->create(
@@ -70,13 +69,13 @@ class CategoryController extends Controller
 
     /**
      * update
-     * @param UpdateRequest $request
+     * @param CategoryRequest $request
      * @param $id
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         return $this->response(
             $this->category->update($id,

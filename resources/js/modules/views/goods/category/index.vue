@@ -24,7 +24,7 @@
             return {
                 loading: false,
                 data: [{
-                    id: 0,
+                    id: '0',
                     name: '顶级类目',
                     expand: true,
                     children: []
@@ -43,7 +43,7 @@
             renderContent(h, {root, node, data}) {
                 return h(render, {
                     props: {
-                        root, node, data, parent: data.id === 0
+                        root, node, data, parent: data.id === '0'
                     },
                     on: {
                         'on-append': this.append,

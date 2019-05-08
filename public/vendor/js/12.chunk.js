@@ -52,55 +52,6 @@ __webpack_require__.r(__webpack_exports__);
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
-  data: function data() {
-    return {
-      create: {
-        parent_id: this.props.id,
-        sort: 99,
-        authorities: []
-      },
-      authorities: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '菜单名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '菜单名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        url: [{
-          required: true,
-          message: '菜单url必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '菜单url字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '排序必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'number',
-          min: 0,
-          max: 99,
-          message: '排序数值在0-99之间',
-          trigger: 'blur'
-        }]
-      },
-      loading: true
-    };
-  },
   mounted: function mounted() {
     var _this = this;
 
@@ -117,15 +68,12 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.post("authorities/menu", _this2.create).then(function () {
+        _this2.$http.post("authorities/menu", _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
       });
-    },
-    handleChange: function handleChange(newTargetKeys) {
-      this.create.authorities = newTargetKeys;
     }
   }
 });
@@ -309,6 +257,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
+/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu */ "./resources/js/modules/views/authorities/menu/menu.js");
 //
 //
 //
@@ -342,11 +291,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "update",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _menu__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -357,59 +307,11 @@ __webpack_require__.r(__webpack_exports__);
       res.row.parent = res.row.parent || {
         name: '顶级菜单'
       };
-      _this.update = res.row;
+      _this.data = res.row;
       _this.authorities.data = res.authorities;
     }).finally(function () {
       return _this.loading = false;
     });
-  },
-  data: function data() {
-    return {
-      loading: true,
-      update: {
-        parent: {},
-        authorities: []
-      },
-      authorities: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '菜单名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 20,
-          message: '菜单名称字符长度是2-20个字符',
-          trigger: 'blur'
-        }],
-        url: [{
-          required: true,
-          message: '菜单url必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '菜单url字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '排序必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'number',
-          min: 0,
-          max: 99,
-          message: '排序数值在0-99之间',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   methods: {
     submit: function submit(name) {
@@ -418,15 +320,12 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("authorities/menu/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("authorities/menu/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
       });
-    },
-    handleChange: function handleChange(newTargetKeys) {
-      this.update.authorities = newTargetKeys;
     }
   }
 });
@@ -506,7 +405,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -525,11 +424,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -542,11 +441,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.url,
+                  value: _vm.data.url,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "url", $$v)
+                    _vm.$set(_vm.data, "url", $$v)
                   },
-                  expression: "create.url"
+                  expression: "data.url"
                 }
               })
             ],
@@ -560,11 +459,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 4 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -578,11 +477,11 @@ var render = function() {
               _c("Input", {
                 attrs: { number: "" },
                 model: {
-                  value: _vm.create.sort,
+                  value: _vm.data.sort,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "sort", $$v)
+                    _vm.$set(_vm.data, "sort", $$v)
                   },
-                  expression: "create.sort"
+                  expression: "data.sort"
                 }
               })
             ],
@@ -598,7 +497,7 @@ var render = function() {
                   titles: ["可分配权限", "已有权限"],
                   "list-style": { width: "250px", height: "500px" },
                   data: _vm.authorities.data,
-                  "target-keys": _vm.create.authorities
+                  "target-keys": _vm.data.authorities
                 },
                 on: { "on-change": _vm.handleChange }
               })
@@ -821,7 +720,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -834,11 +733,11 @@ var render = function() {
               _c("Input", {
                 attrs: { disabled: "" },
                 model: {
-                  value: _vm.update.parent.name,
+                  value: _vm.data.parent.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update.parent, "name", $$v)
+                    _vm.$set(_vm.data.parent, "name", $$v)
                   },
-                  expression: "update.parent.name"
+                  expression: "data.parent.name"
                 }
               })
             ],
@@ -851,11 +750,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -868,11 +767,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.url,
+                  value: _vm.data.url,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "url", $$v)
+                    _vm.$set(_vm.data, "url", $$v)
                   },
-                  expression: "update.url"
+                  expression: "data.url"
                 }
               })
             ],
@@ -886,11 +785,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea" },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -904,11 +803,11 @@ var render = function() {
               _c("Input", {
                 attrs: { number: "" },
                 model: {
-                  value: _vm.update.sort,
+                  value: _vm.data.sort,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "sort", $$v)
+                    _vm.$set(_vm.data, "sort", $$v)
                   },
-                  expression: "update.sort"
+                  expression: "data.sort"
                 }
               })
             ],
@@ -924,7 +823,7 @@ var render = function() {
                   titles: ["可分配权限", "已有权限"],
                   "list-style": { width: "250px", height: "500px" },
                   data: _vm.authorities.data,
-                  "target-keys": _vm.update.authorities
+                  "target-keys": _vm.data.authorities
                 },
                 on: { "on-change": _vm.handleChange }
               })
@@ -1100,6 +999,73 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_303dc9d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/authorities/menu/menu.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/modules/views/authorities/menu/menu.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: true,
+      data: {
+        parent: {},
+        authorities: []
+      },
+      authorities: {
+        data: []
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '菜单名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 20,
+          message: '菜单名称字符长度是2-20个字符',
+          trigger: 'blur'
+        }],
+        url: [{
+          required: true,
+          message: '菜单url必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '菜单url字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        sort: [{
+          required: true,
+          type: 'number',
+          message: '排序必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'number',
+          min: 0,
+          max: 99,
+          message: '排序数值在0-99之间',
+          trigger: 'blur'
+        }]
+      }
+    };
+  },
+  methods: {
+    handleChange: function handleChange(newTargetKeys) {
+      this.data.authorities = newTargetKeys;
+    }
+  }
+});
 
 /***/ }),
 
