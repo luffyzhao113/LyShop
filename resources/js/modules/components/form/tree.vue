@@ -52,7 +52,10 @@
                 });
             },
             checked(item){
-                return Boolean(this.value.find(val => val === item[this.id]));
+                let children = this.data.find(child => {
+                    return item[this.id] === child[this.parentId]
+                });
+                return Boolean(this.value.find(val => val === item[this.id])) && children === undefined;
             },
             hasChild(parent) {
                 return parent[this.children] && parent[this.children].length > 0

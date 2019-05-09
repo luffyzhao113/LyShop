@@ -133,7 +133,7 @@
         },
         filters: {
             status(val) {
-                return val === 'yes' ? '开启' : '关闭';
+                return val === 'on' ? '开启' : '关闭';
             },
             sex(val){
                 return val === 'man' ? '男' : '女';

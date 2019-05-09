@@ -34,11 +34,12 @@
 <script>
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
+    import Menu from './menu'
 
     export default {
         name: "create",
         components: {IDrawer},
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, Menu],
         mounted(){
             this.$http.get(`authorities/menu/create`).then((res) => {
                 this.authorities.data = res

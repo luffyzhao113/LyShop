@@ -813,11 +813,11 @@ var render = function() {
                   _c("l-tree", {
                     attrs: { data: _vm.menus.data },
                     model: {
-                      value: _vm.update.menus,
+                      value: _vm.data.menus,
                       callback: function($$v) {
-                        _vm.$set(_vm.update, "menus", $$v)
+                        _vm.$set(_vm.data, "menus", $$v)
                       },
-                      expression: "update.menus"
+                      expression: "data.menus"
                     }
                   })
                 ],

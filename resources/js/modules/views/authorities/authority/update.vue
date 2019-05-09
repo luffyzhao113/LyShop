@@ -13,7 +13,7 @@
             <FormItem label="分配菜单">
                 <div class="menu-box">
                     <div class="box-body">
-                        <l-tree v-model="update.menus" :data="menus.data"></l-tree>
+                        <l-tree v-model="data.menus" :data="menus.data"></l-tree>
                     </div>
                 </div>
             </FormItem>

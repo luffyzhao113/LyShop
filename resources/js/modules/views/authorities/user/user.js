@@ -28,28 +28,11 @@ export default {
                 role_id: [
                     {required: true, type: 'number', message: '所属部门不能为空', trigger: 'change'},
                 ],
-                password: [
-                    {required: true, message: '用户密码不能为空', trigger: 'blur'},
-                    {type: 'string', min: 6, max: 20, message: '用户密码字符长度是6-20个字符', trigger: 'blur'}
-                ],
                 status: [
                     {required: true, type: 'enum', enum: ['off', 'on'], message: '用户状态不能为空'}
                 ],
                 sex: [
                     {required: true, type: 'enum', enum: ['women', 'man'], message: '性别状态不能为空'}
-                ],
-                password_confirmation: [
-                    {required: true, message: '二次输入密码不正确', trigger: 'blur'},
-                    {
-                        trigger: 'blur',
-                        validator: (rule, value, callback) => {
-                            if (value === this.data.password) {
-                                return callback();
-                            } else {
-                                return callback('二次输入密码不正确')
-                            }
-                        }
-                    }
                 ]
             }
         }

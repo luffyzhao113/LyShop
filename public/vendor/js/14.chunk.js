@@ -291,7 +291,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.$http.get("authorities/role/".concat(this.props.id, "/edit")).then(function (res) {
-      _this.update = res.row;
+      _this.data = res.row;
       _this.menus.data = res.menus;
     }).finally(function () {
       _this.loading = false;
@@ -304,7 +304,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("authorities/role/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("authorities/role/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
@@ -850,7 +850,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -875,11 +875,11 @@ var render = function() {
                 [
                   _c("Input", {
                     model: {
-                      value: _vm.update.name,
+                      value: _vm.data.name,
                       callback: function($$v) {
-                        _vm.$set(_vm.update, "name", $$v)
+                        _vm.$set(_vm.data, "name", $$v)
                       },
-                      expression: "update.name"
+                      expression: "data.name"
                     }
                   })
                 ],
@@ -893,11 +893,11 @@ var render = function() {
                   _c("Input", {
                     attrs: { type: "textarea", rows: 6 },
                     model: {
-                      value: _vm.update.description,
+                      value: _vm.data.description,
                       callback: function($$v) {
-                        _vm.$set(_vm.update, "description", $$v)
+                        _vm.$set(_vm.data, "description", $$v)
                       },
-                      expression: "update.description"
+                      expression: "data.description"
                     }
                   })
                 ],
@@ -913,11 +913,11 @@ var render = function() {
                       _c("l-tree", {
                         attrs: { data: _vm.menus.data, "contain-parent": true },
                         model: {
-                          value: _vm.update.menus,
+                          value: _vm.data.menus,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "menus", $$v)
+                            _vm.$set(_vm.data, "menus", $$v)
                           },
-                          expression: "update.menus"
+                          expression: "data.menus"
                         }
                       })
                     ],
@@ -951,7 +951,7 @@ var render = function() {
                       titles: ["可分配权限", "已有权限"],
                       "list-style": { width: "250px", height: "500px" },
                       data: _vm.authorities.data,
-                      "target-keys": _vm.update.authorities
+                      "target-keys": _vm.data.authorities
                     },
                     on: { "on-change": _vm.handleChange }
                   })

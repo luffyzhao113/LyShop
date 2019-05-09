@@ -3,7 +3,8 @@ export default {
         return {
             loading: true,
             data: {
-                parent: {},
+                parent_id : this.props.id,
+                parent: {name: '顶级菜单'},
                 authorities: []
             },
             authorities: {

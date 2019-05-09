@@ -11,6 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
+/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu */ "./resources/js/modules/views/authorities/menu/menu.js");
 //
 //
 //
@@ -44,6 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -51,7 +53,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _menu__WEBPACK_IMPORTED_MODULE_2__["default"]],
   mounted: function mounted() {
     var _this = this;
 
@@ -1016,7 +1018,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loading: true,
       data: {
-        parent: {},
+        parent_id: this.props.id,
+        parent: {
+          name: '顶级菜单'
+        },
         authorities: []
       },
       authorities: {

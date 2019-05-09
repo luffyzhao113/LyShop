@@ -57,10 +57,23 @@
                 </Col>
             </Row>
 
-            <FormItem label="密码" prop="password">
+            <FormItem label="密码" prop="password" :rules="[
+                        {type: 'string', min: 6, max: 20, message: '用户密码字符长度是6-20个字符', trigger: 'blur'}
+                    ]">
                 <Input placeholder="请输入密码" type="password" v-model="data.password"></Input>
             </FormItem>
-            <FormItem label="确认密码" prop="password_confirmation">
+            <FormItem label="确认密码" prop="password_confirmation" :rules="[
+                        {
+                            trigger: 'blur',
+                            validator: (rule, value, callback) => {
+                                if (value === this.data.password) {
+                                    return callback();
+                                } else {
+                                    return callback('二次输入密码不正确')
+                                }
+                            }
+                        }
+                    ]">
                 <Input placeholder="请输入确认密码" type="password" v-model="data.password_confirmation"></Input>
             </FormItem>
         </Form>

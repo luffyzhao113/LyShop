@@ -166,6 +166,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -355,7 +370,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     status: function status(val) {
-      return val === 'yes' ? '开启' : '关闭';
+      return val === 'on' ? '开启' : '关闭';
     },
     sex: function sex(val) {
       return val === 'man' ? '男' : '女';
@@ -377,6 +392,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./resources/js/modules/views/authorities/user/user.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -629,6 +657,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function() {
+  var this$1 = this
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -911,7 +940,26 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
-            { attrs: { label: "密码", prop: "password" } },
+            {
+              attrs: {
+                label: "密码",
+                prop: "password",
+                rules: [
+                  {
+                    required: true,
+                    message: "用户密码不能为空",
+                    trigger: "blur"
+                  },
+                  {
+                    type: "string",
+                    min: 6,
+                    max: 20,
+                    message: "用户密码字符长度是6-20个字符",
+                    trigger: "blur"
+                  }
+                ]
+              }
+            },
             [
               _c("Input", {
                 attrs: { placeholder: "请输入密码", type: "password" },
@@ -929,7 +977,29 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
-            { attrs: { label: "确认密码", prop: "password_confirmation" } },
+            {
+              attrs: {
+                label: "确认密码",
+                prop: "password_confirmation",
+                rules: [
+                  {
+                    required: true,
+                    message: "二次输入密码不正确",
+                    trigger: "blur"
+                  },
+                  {
+                    trigger: "blur",
+                    validator: function(rule, value, callback) {
+                      if (value === this$1.data.password) {
+                        return callback()
+                      } else {
+                        return callback("二次输入密码不正确")
+                      }
+                    }
+                  }
+                ]
+              }
+            },
             [
               _c("Input", {
                 attrs: { placeholder: "请输入确认密码", type: "password" },
@@ -1221,6 +1291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function() {
+  var this$1 = this
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -1505,7 +1576,21 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
-            { attrs: { label: "密码", prop: "password" } },
+            {
+              attrs: {
+                label: "密码",
+                prop: "password",
+                rules: [
+                  {
+                    type: "string",
+                    min: 6,
+                    max: 20,
+                    message: "用户密码字符长度是6-20个字符",
+                    trigger: "blur"
+                  }
+                ]
+              }
+            },
             [
               _c("Input", {
                 attrs: { placeholder: "请输入密码", type: "password" },
@@ -1523,7 +1608,24 @@ var render = function() {
           _vm._v(" "),
           _c(
             "FormItem",
-            { attrs: { label: "确认密码", prop: "password_confirmation" } },
+            {
+              attrs: {
+                label: "确认密码",
+                prop: "password_confirmation",
+                rules: [
+                  {
+                    trigger: "blur",
+                    validator: function(rule, value, callback) {
+                      if (value === this$1.data.password) {
+                        return callback()
+                      } else {
+                        return callback("二次输入密码不正确")
+                      }
+                    }
+                  }
+                ]
+              }
+            },
             [
               _c("Input", {
                 attrs: { placeholder: "请输入确认密码", type: "password" },
@@ -1946,8 +2048,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _this = this;
-
     return {
       loading: true,
       data: {
@@ -1996,17 +2096,6 @@ __webpack_require__.r(__webpack_exports__);
           message: '所属部门不能为空',
           trigger: 'change'
         }],
-        password: [{
-          required: true,
-          message: '用户密码不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 6,
-          max: 20,
-          message: '用户密码字符长度是6-20个字符',
-          trigger: 'blur'
-        }],
         status: [{
           required: true,
           type: 'enum',
@@ -2018,20 +2107,6 @@ __webpack_require__.r(__webpack_exports__);
           type: 'enum',
           enum: ['women', 'man'],
           message: '性别状态不能为空'
-        }],
-        password_confirmation: [{
-          required: true,
-          message: '二次输入密码不正确',
-          trigger: 'blur'
-        }, {
-          trigger: 'blur',
-          validator: function validator(rule, value, callback) {
-            if (value === _this.data.password) {
-              return callback();
-            } else {
-              return callback('二次输入密码不正确');
-            }
-          }
         }]
       }
     };

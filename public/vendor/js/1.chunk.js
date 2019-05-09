@@ -159,9 +159,12 @@ __webpack_require__.r(__webpack_exports__);
     checked: function checked(item) {
       var _this2 = this;
 
+      var children = this.data.find(function (child) {
+        return item[_this2.id] === child[_this2.parentId];
+      });
       return Boolean(this.value.find(function (val) {
         return val === item[_this2.id];
-      }));
+      })) && children === undefined;
     },
     hasChild: function hasChild(parent) {
       return parent[this.children] && parent[this.children].length > 0;
