@@ -126,7 +126,7 @@
         },
         filters: {
             status(val) {
-                return val === 'yes' ? '开启' : '关闭';
+                return val === 'on' ? '开启' : '关闭';
             },
             position(val) {
                 return val.name || '';

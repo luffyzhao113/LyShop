@@ -95,6 +95,7 @@
         },
         methods: {
             getLists(page){
+                this.loading = true;
                 this.$http.get('setting/express/company', {
                     params: Object.assign({}, this.search, {page})
                 }).then((data) => {

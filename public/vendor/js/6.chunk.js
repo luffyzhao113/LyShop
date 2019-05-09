@@ -1965,6 +1965,8 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iview/src/utils/assist */ "./node_modules/iview/src/utils/assist.js");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2024,7 +2026,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleChangeOk: function handleChangeOk() {
       if (this.filter.value) {
-        if (!oneOf(this.filter.value, this.data.search_filters[this.filter.index].values)) {
+        if (!Object(iview_src_utils_assist__WEBPACK_IMPORTED_MODULE_0__["oneOf"])(this.filter.value, this.data.search_filters[this.filter.index].values)) {
           this.data.search_filters[this.filter.index].values.push(this.filter.value);
           this.filter.value = undefined;
           this.filter.show = false;

@@ -1,3 +1,5 @@
+import {oneOf} from "iview/src/utils/assist";
+
 export default {
     data(){
         return {

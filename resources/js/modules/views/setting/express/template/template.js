@@ -31,19 +31,14 @@ export default {
                     {required: true, message: '模板状态必须选择', trigger: 'change'}
                 ],
                 company_id: [
-                    {
-                        trigger: 'change',
-                        required: true,
-                        type: 'number',
-                        message: '快递公司必须选择'
-                    }
+                    {trigger: 'change', required: true, type: 'number', message: '快递公司必须选择'}
                 ],
             }
         }
     },
     methods: {
         addAreaItem() {
-            this.update.details.push({
+            this.data.details.push({
                 areas: [],
                 first: 0.00,
                 first_fee: 0.00,
@@ -52,11 +47,11 @@ export default {
             });
         },
         remove(item) {
-            this.update.details.splice(item, 1);
+            this.data.details.splice(item, 1);
         },
         openAreasModal(index) {
             this.areas.index = index;
-            this.areas.wait = this.update.details[this.areas.index].areas;
+            this.areas.wait = this.data.details[this.areas.index].areas;
             this.updateAreas(index);
             this.areas.modal = true;
         },
@@ -81,13 +76,13 @@ export default {
             this.areas.wait = newTargetKeys;
         },
         handleChangeOk() {
-            this.update.details[this.areas.index].areas = this.areas.wait;
+            this.data.details[this.areas.index].areas = this.areas.wait;
             this.areas.modal = false;
-            this.$refs['details.areas'][this.areas.index].trigger(this.update.details[this.areas.index].areas)
+            this.$refs['details.areas'][this.areas.index].trigger(this.data.details[this.areas.index].areas)
         },
         updateAreas(index) {
             let changeAreas = [];
-            this.update.details.forEach(({areas}, key) => {
+            this.data.details.forEach(({areas}, key) => {
                 if (index !== key)
                     changeAreas = changeAreas.concat(areas);
             });

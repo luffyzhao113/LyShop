@@ -37,6 +37,11 @@
         name: "update",
         mixins: [contentDrawer, spec],
         components: {FormTags, IDrawer},
+        data(){
+            return {
+                loading: true
+            }
+        },
         mounted(){
             this.$http.get(`goods/spec/${this.props.id}/edit`).then((res) => {
                 this.data = res.row

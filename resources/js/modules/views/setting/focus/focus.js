@@ -8,6 +8,9 @@ export default {
                 status: 'off'
             },
             positions: {data: []},
+            file: {
+                error: undefined
+            },
             ruleValidate: {
                 name: [
                     {required: true, message: '名称必须填写', trigger: 'blur'},

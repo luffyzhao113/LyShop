@@ -17,7 +17,7 @@ export default {
                 code: [
                     {
                         validator: (rule, value, callback) => {
-                            if ((this.create.view === 'yes' && value !== '') || this.create.view === 'no') {
+                            if ((this.data.view === 'yes' && value !== '') || this.data.view === 'no') {
                                 return callback();
                             } else {
                                 return callback('物流接口编号必须填写');

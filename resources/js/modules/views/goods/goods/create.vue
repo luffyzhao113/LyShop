@@ -187,7 +187,6 @@
     import IDrawer from "../../../components/content/drawer";
     import LUpload from "../../../components/form/upload";
     import LTree from "../../../components/form/tree";
-    import Emitter from 'iview/src/mixins/emitter'
     import LGalleries from "./galleries";
     import Ueditor from "../../../components/form/ueditor";
     import goods from "./goods";
@@ -195,7 +194,7 @@
 
     export default {
         name: "create",
-        mixins: [contentDrawer, Emitter, goods],
+        mixins: [contentDrawer, goods],
         components: {Ueditor, LGalleries, LTree, LUpload, IDrawer},
         data() {
             return {

@@ -8,9 +8,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::put('refresh', 'AuthController@refresh');
 });
 
-Route::get('/', function (){
-   echo phpinfo();
-});
 
 // 登录才可以进入
 Route::group(['middleware' => 'auth'], function () {

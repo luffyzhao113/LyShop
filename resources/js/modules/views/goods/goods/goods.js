@@ -1,6 +1,8 @@
 import {product} from "../../../../libs/util";
+import Emitter from 'iview/src/mixins/emitter'
 
 export default {
+    mixins: [Emitter],
     data(){
         return {
             loading: true,

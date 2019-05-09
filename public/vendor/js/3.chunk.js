@@ -414,7 +414,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     status: function status(val) {
-      return val === 'yes' ? '开启' : '关闭';
+      return val === 'on' ? '开启' : '关闭';
     },
     position: function position(val) {
       return val.name || '';
@@ -1565,11 +1565,11 @@ var render = function() {
                 staticClass: "thumbnail",
                 attrs: { action: "/api/setting/focus/file-edit" },
                 model: {
-                  value: _vm.create.file,
+                  value: _vm.data.file,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "file", $$v)
+                    _vm.$set(_vm.data, "file", $$v)
                   },
-                  expression: "create.file"
+                  expression: "data.file"
                 }
               })
             ],
@@ -1977,6 +1977,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       positions: {
         data: []
+      },
+      file: {
+        error: undefined
       },
       ruleValidate: {
         name: [{

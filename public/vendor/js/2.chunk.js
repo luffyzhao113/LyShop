@@ -171,10 +171,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _components_form_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/upload */ "./resources/js/modules/components/form/upload.vue");
 /* harmony import */ var _components_form_tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/form/tree */ "./resources/js/modules/components/form/tree.vue");
-/* harmony import */ var iview_src_mixins_emitter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! iview/src/mixins/emitter */ "./node_modules/iview/src/mixins/emitter.js");
-/* harmony import */ var _galleries__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./galleries */ "./resources/js/modules/views/goods/goods/galleries.vue");
-/* harmony import */ var _components_form_ueditor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/form/ueditor */ "./resources/js/modules/components/form/ueditor.vue");
-/* harmony import */ var _goods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./goods */ "./resources/js/modules/views/goods/goods/goods.js");
+/* harmony import */ var _galleries__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./galleries */ "./resources/js/modules/views/goods/goods/galleries.vue");
+/* harmony import */ var _components_form_ueditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/form/ueditor */ "./resources/js/modules/components/form/ueditor.vue");
+/* harmony import */ var _goods__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./goods */ "./resources/js/modules/views/goods/goods/goods.js");
 //
 //
 //
@@ -359,7 +358,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -369,10 +367,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], iview_src_mixins_emitter__WEBPACK_IMPORTED_MODULE_4__["default"], _goods__WEBPACK_IMPORTED_MODULE_7__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"], _goods__WEBPACK_IMPORTED_MODULE_6__["default"]],
   components: {
-    Ueditor: _components_form_ueditor__WEBPACK_IMPORTED_MODULE_6__["default"],
-    LGalleries: _galleries__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Ueditor: _components_form_ueditor__WEBPACK_IMPORTED_MODULE_5__["default"],
+    LGalleries: _galleries__WEBPACK_IMPORTED_MODULE_4__["default"],
     LTree: _components_form_tree__WEBPACK_IMPORTED_MODULE_3__["default"],
     LUpload: _components_form_upload__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -11705,8 +11703,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../libs/util */ "./resources/js/libs/util.js");
+/* harmony import */ var iview_src_mixins_emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! iview/src/mixins/emitter */ "./node_modules/iview/src/mixins/emitter.js");
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [iview_src_mixins_emitter__WEBPACK_IMPORTED_MODULE_1__["default"]],
   data: function data() {
     return {
       loading: true,

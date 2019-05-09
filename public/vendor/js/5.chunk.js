@@ -2830,7 +2830,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addAreaItem: function addAreaItem() {
-      this.update.details.push({
+      this.data.details.push({
         areas: [],
         first: 0.00,
         first_fee: 0.00,
@@ -2839,11 +2839,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     remove: function remove(item) {
-      this.update.details.splice(item, 1);
+      this.data.details.splice(item, 1);
     },
     openAreasModal: function openAreasModal(index) {
       this.areas.index = index;
-      this.areas.wait = this.update.details[this.areas.index].areas;
+      this.areas.wait = this.data.details[this.areas.index].areas;
       this.updateAreas(index);
       this.areas.modal = true;
     },
@@ -2872,13 +2872,13 @@ __webpack_require__.r(__webpack_exports__);
       this.areas.wait = newTargetKeys;
     },
     handleChangeOk: function handleChangeOk() {
-      this.update.details[this.areas.index].areas = this.areas.wait;
+      this.data.details[this.areas.index].areas = this.areas.wait;
       this.areas.modal = false;
-      this.$refs['details.areas'][this.areas.index].trigger(this.update.details[this.areas.index].areas);
+      this.$refs['details.areas'][this.areas.index].trigger(this.data.details[this.areas.index].areas);
     },
     updateAreas: function updateAreas(index) {
       var changeAreas = [];
-      this.update.details.forEach(function (_ref, key) {
+      this.data.details.forEach(function (_ref, key) {
         var areas = _ref.areas;
         if (index !== key) changeAreas = changeAreas.concat(areas);
       });

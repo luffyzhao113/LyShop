@@ -35,7 +35,7 @@
             </FormItem>
 
             <FormItem label="图片" prop="file" :error="file.error">
-                <l-upload action="/api/setting/focus/file-edit" v-model="create.file" class="thumbnail"></l-upload>
+                <l-upload action="/api/setting/focus/file-edit" v-model="data.file" class="thumbnail"></l-upload>
             </FormItem>
 
             <FormItem label="说明" prop="description">

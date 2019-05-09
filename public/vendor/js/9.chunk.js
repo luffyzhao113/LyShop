@@ -274,6 +274,7 @@ __webpack_require__.r(__webpack_exports__);
     getLists: function getLists(page) {
       var _this = this;
 
+      this.loading = true;
       this.$http.get('setting/express/company', {
         params: Object.assign({}, this.search, {
           page: page
@@ -1291,7 +1292,7 @@ __webpack_require__.r(__webpack_exports__);
         }],
         code: [{
           validator: function validator(rule, value, callback) {
-            if (_this.create.view === 'yes' && value !== '' || _this.create.view === 'no') {
+            if (_this.data.view === 'yes' && value !== '' || _this.data.view === 'no') {
               return callback();
             } else {
               return callback('物流接口编号必须填写');

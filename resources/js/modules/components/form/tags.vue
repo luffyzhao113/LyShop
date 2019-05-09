@@ -33,8 +33,8 @@
                 if (value !== '' && this.specs.find((n) => n === value) === undefined) {
                     this.specs.push(value);
                     this.$refs['addTags'].handleClear();
-                    this.dispatch('FormItem', 'on-form-blur', this.specs);
                     this.$emit('input', this.specs);
+                    this.dispatch('FormItem', 'on-form-blur', this.specs);
                 }else{
                     this.$Message.error(this.placeholder + ' 不能为空，或者以存在！');
                 }

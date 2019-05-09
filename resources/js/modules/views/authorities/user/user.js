@@ -43,7 +43,7 @@ export default {
                     {
                         trigger: 'blur',
                         validator: (rule, value, callback) => {
-                            if (value === this.create.password) {
+                            if (value === this.data.password) {
                                 return callback();
                             } else {
                                 return callback('二次输入密码不正确')

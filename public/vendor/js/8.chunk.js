@@ -2026,7 +2026,7 @@ __webpack_require__.r(__webpack_exports__);
         }, {
           trigger: 'blur',
           validator: function validator(rule, value, callback) {
-            if (value === _this.create.password) {
+            if (value === _this.data.password) {
               return callback();
             } else {
               return callback('二次输入密码不正确');

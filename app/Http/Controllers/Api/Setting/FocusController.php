@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FileRequest;
 use App\Http\Requests\Api\Setting\FocusRequest;
+use App\Http\Searchs\Api\Setting\FocusSearch;
 use App\Repositories\Focus;
 use App\Repositories\FocusPosition;
 use Illuminate\Support\Facades\Storage;
@@ -40,15 +41,17 @@ class FocusController extends Controller
             'positions' => $position->get(['id', 'name'])
         ]);
     }
+
     /**
      * index
      * @author luffyzhao@vip.126.com
+     * @param FocusSearch $search
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(FocusSearch $search)
     {
         return $this->response(
-            $this->focus->paginate([])
+            $this->focus->paginate($search->toArray())
         );
     }
 

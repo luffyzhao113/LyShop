@@ -132,8 +132,8 @@ __webpack_require__.r(__webpack_exports__);
       }) === undefined) {
         this.specs.push(value);
         this.$refs['addTags'].handleClear();
-        this.dispatch('FormItem', 'on-form-blur', this.specs);
         this.$emit('input', this.specs);
+        this.dispatch('FormItem', 'on-form-blur', this.specs);
       } else {
         this.$Message.error(this.placeholder + ' 不能为空，或者以存在！');
       }
@@ -419,6 +419,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     FormTags: _components_form_tags__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      loading: true
+    };
   },
   mounted: function mounted() {
     var _this = this;
