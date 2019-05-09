@@ -95,6 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
+/* harmony import */ var _position__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./position */ "./resources/js/modules/views/setting/focus/position/position.js");
 //
 //
 //
@@ -112,37 +113,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _position__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: false,
-      create: {},
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '位置名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '焦点图位置名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   methods: {
     submit: function submit(name) {
@@ -151,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this.loading = true;
 
-        _this.$http.post("setting/focus/position", _this.create).then(function () {
+        _this.$http.post("setting/focus/position", _this.data).then(function () {
           _this.closeDrawer(false);
         }).finally(function () {
           _this.loading = false;
@@ -301,6 +279,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
+/* harmony import */ var _position__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./position */ "./resources/js/modules/views/setting/focus/position/position.js");
 //
 //
 //
@@ -318,44 +297,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "update",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _position__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: false,
-      update: {},
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '位置名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '焦点图位置名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.loading = true;
     this.$http.get("setting/focus/position/".concat(this.props.id, "/edit")).then(function (res) {
-      _this.update = res;
+      _this.data = res;
     }).finally(function () {
       _this.loading = false;
     });
@@ -367,7 +323,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("setting/focus/position/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("setting/focus/position/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
@@ -533,7 +489,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 120,
             rules: _vm.ruleValidate
           }
@@ -545,11 +501,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -563,11 +519,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -802,7 +758,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 120,
             rules: _vm.ruleValidate
           }
@@ -814,11 +770,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -832,11 +788,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1167,6 +1123,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_370ce02e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/setting/focus/position/position.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/modules/views/setting/focus/position/position.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: false,
+      data: {},
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '位置名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '焦点图位置名称字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        description: [{
+          max: 255,
+          message: '位置说明最多支持255个字符',
+          trigger: 'blur'
+        }]
+      }
+    };
+  }
+});
 
 /***/ }),
 

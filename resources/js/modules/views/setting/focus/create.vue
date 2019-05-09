@@ -1,14 +1,14 @@
 <template>
     <i-drawer title="添加焦点图" :loading="loading" :width="720">
-        <Form ref="formCreate" :model="create" :label-width="80" :rules="ruleValidate">
+        <Form ref="formCreate" :model="data" :label-width="80" :rules="ruleValidate">
             <FormItem label="标题" prop="name">
-                <Input v-model="create.name"></Input>
+                <Input v-model="data.name"></Input>
             </FormItem>
 
             <Row>
                 <Col span="8">
                     <FormItem label="位置" prop="position_id">
-                        <Select v-model="create.position_id">
+                        <Select v-model="data.position_id">
                             <Option v-for="(val, index) in positions.data" :key="index" :value="val.id">{{val.name}}
                             </option>
                         </Select>
@@ -16,13 +16,13 @@
                 </Col>
                 <Col span="8">
                     <FormItem label="排序" prop="sort">
-                        <Input number v-model="create.sort"></Input>
+                        <Input number v-model="data.sort"></Input>
                     </FormItem>
                 </Col>
 
                 <Col span="8">
                     <FormItem label="状态" prop="status">
-                        <i-switch v-model="create.status" true-value="on" false-value="off">
+                        <i-switch v-model="data.status" true-value="on" false-value="off">
                             <span slot="open">开</span>
                             <span slot="close">关</span>
                         </i-switch>
@@ -31,15 +31,15 @@
             </Row>
 
             <FormItem label="跳转链接" prop="url">
-                <Input v-model="create.url"></Input>
+                <Input v-model="data.url"></Input>
             </FormItem>
 
             <FormItem label="图片" prop="file">
-                <l-upload action="/api/setting/focus/file" v-model="create.file" class="thumbnail"></l-upload>
+                <l-upload action="/api/setting/focus/file" v-model="data.file" class="thumbnail"></l-upload>
             </FormItem>
 
             <FormItem label="说明" prop="description">
-                <Input v-model="create.description" type="textarea" :rows="6"></Input>
+                <Input v-model="data.description" type="textarea" :rows="6"></Input>
             </FormItem>
         </Form>
 
@@ -53,45 +53,12 @@
     import IDrawer from "../../../components/content/drawer";
     import contentDrawer from '../../../mixins/content-drawer'
     import LUpload from "../../../components/form/upload";
+    import focus from './focus'
 
     export default {
         name: "create",
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, focus],
         components: {LUpload, IDrawer},
-        data() {
-            return {
-                loading: true,
-                create: {
-                    file: undefined,
-                    status: 'off'
-                },
-                positions: {data: []},
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '名称必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 50, message: '焦点图位置名称字符长度是2-50个字符', trigger: 'blur'}
-                    ],
-                    position_id: [
-                        {required: true, type: 'number', message: '焦点图位置必须选择', trigger: 'change'}
-                    ],
-                    sort: [
-                        {required: true, type: 'number', message: '焦点图排序必须选择', trigger: 'blur'}
-                    ],
-                    status: [
-                        {required: true, message: '焦点图状态必须选择', trigger: 'change'}
-                    ],
-                    description: [
-                        {max: 255, message: '位置说明最多支持255个字符', trigger: 'blur'}
-                    ],
-                    file: [
-                        {max: 255, message: '图片必须上传', trigger: 'change', required: true}
-                    ],
-                    url: [
-                        {required: true, message: '跳转链接必须填写', trigger: 'blur'}
-                    ]
-                }
-            }
-        },
         mounted() {
             this.$http.get(`setting/focus/create`).then((res) => {
                 this.positions.data = res.positions;
@@ -103,7 +70,7 @@
             submit(name) {
                 this.validate(name).then(() => {
                     this.loading = true;
-                    this.$http.post(`setting/focus`, this.create).then(() => {
+                    this.$http.post(`setting/focus`, this.data).then(() => {
                         this.closeDrawer(false);
                     }).finally(() => {
                         this.loading = false;

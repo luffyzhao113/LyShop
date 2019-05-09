@@ -96,6 +96,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _trigger_form_item_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./trigger-form-item.js */ "./resources/js/modules/views/setting/express/template/trigger-form-item.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template */ "./resources/js/modules/views/setting/express/template/template.js");
 //
 //
 //
@@ -242,6 +243,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -251,63 +253,7 @@ __webpack_require__.r(__webpack_exports__);
     TriggerFormItem: _trigger_form_item_js__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
-  data: function data() {
-    return {
-      loading: true,
-      create: {
-        view: 'no',
-        status: 'off',
-        type: 'piece',
-        company_id: undefined,
-        details: [{
-          areas: [],
-          first: 0.00,
-          first_fee: 0.00,
-          continue: 0.00,
-          continue_fee: 0.00
-        }]
-      },
-      areas: {
-        data: [],
-        modal: false,
-        index: undefined,
-        wait: []
-      },
-      companies: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '模板名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '模板名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        type: [{
-          required: true,
-          message: '模板类型必须选择',
-          trigger: 'change'
-        }],
-        status: [{
-          required: true,
-          message: '模板状态必须选择',
-          trigger: 'change'
-        }],
-        company_id: [{
-          trigger: 'change',
-          required: true,
-          type: 'number',
-          message: '快递公司必须选择'
-        }]
-      }
-    };
-  },
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _template__WEBPACK_IMPORTED_MODULE_3__["default"]],
   mounted: function mounted() {
     var _this = this;
 
@@ -325,74 +271,11 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.post("setting/express/template", _this2.create).then(function (res) {
+        _this2.$http.post("setting/express/template", _this2.data).then(function (res) {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
-      });
-    },
-    addAreaItem: function addAreaItem() {
-      this.create.details.push({
-        areas: [],
-        first: 0.00,
-        first_fee: 0.00,
-        continue: 0.00,
-        continue_fee: 0.00
-      });
-    },
-    remove: function remove(item) {
-      this.create.details.splice(item, 1);
-    },
-    openAreasModal: function openAreasModal(index) {
-      this.areas.index = index;
-      this.areas.wait = this.create.details[this.areas.index].areas;
-      this.updateAreas(index);
-      this.areas.modal = true;
-    },
-    render: function render(item) {
-      return item.label;
-    },
-    showAreaName: function showAreaName(id) {
-      return this.areas.data.find(function (val) {
-        return val.key === id;
-      })['label'];
-    },
-    showAreaNames: function showAreaNames(items) {
-      var _this3 = this;
-
-      if (items.length > 2) {
-        return this.showAreaName(items[0]) + " \u7B49 ".concat(items.length, " \u4E2A\u57CE\u5E02");
-      } else if (items.length > 0) {
-        var str = '';
-        items.forEach(function (val) {
-          str += ' ' + _this3.showAreaName(val) + ',';
-        });
-        return str.substr(0, str.length - 1);
-      }
-    },
-    handleChange: function handleChange(newTargetKeys) {
-      this.areas.wait = newTargetKeys;
-    },
-    handleChangeOk: function handleChangeOk() {
-      this.create.details[this.areas.index].areas = this.areas.wait;
-      this.areas.modal = false;
-      this.$refs['details.areas'][this.areas.index].trigger(this.create.details[this.areas.index].areas);
-    },
-    updateAreas: function updateAreas(index) {
-      var changeAreas = [];
-      this.create.details.forEach(function (_ref, key) {
-        var areas = _ref.areas;
-        if (index !== key) changeAreas = changeAreas.concat(areas);
-      });
-      this.areas.data.map(function (item, index) {
-        if (changeAreas.find(function (val) {
-          return item.key === val;
-        })) {
-          item.disabled = true;
-        } else {
-          item.disabled = false;
-        }
       });
     }
   }
@@ -581,6 +464,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _trigger_form_item_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./trigger-form-item.js */ "./resources/js/modules/views/setting/express/template/trigger-form-item.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template */ "./resources/js/modules/views/setting/express/template/template.js");
 //
 //
 //
@@ -727,6 +611,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -736,70 +621,14 @@ __webpack_require__.r(__webpack_exports__);
     TriggerFormItem: _trigger_form_item_js__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
-  data: function data() {
-    return {
-      loading: true,
-      update: {
-        view: 'no',
-        status: 'off',
-        type: 'piece',
-        company_id: undefined,
-        details: [{
-          areas: [],
-          first: 0.00,
-          first_fee: 0.00,
-          continue: 0.00,
-          continue_fee: 0.00
-        }]
-      },
-      areas: {
-        data: [],
-        modal: false,
-        index: undefined,
-        wait: []
-      },
-      companies: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '模板名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '模板名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        type: [{
-          required: true,
-          message: '模板类型必须选择',
-          trigger: 'change'
-        }],
-        status: [{
-          required: true,
-          message: '模板状态必须选择',
-          trigger: 'change'
-        }],
-        company_id: [{
-          trigger: 'change',
-          required: true,
-          type: 'number',
-          message: '快递公司必须选择'
-        }]
-      }
-    };
-  },
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _template__WEBPACK_IMPORTED_MODULE_3__["default"]],
   mounted: function mounted() {
     var _this = this;
 
     this.$http.get("setting/express/template/".concat(this.props.id, "/edit")).then(function (res) {
       _this.companies.data = res.companies;
       _this.areas.data = res.areas;
-      _this.update = res.row;
+      _this.data = res.row;
     }).finally(function () {
       _this.loading = false;
     });
@@ -811,74 +640,11 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("setting/express/template/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("setting/express/template/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
         });
-      });
-    },
-    addAreaItem: function addAreaItem() {
-      this.update.details.push({
-        areas: [],
-        first: 0.00,
-        first_fee: 0.00,
-        continue: 0.00,
-        continue_fee: 0.00
-      });
-    },
-    remove: function remove(item) {
-      this.update.details.splice(item, 1);
-    },
-    openAreasModal: function openAreasModal(index) {
-      this.areas.index = index;
-      this.areas.wait = this.update.details[this.areas.index].areas;
-      this.updateAreas(index);
-      this.areas.modal = true;
-    },
-    render: function render(item) {
-      return item.label;
-    },
-    showAreaName: function showAreaName(id) {
-      return this.areas.data.find(function (val) {
-        return val.key === id;
-      })['label'];
-    },
-    showAreaNames: function showAreaNames(items) {
-      var _this3 = this;
-
-      if (items.length > 2) {
-        return this.showAreaName(items[0]) + " \u7B49 ".concat(items.length, " \u4E2A\u57CE\u5E02");
-      } else if (items.length > 0) {
-        var str = '';
-        items.forEach(function (val) {
-          str += ' ' + _this3.showAreaName(val) + ',';
-        });
-        return str.substr(0, str.length - 1);
-      }
-    },
-    handleChange: function handleChange(newTargetKeys) {
-      this.areas.wait = newTargetKeys;
-    },
-    handleChangeOk: function handleChangeOk() {
-      this.update.details[this.areas.index].areas = this.areas.wait;
-      this.areas.modal = false;
-      this.$refs['details.areas'][this.areas.index].trigger(this.update.details[this.areas.index].areas);
-    },
-    updateAreas: function updateAreas(index) {
-      var changeAreas = [];
-      this.update.details.forEach(function (_ref, key) {
-        var areas = _ref.areas;
-        if (index !== key) changeAreas = changeAreas.concat(areas);
-      });
-      this.areas.data.map(function (item, index) {
-        if (changeAreas.find(function (val) {
-          return item.key === val;
-        })) {
-          item.disabled = true;
-        } else {
-          item.disabled = false;
-        }
       });
     }
   }
@@ -1184,7 +950,7 @@ var render = function() {
         {
           ref: "formCreate",
           attrs: {
-            model: _vm.create,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -1196,11 +962,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1223,11 +989,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.create.type,
+                            value: _vm.data.type,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "type", $$v)
+                              _vm.$set(_vm.data, "type", $$v)
                             },
-                            expression: "create.type"
+                            expression: "data.type"
                           }
                         },
                         [
@@ -1261,11 +1027,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.create.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "create.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1298,11 +1064,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.create.company_id,
+                            value: _vm.data.company_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "company_id", $$v)
+                              _vm.$set(_vm.data, "company_id", $$v)
                             },
-                            expression: "create.company_id"
+                            expression: "data.company_id"
                           }
                         },
                         _vm._l(_vm.companies.data, function(val, index) {
@@ -1336,11 +1102,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { type: "textarea" },
                         model: {
-                          value: _vm.create.description,
+                          value: _vm.data.description,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "description", $$v)
+                            _vm.$set(_vm.data, "description", $$v)
                           },
-                          expression: "create.description"
+                          expression: "data.description"
                         }
                       })
                     ],
@@ -1432,7 +1198,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.create.details, function(item, index) {
+              _vm._l(_vm.data.details, function(item, index) {
                 return [
                   _c(
                     "Col",
@@ -2058,7 +1824,7 @@ var render = function() {
         {
           ref: "formUpdate",
           attrs: {
-            model: _vm.update,
+            model: _vm.data,
             "label-width": 100,
             rules: _vm.ruleValidate
           }
@@ -2070,11 +1836,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -2097,11 +1863,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.update.type,
+                            value: _vm.data.type,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "type", $$v)
+                              _vm.$set(_vm.data, "type", $$v)
                             },
-                            expression: "update.type"
+                            expression: "data.type"
                           }
                         },
                         [
@@ -2135,11 +1901,11 @@ var render = function() {
                         {
                           attrs: { type: "button" },
                           model: {
-                            value: _vm.update.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "update.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -2172,11 +1938,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.update.company_id,
+                            value: _vm.data.company_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "company_id", $$v)
+                              _vm.$set(_vm.data, "company_id", $$v)
                             },
-                            expression: "update.company_id"
+                            expression: "data.company_id"
                           }
                         },
                         _vm._l(_vm.companies.data, function(val, index) {
@@ -2210,11 +1976,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { type: "textarea" },
                         model: {
-                          value: _vm.update.description,
+                          value: _vm.data.description,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "description", $$v)
+                            _vm.$set(_vm.data, "description", $$v)
                           },
-                          expression: "update.description"
+                          expression: "data.description"
                         }
                       })
                     ],
@@ -2306,7 +2072,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.update.details, function(item, index) {
+              _vm._l(_vm.data.details, function(item, index) {
                 return [
                   _c(
                     "Col",
@@ -2993,6 +2759,141 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_0b60f63c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/setting/express/template/template.js":
+/*!*************************************************************************!*\
+  !*** ./resources/js/modules/views/setting/express/template/template.js ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: true,
+      data: {
+        view: 'no',
+        status: 'off',
+        type: 'piece',
+        company_id: undefined,
+        details: [{
+          areas: [],
+          first: 0.00,
+          first_fee: 0.00,
+          continue: 0.00,
+          continue_fee: 0.00
+        }]
+      },
+      areas: {
+        data: [],
+        modal: false,
+        index: undefined,
+        wait: []
+      },
+      companies: {
+        data: []
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '模板名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '模板名称字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        type: [{
+          required: true,
+          message: '模板类型必须选择',
+          trigger: 'change'
+        }],
+        status: [{
+          required: true,
+          message: '模板状态必须选择',
+          trigger: 'change'
+        }],
+        company_id: [{
+          trigger: 'change',
+          required: true,
+          type: 'number',
+          message: '快递公司必须选择'
+        }]
+      }
+    };
+  },
+  methods: {
+    addAreaItem: function addAreaItem() {
+      this.update.details.push({
+        areas: [],
+        first: 0.00,
+        first_fee: 0.00,
+        continue: 0.00,
+        continue_fee: 0.00
+      });
+    },
+    remove: function remove(item) {
+      this.update.details.splice(item, 1);
+    },
+    openAreasModal: function openAreasModal(index) {
+      this.areas.index = index;
+      this.areas.wait = this.update.details[this.areas.index].areas;
+      this.updateAreas(index);
+      this.areas.modal = true;
+    },
+    render: function render(item) {
+      return item.label;
+    },
+    showAreaName: function showAreaName(id) {
+      return this.areas.data.find(function (val) {
+        return val.key === id;
+      })['label'];
+    },
+    showAreaNames: function showAreaNames(items) {
+      var _this = this;
+
+      if (items.length > 2) {
+        return this.showAreaName(items[0]) + " \u7B49 ".concat(items.length, " \u4E2A\u57CE\u5E02");
+      } else if (items.length > 0) {
+        var str = '';
+        items.forEach(function (val) {
+          str += ' ' + _this.showAreaName(val) + ',';
+        });
+        return str.substr(0, str.length - 1);
+      }
+    },
+    handleChange: function handleChange(newTargetKeys) {
+      this.areas.wait = newTargetKeys;
+    },
+    handleChangeOk: function handleChangeOk() {
+      this.update.details[this.areas.index].areas = this.areas.wait;
+      this.areas.modal = false;
+      this.$refs['details.areas'][this.areas.index].trigger(this.update.details[this.areas.index].areas);
+    },
+    updateAreas: function updateAreas(index) {
+      var changeAreas = [];
+      this.update.details.forEach(function (_ref, key) {
+        var areas = _ref.areas;
+        if (index !== key) changeAreas = changeAreas.concat(areas);
+      });
+      this.areas.data.map(function (item, index) {
+        if (changeAreas.find(function (val) {
+          return item.key === val;
+        })) {
+          item.disabled = true;
+        } else {
+          item.disabled = false;
+        }
+      });
+    }
+  }
+});
 
 /***/ }),
 

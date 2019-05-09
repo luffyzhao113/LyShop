@@ -166,6 +166,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
 /* harmony import */ var _components_form_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/upload */ "./resources/js/modules/components/form/upload.vue");
+/* harmony import */ var _focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./focus */ "./resources/js/modules/views/setting/focus/focus.js");
 //
 //
 //
@@ -217,73 +218,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _focus__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
     LUpload: _components_form_upload__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: true,
-      create: {
-        file: undefined,
-        status: 'off'
-      },
-      positions: {
-        data: []
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '焦点图位置名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        position_id: [{
-          required: true,
-          type: 'number',
-          message: '焦点图位置必须选择',
-          trigger: 'change'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '焦点图排序必须选择',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          message: '焦点图状态必须选择',
-          trigger: 'change'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }],
-        file: [{
-          max: 255,
-          message: '图片必须上传',
-          trigger: 'change',
-          required: true
-        }],
-        url: [{
-          required: true,
-          message: '跳转链接必须填写',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   mounted: function mounted() {
     var _this = this;
@@ -301,7 +245,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.post("setting/focus", _this2.create).then(function () {
+        _this2.$http.post("setting/focus", _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
@@ -491,6 +435,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/content/drawer */ "./resources/js/modules/components/content/drawer.vue");
 /* harmony import */ var _mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/content-drawer */ "./resources/js/modules/mixins/content-drawer.js");
+/* harmony import */ var _components_form_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/form/upload */ "./resources/js/modules/components/form/upload.vue");
+/* harmony import */ var _focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./focus */ "./resources/js/modules/views/setting/focus/focus.js");
 //
 //
 //
@@ -542,102 +488,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "update",
-  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_content_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], _focus__WEBPACK_IMPORTED_MODULE_3__["default"]],
   components: {
+    LUpload: _components_form_upload__WEBPACK_IMPORTED_MODULE_2__["default"],
     IDrawer: _components_content_drawer__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: function data() {
-    return {
-      loading: true,
-      fileLoading: false,
-      update: {
-        file: undefined,
-        status: 'off'
-      },
-      positions: {
-        data: []
-      },
-      file: {
-        headers: {
-          authorization: 'bearer ' + this.$store.state.auth.login,
-          Accept: 'application/json'
-        },
-        error: undefined
-      },
-      ruleValidate: {
-        name: [{
-          required: true,
-          message: '名称必须填写',
-          trigger: 'blur'
-        }, {
-          type: 'string',
-          min: 2,
-          max: 50,
-          message: '焦点图位置名称字符长度是2-50个字符',
-          trigger: 'blur'
-        }],
-        position_id: [{
-          required: true,
-          type: 'number',
-          message: '焦点图位置必须选择',
-          trigger: 'change'
-        }],
-        sort: [{
-          required: true,
-          type: 'number',
-          message: '焦点图排序必须选择',
-          trigger: 'blur'
-        }],
-        status: [{
-          required: true,
-          message: '焦点图状态必须选择',
-          trigger: 'change'
-        }],
-        description: [{
-          max: 255,
-          message: '位置说明最多支持255个字符',
-          trigger: 'blur'
-        }],
-        file: [{
-          max: 255,
-          message: '图片必须上传',
-          trigger: 'change',
-          required: true
-        }],
-        url: [{
-          required: true,
-          message: '跳转链接必须填写',
-          trigger: 'blur'
-        }]
-      }
-    };
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$http.get("setting/focus/".concat(this.props.id, "/edit")).then(function (res) {
       _this.positions.data = res.positions;
-      _this.update = res.row;
+      _this.data = res.row;
     }).finally(function () {
       _this.loading = false;
     });
@@ -649,7 +516,7 @@ __webpack_require__.r(__webpack_exports__);
       this.validate(name).then(function () {
         _this2.loading = true;
 
-        _this2.$http.put("setting/focus/".concat(_this2.props.id), _this2.update).then(function () {
+        _this2.$http.put("setting/focus/".concat(_this2.props.id), _this2.data).then(function () {
           _this2.closeDrawer(false);
         }).finally(function () {
           _this2.loading = false;
@@ -657,7 +524,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     file_success: function file_success(response, file, fileList) {
-      this.update.file = response.url;
+      this.data.file = response.url;
       this.fileLoading = false;
     },
     file_before: function file_before() {
@@ -1039,11 +906,7 @@ var render = function() {
         "Form",
         {
           ref: "formCreate",
-          attrs: {
-            model: _vm.create,
-            "label-width": 80,
-            rules: _vm.ruleValidate
-          }
+          attrs: { model: _vm.data, "label-width": 80, rules: _vm.ruleValidate }
         },
         [
           _c(
@@ -1052,11 +915,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "create.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1078,11 +941,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.create.position_id,
+                            value: _vm.data.position_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "position_id", $$v)
+                              _vm.$set(_vm.data, "position_id", $$v)
                             },
-                            expression: "create.position_id"
+                            expression: "data.position_id"
                           }
                         },
                         _vm._l(_vm.positions.data, function(val, index) {
@@ -1116,11 +979,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { number: "" },
                         model: {
-                          value: _vm.create.sort,
+                          value: _vm.data.sort,
                           callback: function($$v) {
-                            _vm.$set(_vm.create, "sort", $$v)
+                            _vm.$set(_vm.data, "sort", $$v)
                           },
-                          expression: "create.sort"
+                          expression: "data.sort"
                         }
                       })
                     ],
@@ -1143,11 +1006,11 @@ var render = function() {
                         {
                           attrs: { "true-value": "on", "false-value": "off" },
                           model: {
-                            value: _vm.create.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.create, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "create.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1180,11 +1043,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.create.url,
+                  value: _vm.data.url,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "url", $$v)
+                    _vm.$set(_vm.data, "url", $$v)
                   },
-                  expression: "create.url"
+                  expression: "data.url"
                 }
               })
             ],
@@ -1199,11 +1062,11 @@ var render = function() {
                 staticClass: "thumbnail",
                 attrs: { action: "/api/setting/focus/file" },
                 model: {
-                  value: _vm.create.file,
+                  value: _vm.data.file,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "file", $$v)
+                    _vm.$set(_vm.data, "file", $$v)
                   },
-                  expression: "create.file"
+                  expression: "data.file"
                 }
               })
             ],
@@ -1217,11 +1080,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.create.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.create, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "create.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -1546,11 +1409,7 @@ var render = function() {
         "Form",
         {
           ref: "formUpdate",
-          attrs: {
-            model: _vm.update,
-            "label-width": 80,
-            rules: _vm.ruleValidate
-          }
+          attrs: { model: _vm.data, "label-width": 80, rules: _vm.ruleValidate }
         },
         [
           _c(
@@ -1559,11 +1418,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.name,
+                  value: _vm.data.name,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "name", $$v)
+                    _vm.$set(_vm.data, "name", $$v)
                   },
-                  expression: "update.name"
+                  expression: "data.name"
                 }
               })
             ],
@@ -1585,11 +1444,11 @@ var render = function() {
                         "Select",
                         {
                           model: {
-                            value: _vm.update.position_id,
+                            value: _vm.data.position_id,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "position_id", $$v)
+                              _vm.$set(_vm.data, "position_id", $$v)
                             },
-                            expression: "update.position_id"
+                            expression: "data.position_id"
                           }
                         },
                         _vm._l(_vm.positions.data, function(val, index) {
@@ -1623,11 +1482,11 @@ var render = function() {
                       _c("Input", {
                         attrs: { number: "" },
                         model: {
-                          value: _vm.update.sort,
+                          value: _vm.data.sort,
                           callback: function($$v) {
-                            _vm.$set(_vm.update, "sort", $$v)
+                            _vm.$set(_vm.data, "sort", $$v)
                           },
-                          expression: "update.sort"
+                          expression: "data.sort"
                         }
                       })
                     ],
@@ -1650,11 +1509,11 @@ var render = function() {
                         {
                           attrs: { "true-value": "on", "false-value": "off" },
                           model: {
-                            value: _vm.update.status,
+                            value: _vm.data.status,
                             callback: function($$v) {
-                              _vm.$set(_vm.update, "status", $$v)
+                              _vm.$set(_vm.data, "status", $$v)
                             },
-                            expression: "update.status"
+                            expression: "data.status"
                           }
                         },
                         [
@@ -1687,11 +1546,11 @@ var render = function() {
             [
               _c("Input", {
                 model: {
-                  value: _vm.update.url,
+                  value: _vm.data.url,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "url", $$v)
+                    _vm.$set(_vm.data, "url", $$v)
                   },
-                  expression: "update.url"
+                  expression: "data.url"
                 }
               })
             ],
@@ -1702,53 +1561,17 @@ var render = function() {
             "FormItem",
             { attrs: { label: "图片", prop: "file", error: _vm.file.error } },
             [
-              _c(
-                "Upload",
-                {
-                  staticClass: "upload-file",
-                  attrs: {
-                    type: "drag",
-                    action: "/api/setting/focus/file-edit",
-                    headers: _vm.file.headers,
-                    "on-success": _vm.file_success,
-                    "show-upload-list": false,
-                    "before-upload": _vm.file_before,
-                    "on-error": _vm.file_error
-                  }
-                },
-                [
-                  _c("div", { staticClass: "drag-file" }, [
-                    _vm.update.file === undefined
-                      ? _c(
-                          "div",
-                          { staticClass: "drag" },
-                          [
-                            _c("Icon", {
-                              staticStyle: { color: "#3399ff" },
-                              attrs: { type: "ios-cloud-upload", size: "52" }
-                            }),
-                            _vm._v(" "),
-                            _c("p", [_vm._v("点击或者拖拽文件到这里")])
-                          ],
-                          1
-                        )
-                      : _c("div", { staticClass: "file" }, [
-                          _c("img", {
-                            attrs: { src: _vm.update.file, alt: "" }
-                          })
-                        ]),
-                    _vm._v(" "),
-                    _vm.fileLoading
-                      ? _c(
-                          "div",
-                          { staticClass: "loading" },
-                          [_c("Spin", { attrs: { size: "large", fix: "" } })],
-                          1
-                        )
-                      : _vm._e()
-                  ])
-                ]
-              )
+              _c("l-upload", {
+                staticClass: "thumbnail",
+                attrs: { action: "/api/setting/focus/file-edit" },
+                model: {
+                  value: _vm.create.file,
+                  callback: function($$v) {
+                    _vm.$set(_vm.create, "file", $$v)
+                  },
+                  expression: "create.file"
+                }
+              })
             ],
             1
           ),
@@ -1760,11 +1583,11 @@ var render = function() {
               _c("Input", {
                 attrs: { type: "textarea", rows: 6 },
                 model: {
-                  value: _vm.update.description,
+                  value: _vm.data.description,
                   callback: function($$v) {
-                    _vm.$set(_vm.update, "description", $$v)
+                    _vm.$set(_vm.data, "description", $$v)
                   },
-                  expression: "update.description"
+                  expression: "data.description"
                 }
               })
             ],
@@ -2131,6 +1954,79 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_create_vue_vue_type_template_id_d9e04d0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/modules/views/setting/focus/focus.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/modules/views/setting/focus/focus.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loading: true,
+      fileLoading: false,
+      data: {
+        file: undefined,
+        status: 'off'
+      },
+      positions: {
+        data: []
+      },
+      ruleValidate: {
+        name: [{
+          required: true,
+          message: '名称必须填写',
+          trigger: 'blur'
+        }, {
+          type: 'string',
+          min: 2,
+          max: 50,
+          message: '焦点图位置名称字符长度是2-50个字符',
+          trigger: 'blur'
+        }],
+        position_id: [{
+          required: true,
+          type: 'number',
+          message: '焦点图位置必须选择',
+          trigger: 'change'
+        }],
+        sort: [{
+          required: true,
+          type: 'number',
+          message: '焦点图排序必须选择',
+          trigger: 'blur'
+        }],
+        status: [{
+          required: true,
+          message: '焦点图状态必须选择',
+          trigger: 'change'
+        }],
+        description: [{
+          max: 255,
+          message: '位置说明最多支持255个字符',
+          trigger: 'blur'
+        }],
+        file: [{
+          max: 255,
+          message: '图片必须上传',
+          trigger: 'change',
+          required: true
+        }],
+        url: [{
+          required: true,
+          message: '跳转链接必须填写',
+          trigger: 'blur'
+        }]
+      }
+    };
+  }
+});
 
 /***/ }),
 
