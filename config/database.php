@@ -85,6 +85,14 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('MONGODB_DB_HOST', 'localhost'),
+            'port'     => env('MONGODB_DB_PORT', 27017),
+            'database' => env('MONGODB_DB_DATABASE'),
+            'username' => env('MONGODB_DB_USERNAME'),
+            'password' => env('MONGODB_DB_PASSWORD')
+        ],
     ],
 
     /*

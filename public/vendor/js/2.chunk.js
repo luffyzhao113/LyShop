@@ -643,6 +643,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2577,7 +2580,34 @@ var render = function() {
     [
       _c(
         "i-search",
+        {
+          model: {
+            value: _vm.search,
+            callback: function($$v) {
+              _vm.search = $$v
+            },
+            expression: "search"
+          }
+        },
         [
+          _c(
+            "FormItem",
+            { attrs: { label: "商品标题" } },
+            [
+              _c("Input", {
+                attrs: { type: "text" },
+                model: {
+                  value: _vm.search.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.search, "name", $$v)
+                  },
+                  expression: "search.name"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c(
             "FormItem",
             { attrs: { "label-width": 0 } },

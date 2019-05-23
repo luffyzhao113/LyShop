@@ -9,6 +9,7 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -59,5 +60,16 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(get_class($this), 'parent_id', $this->getKeyName());
+    }
+
+    /**
+     * 只包含某个状态的商品类目
+     * @param Builder $query
+     * @param $value string
+     * @return Builder
+     */
+    public function scopeStatus(Builder $query, string $value)
+    {
+        return $query->where('status', $value);
     }
 }

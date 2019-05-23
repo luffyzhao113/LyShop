@@ -1,6 +1,9 @@
 <template>
     <i-content :spin-show="loading">
-        <i-search>
+        <i-search v-model="search">
+            <FormItem label="商品标题">
+                <Input type="text" v-model="search.name"></Input>
+            </FormItem>
             <FormItem :label-width="0">
                 <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
                 <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>

@@ -9,6 +9,10 @@
 namespace App\Repositories;
 
 
+use App\MongoDB\Goods as GoodsMongodb;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use LTools\Repositories\RepositoryAbstract;
 
@@ -22,12 +26,12 @@ class Goods extends RepositoryAbstract
     /**
      * paginate
      * @param array $attributes
-     * @param int|null $perPage
+     * @param int $perPage
      * @param array $columns
      * @param string $pageName
-     * @param int|null $page
+     * @param int $page
+     * @return LengthAwarePaginator
      * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate(array $attributes, int $perPage = null, array $columns = ['*'], $pageName = 'page', int $page = null)
     {
@@ -39,9 +43,9 @@ class Goods extends RepositoryAbstract
     /**
      * create
      * @param array $attributes
-     * @author luffyzhao@vip.126.com
-     * @return \App\Models\Goods|bool|\Illuminate\Database\Eloquent\Model
+     * @return \App\Models\Goods|bool|Model
      * @throws \Exception
+     *@author luffyzhao@vip.126.com
      */
     public function create(array $attributes = [])
     {
@@ -73,6 +77,8 @@ class Goods extends RepositoryAbstract
                     }
                 }
             }
+            // 更新mongodb
+            GoodsMongodb::up($model);
 
             DB::commit();
             return $model;
@@ -87,7 +93,7 @@ class Goods extends RepositoryAbstract
      * editFind
      * @param $id
      * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function editFind($id){
         $row = $this->model->with([
@@ -131,9 +137,9 @@ class Goods extends RepositoryAbstract
      * update
      * @param $id
      * @param array $values
-     * @author luffyzhao@vip.126.com
-     * @return bool|\Illuminate\Database\Eloquent\Model
+     * @return bool|Model
      * @throws \Throwable
+     *@author luffyzhao@vip.126.com
      */
     public function update($id, array $values)
     {
@@ -172,7 +178,8 @@ class Goods extends RepositoryAbstract
                     }
                 }
             }
-
+            // 更新mongodb
+            GoodsMongodb::up($model);
             DB::commit();
 
             return true;

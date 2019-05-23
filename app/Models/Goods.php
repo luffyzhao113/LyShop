@@ -24,7 +24,7 @@ class Goods extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'goods_categories', 'goods_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'goods_categories', 'goods_id', 'category_id')->withTrashed();
     }
 
     /**

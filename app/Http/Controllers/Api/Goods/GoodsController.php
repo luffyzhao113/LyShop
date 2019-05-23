@@ -13,9 +13,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FileRequest;
 use App\Http\Requests\Api\Goods\GoodsRequest;
 use App\Http\Searchs\Api\Goods\GoodsSearch;
+use App\MongoDB\Goods as GoodsMongoDB;
 use App\Repositories\Category;
 use App\Repositories\Goods;
 use App\Repositories\Spec;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -32,32 +34,28 @@ class GoodsController extends Controller
     }
 
     /**
-     * file
-     * @param FileRequest $request
-     * @author luffyzhao@vip.126.com
+     * view
+     * @param Category $category
      * @return \Illuminate\Http\JsonResponse
+     * @author luffyzhao@vip.126.com
      */
-    public function file(FileRequest $request){
-        if($file = $request->file('file')->store('goods')){
-            return $this->response([
-                'url' => Storage::url($file),
-                'path' => $file
-            ]);
-        }else{
-            throw new FileException('文件上传失败');
-        }
+    public function view(Category $category)
+    {
+        return $this->response([
+            'categories' => $category->get(['id', 'name', 'parent_id']),
+        ]);
     }
 
     /**
      * index
      * @param GoodsSearch $search
+     * @return JsonResponse
      * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Http\JsonResponse
      */
     public function index(GoodsSearch $search)
     {
         return $this->response(
-            $this->goods->paginate($search->toArray())
+            GoodsMongoDB::where($search->toArray())->paginate()
         );
     }
 
@@ -65,7 +63,7 @@ class GoodsController extends Controller
      * create
      * @param Category $category
      * @param Spec $spec
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @author luffyzhao@vip.126.com
      */
     public function create(Category $category, Spec $spec)
@@ -73,7 +71,7 @@ class GoodsController extends Controller
         $specs = $spec->get(['id', 'name', 'values', 'type'])->groupBy('type');
 
         return $this->response([
-            'categories' => $category->get(['id', 'name as title', 'parent_id']),
+            'categories' => $category->getScope(['id', 'name as title', 'parent_id'], ['status' => 'on']),
             'specs' => $specs['spec'],
             'attributes' => $specs['attr'],
             'units' => ['个', '箱', '袋'],
@@ -85,11 +83,29 @@ class GoodsController extends Controller
     }
 
     /**
+     * file
+     * @param FileRequest $request
+     * @return JsonResponse
+     * @author luffyzhao@vip.126.com
+     */
+    public function file(FileRequest $request)
+    {
+        if ($file = $request->file('file')->store('goods')) {
+            return $this->response([
+                'url' => Storage::url($file),
+                'path' => $file
+            ]);
+        } else {
+            throw new FileException('文件上传失败');
+        }
+    }
+
+    /**
      * store
      * @param GoodsRequest $request
-     * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Exception
+     * @author luffyzhao@vip.126.com
      */
     public function store(GoodsRequest $request)
     {
@@ -107,14 +123,15 @@ class GoodsController extends Controller
      * @param Category $category
      * @param Spec $spec
      * @param $id
+     * @return JsonResponse
      * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Category $category, Spec $spec, $id){
+    public function edit(Category $category, Spec $spec, $id)
+    {
         $specs = $spec->get(['id', 'name', 'values', 'type'])->groupBy('type');
         return $this->response([
             'row' => $this->goods->editFind($id),
-            'categories' => $category->get(['id', 'name as title', 'parent_id']),
+            'categories' => $category->getScope(['id', 'name as title', 'parent_id'], ['status' => 'on']),
             'units' => ['个', '箱', '袋'],
             'specs' => $specs['spec'],
             'attributes' => $specs['attr'],
@@ -129,11 +146,12 @@ class GoodsController extends Controller
      * update
      * @param GoodsRequest $request
      * @param $id
-     * @author luffyzhao@vip.126.com
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Throwable
+     * @author luffyzhao@vip.126.com
      */
-    public function update(GoodsRequest $request, $id){
+    public function update(GoodsRequest $request, $id)
+    {
         return $this->response(
             $this->goods->update(
                 $id,
