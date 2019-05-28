@@ -10,12 +10,56 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Goods extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'goods';
 
     protected $fillable = ['name', 'price', 'stock', 'weight', 'type', 'status', 'file', 'view', 'sales', 'collect'];
+
+    protected $casts = [
+        'view' => 'integer',
+        'sales' => 'integer',
+        'collect' => 'integer',
+    ];
+
+    protected $appends = ['view', 'sales', 'collect'];
+
+    /**
+ * getWeightAttribute
+ * @param $value
+ * @author luffyzhao@vip.126.com
+ * @return float|int
+ */
+    protected function getViewAttribute($value)
+    {
+        return (int)$value;
+    }
+
+    /**
+     * getWeightAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     * @return float|int
+     */
+    protected function getSalesAttribute($value)
+    {
+        return (int)$value;
+    }
+
+    /**
+     * getWeightAttribute
+     * @param $value
+     * @author luffyzhao@vip.126.com
+     * @return float|int
+     */
+    protected function getCollectAttribute($value)
+    {
+        return (int)$value;
+    }
 
     /**
      * categories

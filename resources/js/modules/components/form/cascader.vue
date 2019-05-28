@@ -56,7 +56,7 @@
             convert(arr, id = 0){
                 var res = [];
                 arr.forEach((item, key) => {
-                    if(item.parent_id === id){
+                    if(item.parent_id == id){
                         delete arr[key];
                         res.push({
                             value: item[this.fValue],

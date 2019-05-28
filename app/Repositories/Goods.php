@@ -45,11 +45,11 @@ class Goods extends RepositoryAbstract
      * @param array $attributes
      * @return \App\Models\Goods|bool|Model
      * @throws \Exception
-     *@author luffyzhao@vip.126.com
+     * @author luffyzhao@vip.126.com
      */
     public function create(array $attributes = [])
     {
-        try{
+        try {
             DB::beginTransaction();
             /**
              * @var $model \App\Models\Goods
@@ -72,30 +72,32 @@ class Goods extends RepositoryAbstract
                      * @var $specModel \App\Models\GoodsSpec
                      */
                     $specModel = $model->specs()->create($spec);
-                    foreach ($spec['items'] as $item){
-                        $specModel->items()->create($item + ['goods_id' =>$model->getAttribute('id')]);
+                    foreach ($spec['items'] as $item) {
+                        $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
                     }
                 }
             }
             // 更新mongodb
-            GoodsMongodb::up($model);
+            GoodsMongodb::cr($model);
 
             DB::commit();
             return $model;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             throw $exception;
         }
     }
 
 
+
     /**
      * editFind
      * @param $id
-     * @author luffyzhao@vip.126.com
      * @return Collection
+     * @author luffyzhao@vip.126.com
      */
-    public function editFind($id){
+    public function editFind($id)
+    {
         $row = $this->model->with([
             'categories:id',
             'detail:goods_id,describe,unit',
@@ -105,24 +107,24 @@ class Goods extends RepositoryAbstract
             'specs.items:name,value,goods_spec_id'
         ])->findOrFail($id)->toArray();
 
-        return collect($row)->map(function ($item, $key){
-            if($key === 'categories'){
+        return collect($row)->map(function ($item, $key) {
+            if ($key === 'categories') {
                 return collect($item)->pluck('id');
             }
-            if($key === 'detail'){
+            if ($key === 'detail') {
                 unset($item['goods_id']);
             }
-            if($key === 'galleries' || $key === 'attributes'){
-                return collect($item)->map(function ($value){
+            if ($key === 'galleries' || $key === 'attributes') {
+                return collect($item)->map(function ($value) {
                     unset($value['goods_id']);
                     return $value;
                 });
             }
-            if($key === 'specs'){
-                return collect($item)->map(function ($value){
+            if ($key === 'specs') {
+                return collect($item)->map(function ($value) {
                     unset($value['goods_id']);
                     unset($value['id']);
-                    $value['items'] = collect($value['items'])->map(function ($value){
+                    $value['items'] = collect($value['items'])->map(function ($value) {
                         unset($value['goods_spec_id']);
                         return $value;
                     });
@@ -139,7 +141,7 @@ class Goods extends RepositoryAbstract
      * @param array $values
      * @return bool|Model
      * @throws \Throwable
-     *@author luffyzhao@vip.126.com
+     * @author luffyzhao@vip.126.com
      */
     public function update($id, array $values)
     {
@@ -173,17 +175,107 @@ class Goods extends RepositoryAbstract
                      * @var $specModel \App\Models\GoodsSpec
                      */
                     $specModel = $model->specs()->create($spec);
-                    foreach ($spec['items'] as $item){
-                        $specModel->items()->create($item + ['goods_id' =>$model->getAttribute('id')]);
+                    foreach ($spec['items'] as $item) {
+                        $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
                     }
                 }
             }
             // 更新mongodb
             GoodsMongodb::up($model);
+
             DB::commit();
 
             return true;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param array $values
+     * @throws \Exception
+     * @throws \Throwable
+     * @author luffyzhao@vip.126.com
+     */
+    public function simpleUpdate($id, array $values)
+    {
+        try {
+            DB::beginTransaction();
+            $model = $this->find($id);
+            $model->fill($values)->saveOrFail();
+            // 更新mongodb
+            GoodsMongodb::up($model);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param $id
+     * @return bool|mixed
+     * @throws \Exception
+     * @author luffyzhao@vip.126.com
+     */
+    public function delete($id)
+    {
+        DB::beginTransaction();
+        try {
+            parent::delete($id);
+            GoodsMongodb::where('id', (int)$id)->first()->delete();
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+
+        return true;
+    }
+
+    /**
+     * 恢复
+     * @param $id
+     * @throws \Exception
+     * @author luffyzhao@vip.126.com
+     */
+    public function recovery($id)
+    {
+        /**
+         * @var $model \App\Models\Goods
+         */
+        $model = $this->model->onlyTrashed()->findOrFail($id, ['*']);
+        DB::beginTransaction();
+        try {
+            $model->setAttribute('status', 'undercarriage');
+            $model->restore();
+            GoodsMongodb::up($model);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param $id
+     * @throws \Exception
+     * @author luffyzhao@vip.126.com
+     */
+    public function recycleDestroy($id){
+        /**
+         * @var $model \App\Models\Goods
+         */
+        $model = $this->model->onlyTrashed()->findOrFail($id, ['*']);
+        DB::beginTransaction();
+        try {
+            $model->forceDelete();
+            GoodsMongodb::where('id', $model->getKey())->onlyTrashed()->first()->forceDelete();
+            DB::commit();
+        } catch (\Exception $exception) {
             DB::rollBack();
             throw $exception;
         }

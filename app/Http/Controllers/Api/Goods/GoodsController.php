@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api\Goods;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FileRequest;
 use App\Http\Requests\Api\Goods\GoodsRequest;
+use App\Http\Requests\Api\Goods\ModifyRequest;
 use App\Http\Searchs\Api\Goods\GoodsSearch;
 use App\MongoDB\Goods as GoodsMongoDB;
 use App\Repositories\Category;
@@ -42,8 +43,21 @@ class GoodsController extends Controller
     public function view(Category $category)
     {
         return $this->response([
-            'categories' => $category->get(['id', 'name', 'parent_id']),
+            'categories' => $category->getScope(['id', 'name', 'parent_id'], ['status' => 'on']),
         ]);
+    }
+
+    /**
+ * index
+ * @param GoodsSearch $search
+ * @return JsonResponse
+ * @author luffyzhao@vip.126.com
+ */
+    public function index(GoodsSearch $search)
+    {
+        return $this->response(
+            GoodsMongoDB::where($search->toArray())->paginate()
+        );
     }
 
     /**
@@ -52,13 +66,30 @@ class GoodsController extends Controller
      * @return JsonResponse
      * @author luffyzhao@vip.126.com
      */
-    public function index(GoodsSearch $search)
+    public function recycle(GoodsSearch $search)
     {
         return $this->response(
-            GoodsMongoDB::where($search->toArray())->paginate()
+            GoodsMongoDB::onlyTrashed()->where($search->toArray())->paginate()
         );
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     * @throws \Exception
+     * @author luffyzhao@vip.126.com
+     */
+    public function recovery($id){
+        return $this->response(
+            $this->goods->recovery($id)
+        );
+    }
+
+    public function recycleDestroy($id){
+        return $this->response(
+            $this->goods->recycleDestroy($id)
+        );
+    }
     /**
      * create
      * @param Category $category
@@ -159,6 +190,38 @@ class GoodsController extends Controller
                     'name', 'price', 'stock', 'weight', 'type', 'status', 'categories', 'file', 'galleries', 'attributes', 'detail', 'specs'
                 ])
             )
+        );
+    }
+
+    /**
+     * @param ModifyRequest $request
+     * @param $id
+     * @return JsonResponse
+     * @throws \Throwable
+     * @author luffyzhao@vip.126.com
+     */
+    public function modify(ModifyRequest $request, $id)
+    {
+        return $this->response(
+            $this->goods->simpleUpdate(
+                $id,
+                $request->only(['name', 'status', 'type', 'weight'])
+            )
+        );
+    }
+
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     * @author: luffyzhao@vip.126.com
+     * @datetime: 2019/3/27 19:21
+     */
+    public function destroy($id)
+    {
+        return $this->response(
+            $this->goods->delete($id)
         );
     }
 }

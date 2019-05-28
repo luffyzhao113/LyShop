@@ -34,10 +34,32 @@ class GoodsSearch extends SearchAbstract
     {
         return [
             'name' => 'closure',
-            'type' => '=',
-            'status' => '=',
+            'type' => 'closure',
+            'status' => 'closure',
             'categories' => 'closure'
         ];
+    }
+
+    /**
+     * @param $value
+     * @return \Closure
+     * @author luffyzhao@vip.126.com
+     */
+    public function getTypeAttribute($value){
+        return function ($query) use ($value){
+            $query->where('type', $value);
+        };
+    }
+
+    /**
+     * @param $value
+     * @return \Closure
+     * @author luffyzhao@vip.126.com
+     */
+    public function getStatusAttribute($value){
+        return function ($query) use ($value){
+            $query->where('status', $value);
+        };
     }
 
     /**

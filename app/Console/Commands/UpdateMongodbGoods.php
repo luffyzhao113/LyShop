@@ -44,11 +44,11 @@ class UpdateMongodbGoods extends Command
         $this->info('清除原来的数据.');
         GoodsMongodb::truncate();
         $this->info('更新mongodb goods 数据.');
-        Goods::chunk($this->option('chunk'), function (Collection $data){
+        Goods::withTrashed()->chunk($this->option('chunk'), function (Collection $data){
             $data->load(['categories', 'attributes', 'specItems']);
             $this->output->write('.');
             $data->map(function (Goods $item){
-                GoodsMongodb::up($item);
+                GoodsMongodb::cr($item);
             });
         });
         $this->info('');

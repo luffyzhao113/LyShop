@@ -4,6 +4,22 @@
             <FormItem label="商品标题">
                 <Input type="text" v-model="search.name"></Input>
             </FormItem>
+            <FormItem label="商品类目">
+                <cascader :data="categories.data" v-model="search.categories" label="name"></cascader>
+            </FormItem>
+            <FormItem label="商品状态">
+                <Select v-model="search.status" clearable>
+                    <Option value="grounding">上架</Option>
+                    <Option value="undercarriage">下架</Option>
+                </Select>
+            </FormItem>
+            <FormItem label="商品类型">
+                <Select v-model="search.type" clearable>
+                    <Option value="normal">正常</Option>
+                    <Option value="group">团购</Option>
+                    <Option value="seckill">秒杀</Option>
+                </Select>
+            </FormItem>
             <FormItem :label-width="0">
                 <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
                 <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
@@ -17,12 +33,25 @@
                     </span>
                 </template>
                 <template slot-scope="{ row, index }" slot="type">
-                    <span v-if="row.type === 'normal'">正常</span>
-                    <span v-if="row.type === 'group'">团购</span>
-                    <span v-if="row.type === 'seckill'">秒杀</span>
+                    <Poptip trigger="hover">
+                        <div slot="content">
+                            <Button size="small" @click="update(row, 'type', 'normal')">正常</Button>
+                            <Button size="small" @click="update(row, 'type', 'group')">团购</Button>
+                            <Button size="small" @click="update(row, 'type', 'seckill')">秒杀</Button>
+                        </div>
+                        <span v-if="row.type === 'normal'">正常</span>
+                        <span v-if="row.type === 'group'">团购</span>
+                        <span v-if="row.type === 'seckill'">秒杀</span>
+                    </Poptip>
                 </template>
                 <template slot-scope="{ row, index }" slot="status">
-                    <span>{{row.status === 'grounding' ? '上架' : '下架' }}</span>
+                    <Poptip trigger="hover">
+                        <div slot="content">
+                            <Button size="small" @click="update(row, 'status', 'grounding')">上架</Button>
+                            <Button size="small" @click="update(row, 'status', 'undercarriage')" style="float: right">下架</Button>
+                        </div>
+                        <span>{{row.status === 'grounding' ? '上架' : '下架' }}</span>
+                    </Poptip>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
                     <Dropdown @on-click="action($event, row)">
@@ -32,8 +61,6 @@
                         </Button>
                         <DropdownMenu slot="list">
                             <DropdownItem name="goods">修改商品</DropdownItem>
-                            <DropdownItem name="galleries">修改商品组图</DropdownItem>
-                            <DropdownItem name="spec">修改商品规格</DropdownItem>
                             <DropdownItem divided name="recycle">移动到回收站</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
@@ -52,11 +79,12 @@
     import contentListPage from "../../../mixins/content-list-page"
     import Create from './create'
     import Update from './update'
+    import Cascader from "../../../components/form/cascader";
 
     export default {
         name: "index",
         mixins: [contentListPage],
-        components: {ITable, ISearch, IContent, Create, Update},
+        components: {Cascader, ITable, ISearch, IContent, Create, Update},
         data() {
             return {
                 loading: false,
@@ -105,8 +133,14 @@
                         width: 150,
                     },]
                 },
-                search: {}
+                search: {},
+                categories: {data: []}
             }
+        },
+        mounted() {
+            this.$http.get('goods/goods/view').then((res) => {
+                this.categories.data = res.categories;
+            });
         },
         methods: {
             getLists(page) {
@@ -121,10 +155,32 @@
                     this.loading = false;
                 });
             },
+            remove(data) {
+                this.loading = true;
+                this.$http.delete(`goods/goods/${data.id}`)
+                    .then((res) => {
+                        this.getLists();
+                    }).finally(() => {
+                    this.loading = false;
+                });
+            },
+            update(row, key, value){
+                let data = {};
+                data[key] = value;
+                this.loading = true;
+                this.$http.put(`goods/goods/${row.id}/edit`, data).then(() => {
+                        this.getLists(this.page.current)
+                    }).finally(() => {
+                        this.loading = false;
+                    });
+            },
             action(name, row){
                 switch (name) {
                     case 'goods':
                         this.openComponent('Update', row);
+                        break;
+                    case 'recycle':
+                        this.remove(row);
                         break;
                 }
             }
