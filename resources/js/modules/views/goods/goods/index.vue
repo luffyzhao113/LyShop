@@ -60,6 +60,7 @@
                             <Icon type="ios-arrow-down"></Icon>
                         </Button>
                         <DropdownMenu slot="list">
+                            <DropdownItem name="show">查看商品</DropdownItem>
                             <DropdownItem name="goods">修改商品</DropdownItem>
                             <DropdownItem divided name="recycle">移动到回收站</DropdownItem>
                         </DropdownMenu>
@@ -79,12 +80,13 @@
     import contentListPage from "../../../mixins/content-list-page"
     import Create from './create'
     import Update from './update'
+    import Show from './show'
     import Cascader from "../../../components/form/cascader";
 
     export default {
         name: "index",
         mixins: [contentListPage],
-        components: {Cascader, ITable, ISearch, IContent, Create, Update},
+        components: {Cascader, ITable, ISearch, IContent, Create, Update, Show},
         data() {
             return {
                 loading: false,
@@ -181,6 +183,9 @@
                         break;
                     case 'recycle':
                         this.remove(row);
+                        break;
+                    case 'show':
+                        this.openComponent('Show', row);
                         break;
                 }
             }

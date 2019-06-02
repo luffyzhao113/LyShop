@@ -145,5 +145,14 @@ export const home = [
             tags: true
         },
         component: () => import('../../views/goods/goods/recycle.vue')
+    }, {
+        path: 'Goods/show',
+        name: 'goods.show',
+        meta: {
+            title: '商品详情',
+            cache: true,
+            tags: true
+        },
+        component: () => import('../../views/goods/goods/show.vue')
     }
 ]

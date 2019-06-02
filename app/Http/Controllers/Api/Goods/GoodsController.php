@@ -150,6 +150,24 @@ class GoodsController extends Controller
     }
 
     /**
+     * @param $id
+     * @return JsonResponse
+     * @author luffyzhao@vip.126.com
+     */
+    public function show($id){
+        return $this->response([
+            'row' => $this->goods->findWith($id, [
+                'categories',
+                'detail',
+                'galleries',
+                'attributes',
+                'specs',
+                'specs.items'
+            ])
+        ]);
+    }
+
+    /**
      * edit
      * @param Category $category
      * @param Spec $spec

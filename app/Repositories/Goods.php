@@ -24,6 +24,15 @@ class Goods extends RepositoryAbstract
     }
 
     /**
+     * @param $id
+     * @param array $withs
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findWith($id, array $withs)
+    {
+        return $this->model->newQuery()->with($withs)->findOrFail($id);
+    }
+    /**
      * paginate
      * @param array $attributes
      * @param int $perPage

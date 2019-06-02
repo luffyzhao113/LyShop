@@ -27,4 +27,4 @@ Route::resource('goods', 'GoodsController', [
         'edit' => 'goods.update',
         'create' => 'goods.store',
     ]
-])->except(['show']);
+]);
