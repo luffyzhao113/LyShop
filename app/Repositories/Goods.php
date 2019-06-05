@@ -30,7 +30,7 @@ class Goods extends RepositoryAbstract
      */
     public function findWith($id, array $withs)
     {
-        return $this->model->newQuery()->with($withs)->findOrFail($id);
+        return $this->model->newQuery()->withTrashed()->with($withs)->findOrFail($id);
     }
     /**
      * paginate

@@ -121,7 +121,7 @@ class GoodsController extends Controller
      */
     public function file(FileRequest $request)
     {
-        if ($file = $request->file('file')->store('goods')) {
+        if ($file = $request->file('file')->store('order')) {
             return $this->response([
                 'url' => Storage::url($file),
                 'path' => $file

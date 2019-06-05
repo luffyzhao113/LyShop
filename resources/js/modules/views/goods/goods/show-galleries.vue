@@ -52,13 +52,13 @@
 
 <style lang="less" scoped>
     .galleries-images {
-        height: 253px;
+        height: 350px;
         color: #ccc;
         display: flex;
 
         .box-image {
             flex: 1;
-            height: 253px;
+            height: 350px;
             border: 1px dashed #dcdee2;
             float: left;
             position: relative;
@@ -78,7 +78,7 @@
             flex-basis: 140px;
             border: 1px dashed #dcdee2;
             border-left: none;
-            height: 253px;
+            height: 350px;
             overflow-y: auto;
             border-bottom-right-radius: 5px;
             border-top-right-radius: 5px;

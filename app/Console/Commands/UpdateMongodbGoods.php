@@ -14,7 +14,7 @@ class UpdateMongodbGoods extends Command
      *
      * @var string
      */
-    protected $signature = 'mongodb:goods {--chunk=500}';
+    protected $signature = 'mongodb:order {--chunk=500}';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class UpdateMongodbGoods extends Command
     {
         $this->info('清除原来的数据.');
         GoodsMongodb::truncate();
-        $this->info('更新mongodb goods 数据.');
+        $this->info('更新mongodb order 数据.');
         Goods::withTrashed()->chunk($this->option('chunk'), function (Collection $data){
             $data->load(['categories', 'attributes', 'specItems']);
             $this->output->write('.');

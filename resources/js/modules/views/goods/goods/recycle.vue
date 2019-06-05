@@ -1,7 +1,5 @@
 <template>
     <i-content :spin-show="loading">
-        <i-search v-model="search">
-        </i-search>
         <i-table :current="page.current" :total="page.total" @on-page-change="pageChange">
             <Table :columns="table.columns" :data="table.data">
                 <template slot-scope="{ row, index }" slot="categories">
@@ -18,15 +16,22 @@
                     <span>{{row.status === 'grounding' ? '上架' : '下架' }}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small" @click="recovery(row)">
-                        恢复
-                    </Button>
-                    <Button type="primary" size="small" @click="remove(row)">
-                        清除
-                    </Button>
+                    <Dropdown @on-click="action($event, row)">
+                        <Button type="primary" size="small">
+                            操作
+                            <Icon type="ios-arrow-down"></Icon>
+                        </Button>
+                        <DropdownMenu slot="list">
+                            <DropdownItem name="show">查看商品</DropdownItem>
+                            <DropdownItem name="recovery">恢复商品</DropdownItem>
+                            <DropdownItem divided name="remove">删除商品</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </template>
             </Table>
         </i-table>
+        <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent"
+                   @on-refresh="getLists(1)"></component>
     </i-content>
 </template>
 
@@ -35,11 +40,12 @@
     import contentListPage from "../../../mixins/content-list-page"
     import ISearch from "../../../components/content/search";
     import ITable from "../../../components/content/table";
+    import Show from './show';
 
     export default {
         name: "recycle",
         mixins: [contentListPage],
-        components: {IContent, ITable, ISearch},
+        components: {IContent, ITable, ISearch, Show},
         data() {
             return {
                 loading: false,
@@ -119,6 +125,19 @@
                 }).finally(() => {
                     this.loading = false;
                 });
+            },
+            action(name, row){
+                switch (name) {
+                    case 'recovery':
+                        this.recovery(row);
+                        break;
+                    case 'recycle':
+                        this.remove(row);
+                        break;
+                    case 'show':
+                        this.openComponent('Show', row);
+                        break;
+                }
             }
         }
     }

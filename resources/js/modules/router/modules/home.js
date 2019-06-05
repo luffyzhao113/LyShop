@@ -145,14 +145,14 @@ export const home = [
             tags: true
         },
         component: () => import('../../views/goods/goods/recycle.vue')
-    }, {
-        path: 'Goods/show',
-        name: 'goods.show',
+    },  {
+        path: 'Order/list',
+        name: 'order.list',
         meta: {
-            title: '商品详情',
+            title: '订单列表',
             cache: true,
             tags: true
         },
-        component: () => import('../../views/goods/goods/show.vue')
+        component: () => import('../../views/order/order/index.vue')
     }
 ]

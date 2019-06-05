@@ -61002,7 +61002,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../../views/authorities/menu/index */ "./resources/js/modules/views/authorities/menu/index.vue"));
+    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../../views/authorities/menu/index */ "./resources/js/modules/views/authorities/menu/index.vue"));
   }
 }, {
   path: 'Authorities/authority',
@@ -61079,7 +61079,7 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ../../views/goods/category */ "./resources/js/modules/views/goods/category/index.vue"));
+    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ../../views/goods/category */ "./resources/js/modules/views/goods/category/index.vue"));
   }
 }, {
   path: 'Goods/spec',
@@ -61112,18 +61112,18 @@ var home = [{
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(20)]).then(__webpack_require__.bind(null, /*! ../../views/goods/goods/recycle.vue */ "./resources/js/modules/views/goods/goods/recycle.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2), __webpack_require__.e(15)]).then(__webpack_require__.bind(null, /*! ../../views/goods/goods/recycle.vue */ "./resources/js/modules/views/goods/goods/recycle.vue"));
   }
 }, {
-  path: 'Goods/show',
-  name: 'goods.show',
+  path: 'Order/list',
+  name: 'order.list',
   meta: {
-    title: '商品详情',
+    title: '订单列表',
     cache: true,
     tags: true
   },
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(2), __webpack_require__.e(15)]).then(__webpack_require__.bind(null, /*! ../../views/goods/goods/show.vue */ "./resources/js/modules/views/goods/goods/show.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(20)]).then(__webpack_require__.bind(null, /*! ../../views/order/order/index.vue */ "./resources/js/modules/views/order/order/index.vue"));
   }
 }];
 

@@ -37,6 +37,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -46,6 +50,12 @@ __webpack_require__.r(__webpack_exports__);
     ITable: _components_content_table__WEBPACK_IMPORTED_MODULE_2__["default"],
     ISearch: _components_content_search__WEBPACK_IMPORTED_MODULE_1__["default"],
     IContent: _components_content_index__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      data: {},
+      ruleValidate: {}
+    };
   }
 });
 
@@ -120,33 +130,65 @@ var render = function() {
     { attrs: { "spin-show": false } },
     [
       _c(
-        "Card",
-        { staticClass: "shop-setting" },
+        "Form",
+        {
+          ref: "formCreate",
+          attrs: { model: _vm.data, "label-width": 80, rules: _vm.ruleValidate }
+        },
         [
           _c(
-            "Tabs",
+            "Card",
+            { staticClass: "shop-setting" },
             [
-              _c("TabPane", {
-                attrs: { label: "基础配置", icon: "md-trophy" }
-              }),
+              _c(
+                "Tabs",
+                [
+                  _c(
+                    "TabPane",
+                    { attrs: { label: "基础配置", icon: "md-trophy" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "商城名称" } },
+                        [
+                          _c("Input", {
+                            model: {
+                              value: _vm.data.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.data, "name", $$v)
+                              },
+                              expression: "data.name"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("TabPane", {
+                    attrs: { label: "订单配置", icon: "md-aperture" }
+                  }),
+                  _vm._v(" "),
+                  _c("TabPane", {
+                    attrs: { label: "图片配置", icon: "ios-images" }
+                  }),
+                  _vm._v(" "),
+                  _c("TabPane", {
+                    attrs: { label: "其他配置", icon: "md-snow" }
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("TabPane", {
-                attrs: { label: "订单配置", icon: "md-aperture" }
-              }),
-              _vm._v(" "),
-              _c("TabPane", {
-                attrs: { label: "图片配置", icon: "ios-images" }
-              }),
-              _vm._v(" "),
-              _c("TabPane", { attrs: { label: "其他配置", icon: "md-snow" } })
+              _c(
+                "div",
+                { staticClass: "shop-setting-footer" },
+                [_c("Button", [_vm._v("保存")])],
+                1
+              )
             ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "shop-setting-footer" },
-            [_c("Button", [_vm._v("保存")])],
             1
           )
         ],

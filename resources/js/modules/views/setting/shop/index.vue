@@ -1,25 +1,29 @@
 <template>
     <i-content :spin-show="false">
-        <Card class="shop-setting">
-            <Tabs>
-                <TabPane label="基础配置" icon="md-trophy">
+        <Form ref="formCreate" :model="data" :label-width="80" :rules="ruleValidate">
+            <Card class="shop-setting">
+                <Tabs>
+                    <TabPane label="基础配置" icon="md-trophy">
+                        <FormItem label="商城名称">
+                            <Input v-model="data.name" />
+                        </FormItem>
+                    </TabPane>
+                    <TabPane label="订单配置" icon="md-aperture">
 
-                </TabPane>
-                <TabPane label="订单配置" icon="md-aperture">
+                    </TabPane>
+                    <TabPane label="图片配置" icon="ios-images">
 
-                </TabPane>
-                <TabPane label="图片配置" icon="ios-images">
+                    </TabPane>
+                    <TabPane label="其他配置" icon="md-snow">
 
-                </TabPane>
-                <TabPane label="其他配置" icon="md-snow">
+                    </TabPane>
 
-                </TabPane>
-
-            </Tabs>
-            <div class="shop-setting-footer">
-                <Button>保存</Button>
-            </div>
-        </Card>
+                </Tabs>
+                <div class="shop-setting-footer">
+                    <Button>保存</Button>
+                </div>
+            </Card>
+        </Form>
     </i-content>
 </template>
 
@@ -30,7 +34,13 @@
 
     export default {
         name: "index",
-        components: {ITable, ISearch, IContent}
+        components: {ITable, ISearch, IContent},
+        data(){
+            return {
+                data:{},
+                ruleValidate:{}
+            }
+        }
     }
 </script>
 

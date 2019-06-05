@@ -24,9 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(config('app.debug')){
-            DB::connection('mongodb')->enableQueryLog();
-        }
         parent::boot();
     }
 
@@ -72,6 +69,11 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['api', 'rbac'])
             ->namespace($this->namespace . '\Goods')
             ->group(base_path('routes/goods.php'));
+
+        Route::prefix('api/order')
+            ->middleware(['api', 'rbac'])
+            ->namespace($this->namespace . '\Order')
+            ->group(base_path('routes/order.php'));
 
     }
 
