@@ -13,7 +13,7 @@ class CreateGoodsTables extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('goods', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->comment('商品名称');
             $table->string('file', 255)->comment('商品主图');
@@ -33,7 +33,7 @@ class CreateGoodsTables extends Migration
             $table->unsignedInteger('goods_id');
             $table->string('category_id', 20);
 
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -47,7 +47,7 @@ class CreateGoodsTables extends Migration
             $table->string('file')->comment('图片地址');
             $table->tinyInteger('sort', false, true)->default(0)->comment('排序');
             $table->timestamps();
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -58,7 +58,7 @@ class CreateGoodsTables extends Migration
             $table->unsignedInteger('stock')->comment('库存');
             $table->string('file', 255)->nullable()->comment('附件[图片]');
             $table->timestamps();
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -69,7 +69,7 @@ class CreateGoodsTables extends Migration
             $table->string('name', 20)->comment('规格名称');
             $table->string('value', 20)->comment('规格值');
 
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('goods_spec_id')->references('id')->on('goods_specs')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -83,7 +83,7 @@ class CreateGoodsTables extends Migration
             $table->string('unit', 10)->comment('单位');
             $table->timestamps();
 
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -95,7 +95,7 @@ class CreateGoodsTables extends Migration
             $table->string('values', 255)->comment('规格值');
             $table->timestamps();
 
-            $table->foreign('goods_id')->references('id')->on('order')
+            $table->foreign('goods_id')->references('id')->on('goods')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -114,6 +114,6 @@ class CreateGoodsTables extends Migration
         Schema::dropIfExists('goods_spec_items');
         Schema::dropIfExists('goods_specs');
         Schema::dropIfExists('goods_details');
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('goods');
     }
 }

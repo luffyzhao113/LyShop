@@ -16,7 +16,7 @@ class Goods extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'order';
+    protected $table = 'goods';
 
     protected $fillable = ['name', 'price', 'stock', 'weight', 'type', 'status', 'file', 'view', 'sales', 'collect'];
 

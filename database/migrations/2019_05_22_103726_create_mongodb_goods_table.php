@@ -13,7 +13,7 @@ class CreateMongodbGoodsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mongodb')->create('order', function (Blueprint $table) {
+        Schema::connection('mongodb')->create('goods', function (Blueprint $table) {
             $table->unique('id');
             $table->index('name');
         });
@@ -26,6 +26,6 @@ class CreateMongodbGoodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('goods');
     }
 }
