@@ -4,13 +4,13 @@
             <Step title="分配菜单"></Step>
             <Step title="分配权限"></Step>
         </Steps>
-        <Form :model="update" :label-width="100" :rules="ruleValidate" ref="formUpdate">
+        <Form :model="data" :label-width="100" :rules="ruleValidate" ref="formUpdate">
             <div v-show="current === 0">
                 <FormItem label="部门名称" prop="name">
-                    <Input v-model="update.name"></Input>
+                    <Input v-model="data.name"></Input>
                 </FormItem>
                 <FormItem label="部门描述" prop="description">
-                    <Input v-model="update.description" type="textarea" :rows="6"></Input>
+                    <Input v-model="data.description" type="textarea" :rows="6"></Input>
                 </FormItem>
                 <FormItem label="分配菜单">
                     <div class="menu-box">
@@ -26,18 +26,18 @@
                             :titles="['可分配权限', '已有权限']"
                             :list-style="{width: '250px',height: '500px'}"
                             :data="authorities.data"
-                            :target-keys="update.authorities"
+                            :target-keys="data.authorities"
                             @on-change="handleChange"></Transfer>
                 </FormItem>
             </div>
         </Form>
         <div slot="footer">
-            <Button type="primary" v-if="current === 1" @click="next">
+            <Button type="primary" v-if="current === 1" @click="next('formUpdate')">
                 <Icon type="ios-arrow-back"></Icon>
                 上一步
             </Button>
             <Button type="primary" v-if="current === 1" icon="ios-add" @click="submit('formUpdate')">提交</Button>
-            <Button type="primary" v-if="current === 0" @click="next">下一步
+            <Button type="primary" v-if="current === 0" @click="next('formUpdate')">下一步
                 <Icon type="ios-arrow-forward"></Icon>
             </Button>
         </div>
@@ -47,14 +47,15 @@
 <script>
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
+    import Role from './role';
 
     export default {
         name: "update",
         components: {IDrawer},
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, Role],
         mounted() {
             this.$http.get(`authorities/role/${this.props.id}/edit`).then((res) => {
-                this.update = res.data
+                this.data = res.data
                 this.menus.data = res.menus
                 let data = [];
                 JSON.parse(JSON.stringify(this.menus.data)).forEach((item) => {
@@ -72,72 +73,21 @@
                 this.loading = false
             });
         },
-        data() {
-            return {
-                current: 0,
-                loading: true,
-                update: {
-                    authorities: [],
-                    menus: []
-                },
-                authorities: {
-                    data: []
-                },
-                menus: {
-                    data: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '部门名称不能为空', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '权限名称字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    description: [
-                        {type: 'string', max: 255, message: '权限描述最长255个字符', trigger: 'blur'}
-                    ]
-                },
-                change: false
-            }
-        },
         computed: {
             checkedMenus() {
                 return this.toChecked(JSON.parse(JSON.stringify(this.menus.data)))
             }
         },
         methods: {
-            handleChange(newTargetKeys) {
-                this.update.authorities = newTargetKeys
-            },
             submit(name) {
-                this.validate('formUpdate').then(() => {
-                    this.$http.put(`authorities/role/${this.props.id}`, this.update).then(() => {
+                this.validate(name).then(() => {
+                    this.loading = true;
+                    this.$http.put(`authorities/role/${this.props.id}`, this.data).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false;
                     });
                 }).catch();
-            },
-            getAuthorities(){
-                this.$http.get(`authorities/menu/authority`, {
-                    params: {
-                        ids: this.checkedMenus
-                    }
-                }).then((res) => {
-                    let lists = this.toTransfer(res);
-                    this.update.authorities = this.update.authorities.filter((val) => {
-                        return lists.findIndex((v) => val === v.key) !== -1;
-                    });
-                    this.authorities.data = lists
-                });
-            },
-            next() {
-                if (this.current === 0) {
-                    this.validate('formUpdate').then(() => {
-                        if (this.change === true) {
-                            this.getAuthorities();
-                        }
-                        this.current = ++this.current
-                    }).catch();
-                } else {
-                    this.current = --this.current;
-                }
             },
             child(parent) {
                 return this.menus.data.filter(val => val.parent_id == parent)
@@ -147,7 +97,7 @@
                 if (!hasChild) {
                     return false
                 }
-                let has = typeof this.update.menus.find(val => val === item.id) !== 'undefined'
+                let has = typeof this.data.menus.find(val => val === item.id) !== 'undefined'
                 if (has) {
                     return true
                 }
@@ -173,7 +123,7 @@
                 if (hasChild) {
                     return false
                 }
-                let has = typeof this.update.menus.find(val => val === item.id) !== 'undefined'
+                let has = typeof this.data.menus.find(val => val === item.id) !== 'undefined'
                 if (has) {
                     return true
                 }
@@ -190,25 +140,11 @@
                     }
                 });
                 return arr
-            },
-            toTransfer(data) {
-                let lists = [];
-                data.forEach((item) => {
-                    item.authorities.forEach((val) => {
-                        if (lists.findIndex((v) => v.key === val.id) === -1) {
-                            lists.push({
-                                key: val.id,
-                                label: `${val.name}`
-                            })
-                        }
-                    })
-                })
-                return lists
             }
         },
         watch: {
             checkedMenus(val) {
-                this.update.menus = val
+                this.data.menus = val
                 this.change = true
             }
         }

@@ -20,16 +20,6 @@ export const home = [
         component: () => import('./../../views/profile/index')
     },
     {
-        path: 'setting/spec',
-        name: 'setting.spec',
-        meta: {
-            title: '商品规格',
-            cache: true,
-            tags: true
-        },
-        component: () => import('./../../views/setting/spec/index')
-    },
-    {
         path: 'Authorities/user',
         name: 'authorities.user',
         meta: {

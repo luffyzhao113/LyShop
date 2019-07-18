@@ -5,7 +5,7 @@
                 <Input v-model="search.name" placeholder="姓名"></Input>
             </FormItem>
             <FormItem :label-width="1">
-                <Button type="primary" icon="ios-search">搜索</Button>
+                <Button type="primary" icon="ios-search" @click="getLists">搜索</Button>
                 <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
             </FormItem>
         </i-search>

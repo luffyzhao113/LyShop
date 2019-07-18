@@ -87,6 +87,7 @@ class CreateAuthTable extends Migration
             $table->date('entryday')->default(null)->nullable()->comment('入职日期');
             $table->enum('sex', ['man', 'women'])->default('man')->comment('性别');
             $table->enum('status', ['on', 'off'])->default('off')->comment('状态');
+            $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles')
                 ->onUpdate('cascade')->onDelete('set null');

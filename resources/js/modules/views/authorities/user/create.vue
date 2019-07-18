@@ -1,22 +1,22 @@
 <template>
     <i-drawer title="用户添加" :width="620" :loading="loading">
-        <Form :model="create" :label-width="100" :rules="ruleValidate" ref="formCreate">
+        <Form :model="data" :label-width="100" :rules="ruleValidate" ref="formCreate">
             <FormItem label="姓名" prop="name">
-                <Input placeholder="请输入姓名" v-model="create.name"></Input>
+                <Input placeholder="请输入姓名" v-model="data.name"></Input>
             </FormItem>
             <FormItem label="邮箱" prop="email">
-                <Input placeholder="请输入邮箱" v-model="create.email"></Input>
+                <Input placeholder="请输入邮箱" v-model="data.email"></Input>
             </FormItem>
 
             <Row>
                 <Col span="12">
                     <FormItem label="手机号码" prop="phone">
-                        <Input placeholder="手机号码" v-model="create.phone"></Input>
+                        <Input placeholder="手机号码" v-model="data.phone"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="用户状态" prop="status">
-                        <i-switch true-value="on" false-value="off" v-model="create.status" size="large">
+                        <i-switch true-value="on" false-value="off" v-model="data.status" size="large">
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>
@@ -26,12 +26,12 @@
             <Row>
                 <Col span="12">
                     <FormItem label="出生日期" prop="birthday">
-                        <DatePicker placeholder="出生日期" format="yyyy-MM-dd" @on-change="(val) => create.birthday = val"></DatePicker>
+                        <DatePicker placeholder="出生日期" format="yyyy-MM-dd" @on-change="(val) => data.birthday = val"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="用户性别" prop="sex">
-                        <i-switch true-value="man" false-value="women" v-model="create.sex" size="large">
+                        <i-switch true-value="man" false-value="women" v-model="data.sex" size="large">
                             <span slot="open">男</span>
                             <span slot="close">女</span>
                         </i-switch>
@@ -41,12 +41,12 @@
             <Row>
                 <Col span="12">
                     <FormItem label="入职时间" prop="entryday">
-                        <DatePicker placeholder="入职时间" format="yyyy-MM-dd" @on-change="(val) => create.entryday = val"></DatePicker>
+                        <DatePicker placeholder="入职时间" format="yyyy-MM-dd" @on-change="(val) => data.entryday = val"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="所属部门" prop="role_id">
-                        <Select v-model="create.role_id">
+                        <Select v-model="data.role_id">
                             <Option v-for="(item) in roles.data" :key="item.id" :value="item.id">
                                 {{item.name}}
                             </Option>
@@ -56,10 +56,10 @@
             </Row>
 
             <FormItem label="密码" prop="password">
-                <Input placeholder="请输入密码" type="password" v-model="create.password"></Input>
+                <Input placeholder="请输入密码" type="password" v-model="data.password"></Input>
             </FormItem>
             <FormItem label="确认密码" prop="password_confirmation">
-                <Input placeholder="请输入确认密码" type="password" v-model="create.password_confirmation"></Input>
+                <Input placeholder="请输入确认密码" type="password" v-model="data.password_confirmation"></Input>
             </FormItem>
         </Form>
         <div slot="footer">
@@ -71,78 +71,26 @@
 <script>
     import contentDrawer from '../../../mixins/content-drawer'
     import IDrawer from "../../../components/content/drawer";
+    import User from './user'
 
     export default {
-        name: "create",
+        name: "data",
         components: {IDrawer},
-        mixins: [contentDrawer],
+        mixins: [contentDrawer, User],
         mounted() {
             this.$http(`authorities/user/create`).then((res) => {
                 this.roles.data = res;
                 this.loading = false
             });
         },
-        data() {
-            return {
-                loading: true,
-                create: {
-                    sex: 'women',
-                    status: 'on'
-                },
-                departments: {
-                    data: []
-                },
-                roles: {
-                    data: []
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: '用户姓名必须填写', trigger: 'blur'},
-                        {type: 'string', min: 2, max: 20, message: '用户姓名字符长度是2-20个字符', trigger: 'blur'}
-                    ],
-                    email: [
-                        {required: true, message: '用户邮箱不能为空', trigger: 'blur'},
-                        {type: 'email', message: '用户邮箱格式不正确', trigger: 'blur'},
-                    ],
-                    phone: [
-                        {required: true, message: '手机号码必须填写', trigger: 'blur'},
-                        {pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur'}
-                    ],
-                    role_id: [
-                        {required: true, type: 'number', message: '所属部门不能为空', trigger: 'change'},
-                    ],
-                    password: [
-                        {required: true, message: '用户密码不能为空', trigger: 'blur'},
-                        {type: 'string', min: 6, max: 20, message: '用户密码字符长度是6-20个字符', trigger: 'blur'}
-                    ],
-                    status: [
-                        {required: true, type: 'enum', enum: ['off', 'on'], message: '用户状态不能为空'}
-                    ],
-                    sex: [
-                        {required: true, type: 'enum', enum: ['women', 'man'], message: '性别状态不能为空'}
-                    ],
-                    password_confirmation: [
-                        {required: true, message: '二次输入密码不正确', trigger: 'blur'},
-                        {
-                            trigger: 'blur',
-                            validator: (rule, value, callback) => {
-                                if (value === this.create.password) {
-                                    return callback();
-                                } else {
-                                    return callback('二次输入密码不正确')
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
-        },
         methods: {
             submit(name) {
                 this.validate(name).then(() => {
-                    this.$http.post(`authorities/user`, this.create).then(() => {
-                        this.loading = false;
+                    this.loading = true;
+                    this.$http.post(`authorities/user`, this.data).then(() => {
                         this.closeDrawer(false)
+                    }).finally(() => {
+                        this.loading = false;
                     });
                 }).catch();
             }
