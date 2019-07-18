@@ -131,6 +131,7 @@
         methods: {
             submit(name){
                 this.validate(name).then(() => {
+                    this.loading = true;
                     this.$http.put(`profile`, this.profile).then((res) => {
 
                     }).finally(() => {
