@@ -47,9 +47,9 @@
                     </FormItem>
                 </Col>
                 <Col span="12">
-                    <FormItem label="所属部门" prop="department_id">
-                        <Select v-model="data.department_id">
-                            <Option v-for="(item) in departments.data" :key="item.id" :value="item.id">
+                    <FormItem label="所属部门" prop="role_id">
+                        <Select v-model="data.role_id">
+                            <Option v-for="(item) in roles.data" :key="item.id" :value="item.id">
                                 {{item.name}}
                             </Option>
                         </Select>

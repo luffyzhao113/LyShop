@@ -9,7 +9,7 @@ mix.copyDirectory('resources/js/libs/ueditor', 'public/vendor/ueditor');
 mix.webpackConfig({
     output: {
         filename: '[name].js',
-        chunkFilename: mix.inProduction() ? 'vendor/js/[name].[chunkhash].chunk.js' : 'vendor/js/[name].chunk.js'
+        chunkFilename: mix.inProduction() ? 'vendor/js/[name].chunk.js' : 'vendor/js/[name].chunk.js'
     }
 });
 
