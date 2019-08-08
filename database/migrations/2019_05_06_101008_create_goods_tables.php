@@ -99,6 +99,16 @@ class CreateGoodsTables extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
+        // 商品快递模板
+        Schema::create('goods_express', function (Blueprint $table){
+            $table->unsignedInteger('goods_id')->comment('商品ID');
+            $table->unsignedInteger('express_id')->comment('快递模板ID');
+            $table->foreign('goods_id')->references('id')->on('goods')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('express_id')->references('id')->on('express')
+                ->onUpdate('cascade')->onDelete('cascade');
+        });
+
     }
 
     /**

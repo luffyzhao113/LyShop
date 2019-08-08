@@ -1,8 +1,8 @@
 <template>
-    <Card :title="title" :icon="icon">
+    <div class="list-panel">
         <slot></slot>
         <Page :current="current"  :total="total" :page-size="pageSize" show-total @on-change="change" size="small"/>
-    </Card>
+    </div>
 </template>
 
 <script>
@@ -37,8 +37,13 @@
 </script>
 
 <style scoped lang="less">
+.list-panel{
+    background-color: #fff;
+    padding: 10px 0;
+    flex: 1;
+}
 .ivu-page{
     margin-top: 15px;
-    text-align: right;
+    text-align: center;
 }
 </style>

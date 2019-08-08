@@ -85,11 +85,11 @@ class Express extends RepositoryAbstract
      * @return \App\Models\Express|\App\Models\Express[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function editFind($id){
-        $row = $this->model->with(['details.areas:id'])->findOrFail($id)->toArray();
+        $row = $this->model->with(['details.areas:areas.area_code'])->findOrFail($id)->toArray();
         return collect($row)->map(function ($item, $key){
             if($key === 'details'){
                 return collect($item)->map(function ($val){
-                    $val['areas'] = collect($val['areas'])->pluck('id');
+                    $val['areas'] = collect($val['areas'])->pluck('area_code');
                     return $val;
                 });
             }

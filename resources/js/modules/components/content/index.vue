@@ -19,9 +19,9 @@
 
 <style scoped lang="less">
     .content-wrapper {
-        padding: 18px;
         overflow: auto;
-
+        display: flex;
+        flex-flow: column;
         & > .ivu-card {
             margin-bottom: 10px;
         }

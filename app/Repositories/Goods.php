@@ -32,6 +32,7 @@ class Goods extends RepositoryAbstract
     {
         return $this->model->newQuery()->withTrashed()->with($withs)->findOrFail($id);
     }
+
     /**
      * paginate
      * @param array $attributes
@@ -58,45 +59,37 @@ class Goods extends RepositoryAbstract
      */
     public function create(array $attributes = [])
     {
-        try {
-            DB::beginTransaction();
-            /**
-             * @var $model \App\Models\Goods
-             */
-            $model = parent::create($attributes);
+        /**
+         * @var $model \App\Models\Goods
+         */
+        $model = parent::create($attributes);
 
-            $model->categories()->attach($attributes['categories']);
+        $model->categories()->attach($attributes['categories']);
 
-            $model->galleries()->createMany($attributes['galleries']);
+        $model->galleries()->createMany($attributes['galleries']);
 
-            $model->detail()->create($attributes['detail']);
+        $model->detail()->create($attributes['detail']);
 
-            if (array_key_exists('attributes', $attributes)) {
-                $model->attributes()->createMany($attributes['attributes']);
-            }
+        if (array_key_exists('attributes', $attributes)) {
+            $model->attributes()->createMany($attributes['attributes']);
+        }
 
-            if (array_key_exists('specs', $attributes)) {
-                foreach ($attributes['specs'] as $spec) {
-                    /**
-                     * @var $specModel \App\Models\GoodsSpec
-                     */
-                    $specModel = $model->specs()->create($spec);
-                    foreach ($spec['items'] as $item) {
-                        $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
-                    }
+        if (array_key_exists('specs', $attributes)) {
+            foreach ($attributes['specs'] as $spec) {
+                /**
+                 * @var $specModel \App\Models\GoodsSpec
+                 */
+                $specModel = $model->specs()->create($spec);
+                foreach ($spec['items'] as $item) {
+                    $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
                 }
             }
-            // 更新mongodb
-            GoodsMongodb::cr($model);
-
-            DB::commit();
-            return $model;
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
         }
-    }
+        // 更新mongodb
+        GoodsMongodb::cr($model);
 
+        return $model;
+    }
 
 
     /**
@@ -154,74 +147,60 @@ class Goods extends RepositoryAbstract
      */
     public function update($id, array $values)
     {
-        try {
-            DB::beginTransaction();
-            /**
-             * @var $model \App\Models\Goods
-             */
-            $model = $this->find($id);
-            $model->fill($values)->saveOrFail();
+        /**
+         * @var $model \App\Models\Goods
+         */
+        $model = $this->find($id);
+        $model->fill($values)->saveOrFail();
 
-            $model->categories()->sync($values['categories']);
+        $model->categories()->sync($values['categories']);
 
-            $model->galleries()->delete();
-            $model->detail()->delete();
-            $model->attributes()->delete();
-            $model->specs()->delete();
-            $model->specItems()->delete();
+        $model->galleries()->delete();
+        $model->detail()->delete();
+        $model->attributes()->delete();
+        $model->specs()->delete();
+        $model->specItems()->delete();
 
-            $model->galleries()->createMany($values['galleries']);
+        $model->galleries()->createMany($values['galleries']);
 
-            $model->detail()->create($values['detail']);
+        $model->detail()->create($values['detail']);
 
-            if (array_key_exists('attributes', $values)) {
-                $model->attributes()->createMany($values['attributes']);
-            }
+        if (array_key_exists('attributes', $values)) {
+            $model->attributes()->createMany($values['attributes']);
+        }
 
-            if (array_key_exists('specs', $values)) {
-                foreach ($values['specs'] as $spec) {
-                    /**
-                     * @var $specModel \App\Models\GoodsSpec
-                     */
-                    $specModel = $model->specs()->create($spec);
-                    foreach ($spec['items'] as $item) {
-                        $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
-                    }
+        if (array_key_exists('specs', $values)) {
+            foreach ($values['specs'] as $spec) {
+                /**
+                 * @var $specModel \App\Models\GoodsSpec
+                 */
+                $specModel = $model->specs()->create($spec);
+                foreach ($spec['items'] as $item) {
+                    $specModel->items()->create($item + ['goods_id' => $model->getAttribute('id')]);
                 }
             }
-            // 更新mongodb
-            GoodsMongodb::up($model);
-
-            DB::commit();
-
-            return true;
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
         }
+        // 更新mongodb
+        GoodsMongodb::up($model);
+
+        return true;
     }
 
     /**
      * @param $id
      * @param array $values
+     * @return Model
      * @throws \Exception
      * @throws \Throwable
      * @author luffyzhao@vip.126.com
      */
     public function simpleUpdate($id, array $values)
     {
-        try {
-            DB::beginTransaction();
-            $model = $this->find($id);
-            $model->fill($values)->saveOrFail();
-            // 更新mongodb
-            GoodsMongodb::up($model);
-
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
+        $model = $this->find($id);
+        $model->fill($values)->saveOrFail();
+        // 更新mongodb
+        GoodsMongodb::up($model);
+        return $model;
     }
 
     /**
@@ -232,16 +211,8 @@ class Goods extends RepositoryAbstract
      */
     public function delete($id)
     {
-        DB::beginTransaction();
-        try {
-            parent::delete($id);
-            GoodsMongodb::where('id', (int)$id)->first()->delete();
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
-
+        parent::delete($id);
+        GoodsMongodb::where('id', (int)$id)->first()->delete();
         return true;
     }
 
@@ -257,16 +228,9 @@ class Goods extends RepositoryAbstract
          * @var $model \App\Models\Goods
          */
         $model = $this->model->onlyTrashed()->findOrFail($id, ['*']);
-        DB::beginTransaction();
-        try {
-            $model->setAttribute('status', 'undercarriage');
-            $model->restore();
-            GoodsMongodb::up($model);
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
+        $model->setAttribute('status', 'undercarriage');
+        $model->restore();
+        GoodsMongodb::up($model);
     }
 
     /**
@@ -274,19 +238,13 @@ class Goods extends RepositoryAbstract
      * @throws \Exception
      * @author luffyzhao@vip.126.com
      */
-    public function recycleDestroy($id){
+    public function recycleDestroy($id)
+    {
         /**
          * @var $model \App\Models\Goods
          */
         $model = $this->model->onlyTrashed()->findOrFail($id, ['*']);
-        DB::beginTransaction();
-        try {
-            $model->forceDelete();
-            GoodsMongodb::where('id', $model->getKey())->onlyTrashed()->first()->forceDelete();
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
+        $model->forceDelete();
+        GoodsMongodb::where('id', $model->getKey())->onlyTrashed()->first()->forceDelete();
     }
 }

@@ -2,27 +2,27 @@
     <i-content :spin-show="loading">
         <i-search v-model="search">
             <FormItem label="商品标题">
-                <Input type="text" v-model="search.name"></Input>
+                <Input type="text" v-model="search.name" size="small"></Input>
             </FormItem>
             <FormItem label="商品类目">
-                <cascader :data="categories.data" v-model="search.categories" label="name"></cascader>
+                <cascader :data="categories.data" v-model="search.categories" label="name" size="small"></cascader>
             </FormItem>
             <FormItem label="商品状态">
-                <Select v-model="search.status" clearable>
+                <Select v-model="search.status" clearable size="small">
                     <Option value="grounding">上架</Option>
                     <Option value="undercarriage">下架</Option>
                 </Select>
             </FormItem>
             <FormItem label="商品类型">
-                <Select v-model="search.type" clearable>
+                <Select v-model="search.type" clearable size="small">
                     <Option value="normal">正常</Option>
                     <Option value="group">团购</Option>
                     <Option value="seckill">秒杀</Option>
                 </Select>
             </FormItem>
             <FormItem :label-width="0">
-                <Button type="primary" icon="ios-search" @click="getLists(1)">搜索</Button>
-                <Button type="success" icon="ios-add" @click="openComponent('Create')">添加</Button>
+                <Button type="primary" icon="ios-search" @click="getLists(1)" size="small">搜索</Button>
+                <Button type="success" icon="ios-add" @click="openComponent('Create')" size="small">添加</Button>
             </FormItem>
         </i-search>
         <i-table :current="page.current" :total="page.total" @on-page-change="pageChange">

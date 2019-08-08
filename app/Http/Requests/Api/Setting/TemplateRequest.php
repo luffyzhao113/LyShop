@@ -26,7 +26,7 @@ class TemplateRequest extends FormRequest
             ],
             'details' => ['required', 'array', 'min:1'],
             'details.*.areas' => ['required', 'array', 'min:1'],
-            'details.*.areas.*' => ['required', 'integer', Rule::exists('areas', 'id')],
+            'details.*.areas.*' => ['required', 'string'/*, Rule::exists('areas', 'area_code')*/],
             'details.*.continue' => ['required', 'numeric', new Number(3)],
             'details.*.continue_fee' => ['required', 'numeric', new Number(2)],
             'details.*.first' => ['required', 'numeric', new Number(3)],

@@ -1,5 +1,5 @@
 <template>
-    <Cascader :data="formatData" v-model="formatValue" :change-on-select="changeOnSelect" trigger="hover"
+    <Cascader :data="formatData" v-model="formatValue" :change-on-select="changeOnSelect" :size="size" trigger="hover"
               :placeholder="placeholder" transfer></Cascader>
 </template>
 
@@ -27,6 +27,10 @@
             changeOnSelect:{
                 type: Boolean,
                 default: true
+            },
+            size: {
+                type: String,
+                default: ''
             }
         },
         computed: {

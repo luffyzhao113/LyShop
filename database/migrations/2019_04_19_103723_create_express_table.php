@@ -55,7 +55,7 @@ class CreateExpressTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('parent_id')->comment('父ID');
             $table->tinyInteger('level', false, true)->default(0)->comment('层级');
-            $table->string('area_code', 12)->default('0')->comment('行政代码');
+            $table->string('area_code', 12)->unique()->default('0')->comment('行政代码');
             $table->char('zip_code', 6)->default('000000')->comment('邮编');
             $table->char('city_code', 6)->default('')->comment('区号');
             $table->string('name', 50)->comment('名称');
@@ -69,7 +69,7 @@ class CreateExpressTable extends Migration
         });
 
         Schema::create('express_detail_areas', function (Blueprint $table){
-            $table->unsignedInteger('area_id')->comment('地区ID');
+            $table->string('area_code', 12)->comment('地区ID');
             $table->unsignedInteger('express_detail_id')->comment('记件id');
             $table->enum('type', ['piece', 'weigh'])->comment('类型');
             $table->primary(['area_id', 'express_detail_id']);

@@ -21,7 +21,7 @@ class ExpressDetail extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function areas(){
-        return $this->belongsToMany(Areas::class, 'express_detail_areas', 'express_detail_id', 'area_id');
+        return $this->belongsToMany(Areas::class, 'express_detail_areas', 'express_detail_id', 'area_code', 'id', 'area_code');
     }
 
     /**

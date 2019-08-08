@@ -15,6 +15,7 @@ use App\Http\Searchs\Api\Setting\TemplateSearch;
 use App\Repositories\Areas;
 use App\Repositories\Express;
 use App\Repositories\ExpressCompany;
+use Illuminate\Support\Facades\DB;
 
 class TemplateController extends Controller
 {
@@ -32,10 +33,11 @@ class TemplateController extends Controller
     /**
      * view
      * @param ExpressCompany $company
-     * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
+     * @author luffyzhao@vip.126.com
      */
-    public function view(ExpressCompany $company){
+    public function view(ExpressCompany $company)
+    {
         return $this->response([
             'companies' => $company->get(['id', 'name']),
         ]);
@@ -43,9 +45,9 @@ class TemplateController extends Controller
 
     /**
      * index
-     * @author luffyzhao@vip.126.com
      * @param TemplateSearch $search
      * @return \Illuminate\Http\JsonResponse
+     * @author luffyzhao@vip.126.com
      */
     public function index(TemplateSearch $search)
     {
@@ -65,7 +67,7 @@ class TemplateController extends Controller
     {
         return $this->response([
             'companies' => $company->get(['id', 'name']),
-            'areas' => $areas->getByLevel(0, ['id as key', 'name as label'])
+            'areas' => $areas->getByLevel(0, ['area_code as key', 'name as label'])
         ]);
     }
 
@@ -78,11 +80,13 @@ class TemplateController extends Controller
     public function store(TemplateRequest $request)
     {
         return $this->response(
-            $this->express->create(
-                $request->only([
-                    'name', 'description', 'type', 'status', 'company_id', 'details'
-                ])
-            )
+            DB::transaction(function () use ($request) {
+                return $this->express->create(
+                    $request->only([
+                        'name', 'description', 'type', 'status', 'company_id', 'details'
+                    ])
+                );
+            })
         );
     }
 
@@ -91,14 +95,14 @@ class TemplateController extends Controller
      * @param ExpressCompany $company
      * @param Areas $areas
      * @param $id
-     * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
+     * @author luffyzhao@vip.126.com
      */
     public function edit(ExpressCompany $company, Areas $areas, $id)
     {
         return $this->response([
             'companies' => $company->get(['id', 'name']),
-            'areas' => $areas->getByLevel(0, ['id as key', 'name as label']),
+            'areas' => $areas->getByLevel(0, ['area_code as key', 'name as label']),
             'row' => $this->express->editFind($id)
         ]);
     }
@@ -107,33 +111,37 @@ class TemplateController extends Controller
      * update
      * @param TemplateRequest $request
      * @param $id
-     * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
+     * @author luffyzhao@vip.126.com
      */
     public function update(TemplateRequest $request, $id)
     {
         return $this->response(
-            $this->express->update(
-                $id,
-                $request->only([
-                    'name', 'description', 'type', 'status', 'company_id', 'details'
-                ])
-            )
+            DB::transaction(function () use ($request, $id) {
+                return $this->express->update(
+                    $id,
+                    $request->only([
+                        'name', 'description', 'type', 'status', 'company_id', 'details'
+                    ])
+                );
+            })
         );
     }
 
     /**
      * destroy
      * @param $id
-     * @author luffyzhao@vip.126.com
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     * @author luffyzhao@vip.126.com
      */
     public function destroy($id)
     {
         return $this->response(
-            $this->express->delete($id)
+            DB::transaction(function () use ($id) {
+                return $this->express->delete($id);
+            })
         );
     }
 }

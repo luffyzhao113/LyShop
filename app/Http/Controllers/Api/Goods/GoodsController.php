@@ -19,6 +19,7 @@ use App\Repositories\Category;
 use App\Repositories\Goods;
 use App\Repositories\Spec;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -48,11 +49,11 @@ class GoodsController extends Controller
     }
 
     /**
- * index
- * @param GoodsSearch $search
- * @return JsonResponse
- * @author luffyzhao@vip.126.com
- */
+     * index
+     * @param GoodsSearch $search
+     * @return JsonResponse
+     * @author luffyzhao@vip.126.com
+     */
     public function index(GoodsSearch $search)
     {
         return $this->response(
@@ -79,17 +80,30 @@ class GoodsController extends Controller
      * @throws \Exception
      * @author luffyzhao@vip.126.com
      */
-    public function recovery($id){
+    public function recovery($id)
+    {
         return $this->response(
-            $this->goods->recovery($id)
+            DB::transaction(function () use ($id) {
+                $this->goods->recovery($id);
+            })
         );
     }
 
-    public function recycleDestroy($id){
+    /**
+     * @param $id
+     * @return JsonResponse
+     * @throws \Exception
+     * @author luffyzhao@vip.126.com
+     */
+    public function recycleDestroy($id)
+    {
         return $this->response(
-            $this->goods->recycleDestroy($id)
+            DB::transaction(function () use ($id) {
+                $this->goods->recycleDestroy($id);
+            })
         );
     }
+
     /**
      * create
      * @param Category $category
@@ -141,11 +155,13 @@ class GoodsController extends Controller
     public function store(GoodsRequest $request)
     {
         return $this->response(
-            $this->goods->create(
-                $request->only([
-                    'name', 'price', 'stock', 'weight', 'type', 'status', 'categories', 'file', 'galleries', 'attributes', 'detail', 'specs'
-                ])
-            )
+            DB::transaction(function () use ($request) {
+                return $this->goods->create(
+                    $request->only([
+                        'name', 'price', 'stock', 'weight', 'type', 'status', 'categories', 'file', 'galleries', 'attributes', 'detail', 'specs'
+                    ])
+                );
+            })
         );
     }
 
@@ -154,7 +170,8 @@ class GoodsController extends Controller
      * @return JsonResponse
      * @author luffyzhao@vip.126.com
      */
-    public function show($id){
+    public function show($id)
+    {
         return $this->response([
             'row' => $this->goods->findWith($id, [
                 'categories',
@@ -202,12 +219,14 @@ class GoodsController extends Controller
     public function update(GoodsRequest $request, $id)
     {
         return $this->response(
-            $this->goods->update(
-                $id,
-                $request->only([
-                    'name', 'price', 'stock', 'weight', 'type', 'status', 'categories', 'file', 'galleries', 'attributes', 'detail', 'specs'
-                ])
-            )
+            DB::transaction(function () use ($id, $request) {
+                return $this->goods->update(
+                    $id,
+                    $request->only([
+                        'name', 'price', 'stock', 'weight', 'type', 'status', 'categories', 'file', 'galleries', 'attributes', 'detail', 'specs'
+                    ])
+                );
+            })
         );
     }
 
@@ -221,10 +240,12 @@ class GoodsController extends Controller
     public function modify(ModifyRequest $request, $id)
     {
         return $this->response(
-            $this->goods->simpleUpdate(
-                $id,
-                $request->only(['name', 'status', 'type', 'weight'])
-            )
+            DB::transaction(function () use ($id, $request) {
+                return $this->goods->simpleUpdate(
+                    $id,
+                    $request->only(['name', 'status', 'type', 'weight'])
+                );
+            })
         );
     }
 
@@ -239,7 +260,9 @@ class GoodsController extends Controller
     public function destroy($id)
     {
         return $this->response(
-            $this->goods->delete($id)
+            DB::transaction(function () use ($id) {
+                $this->goods->delerecoveryte($id);
+            })
         );
     }
 }
