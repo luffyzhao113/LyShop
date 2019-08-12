@@ -22,7 +22,7 @@ class Goods extends Model
      * @return mixed
      */
     public static function cr(GoodsModel $goods){
-        $goods->loadMissing(['categories', 'attributes', 'specItems']);
+        $goods->loadMissing(['categories', 'attributes', 'specItems', 'express']);
         return self::create($goods->toArray());
     }
 
@@ -32,7 +32,7 @@ class Goods extends Model
  * @author luffyzhao@vip.126.com
  */
     public static function up(GoodsModel $goods){
-        $goods->loadMissing(['categories', 'attributes', 'specItems']);
+        $goods->loadMissing(['categories', 'attributes', 'specItems', 'express']);
         return self::where('id', $goods->getKey())->withTrashed()->first()->fill($goods->toArray())->save();
     }
 

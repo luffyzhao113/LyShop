@@ -29,8 +29,8 @@ class Express extends RepositoryAbstract
     /**
      * create
      * @param array $attributes
-     * @author luffyzhao@vip.126.com
      * @return \App\Models\Express|bool|\Illuminate\Database\Eloquent\Model
+     * @author luffyzhao@vip.126.com
      */
     public function create(array $attributes = [])
     {
@@ -38,7 +38,7 @@ class Express extends RepositoryAbstract
          * @var $model \App\Models\Express
          */
         $model = parent::create($attributes);
-        foreach ($attributes['details'] as $detail){
+        foreach ($attributes['details'] as $detail) {
             /**
              * @var $app ExpressDetail
              */
@@ -54,9 +54,9 @@ class Express extends RepositoryAbstract
      * update
      * @param $id
      * @param array $values
-     * @author luffyzhao@vip.126.com
      * @return \App\Models\Express|bool|\Illuminate\Database\Eloquent\Model
      * @throws \Throwable
+     * @author luffyzhao@vip.126.com
      */
     public function update($id, array $values)
     {
@@ -66,7 +66,7 @@ class Express extends RepositoryAbstract
         $model = $this->find($id);
         $model->fill($values)->saveOrFail();
         $model->details()->delete();
-        foreach ($values['details'] as $detail){
+        foreach ($values['details'] as $detail) {
             /**
              * @var $app ExpressDetail
              */
@@ -81,14 +81,15 @@ class Express extends RepositoryAbstract
     /**
      * editFind
      * @param $id
-     * @author luffyzhao@vip.126.com
      * @return \App\Models\Express|\App\Models\Express[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @author luffyzhao@vip.126.com
      */
-    public function editFind($id){
+    public function editFind($id)
+    {
         $row = $this->model->with(['details.areas:areas.area_code'])->findOrFail($id)->toArray();
-        return collect($row)->map(function ($item, $key){
-            if($key === 'details'){
-                return collect($item)->map(function ($val){
+        return collect($row)->map(function ($item, $key) {
+            if ($key === 'details') {
+                return collect($item)->map(function ($val) {
                     $val['areas'] = collect($val['areas'])->pluck('area_code');
                     return $val;
                 });
@@ -96,5 +97,15 @@ class Express extends RepositoryAbstract
             return $item;
         });
     }
-
+    
+    /**
+     * @param array $attributes
+     * @param array $columns
+     * @return mixed
+     * @author luffyzhao@vip.126.com
+     */
+    public function getWhere(array $attributes, array $columns = ['*'])
+    {
+        return $this->model->where($attributes)->get($columns);
+    }
 }

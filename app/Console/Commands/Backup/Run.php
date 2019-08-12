@@ -59,7 +59,10 @@ class Run extends Command
         foreach ($tables as $table) {
             $tableName = $table->{'Tables_in_'.$config['database']};
             // 地区表不导出
-            if ($tableName === 'migrations' || $tableName === 'areas') {
+            if ($tableName === 'migrations') {
+                continue;
+            }
+            if($tableName !== 'areas'){
                 continue;
             }
             $columns = DB::selectOne('show columns from `'.$tableName.'`');

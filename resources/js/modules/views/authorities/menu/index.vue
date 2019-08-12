@@ -1,8 +1,8 @@
 <template>
     <i-content :spinShow="loading">
-        <Card>
+        <div class="content">
             <Tree :data="data" :render="renderContent"></Tree>
-        </Card>
+        </div>
 
         <component v-bind:is="component.is" :props="component.prop" @on-close="closeComponent" @on-refresh="getLists"></component>
     </i-content>
@@ -76,5 +76,9 @@
 </script>
 
 <style scoped>
-
+.content{
+    padding:15px;
+    background-color: #fff;
+    width: 100%;
+}
 </style>

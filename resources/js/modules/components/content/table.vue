@@ -18,14 +18,6 @@
             pageSize: {
                 type: Number,
                 default: 15
-            },
-            title: {
-                type: String,
-                default: '列表'
-            },
-            icon: {
-                type: String,
-                default: 'ios-list-box'
             }
         },
         methods: {
@@ -39,7 +31,6 @@
 <style scoped lang="less">
 .list-panel{
     background-color: #fff;
-    padding: 10px 0;
     flex: 1;
 }
 .ivu-page{

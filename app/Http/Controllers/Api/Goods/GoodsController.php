@@ -16,6 +16,7 @@ use App\Http\Requests\Api\Goods\ModifyRequest;
 use App\Http\Searchs\Api\Goods\GoodsSearch;
 use App\MongoDB\Goods as GoodsMongoDB;
 use App\Repositories\Category;
+use App\Repositories\Express;
 use App\Repositories\Goods;
 use App\Repositories\Spec;
 use Illuminate\Http\JsonResponse;
@@ -249,6 +250,28 @@ class GoodsController extends Controller
         );
     }
 
+    /**
+     * @param Express $express
+     * @param $id
+     * @return JsonResponse
+     * @author luffyzhao@vip.126.com
+     */
+    public function express(Express $express, $id)
+    {
+        return $this->response([
+            'express' => $express->getWhere([
+                'status' => 'on'
+            ]),
+            'goods' => tap($this->goods->findWith($id, ['express']), function (\App\Models\Goods $goods){
+                return collect($goods->toArray())->map(function ($item, $key) {
+                    if ($key === 'express')
+                        return collect($item)->pluck('id');
+                    else
+                        return $item;
+                });
+            })
+        ]);
+    }
 
     /**
      * @param $id

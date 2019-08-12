@@ -72,6 +72,14 @@ class Goods extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @author luffyzhao@vip.126.com
+     */
+    public function express(){
+        return $this->belongsToMany(Express::class, 'goods_express', 'goods_id', 'express_id');
+    }
+
+    /**
      * galleries
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

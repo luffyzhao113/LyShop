@@ -1,28 +1,10 @@
 <template>
     <Row class="tree-li">
-        <Col span="20">
-            <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
-            <Poptip placement="right" trigger="hover" width="400" v-if="!parent">
-                <div v-if="data.status === 'on'" class="hand" >{{ data.name }}</div>
-                <del v-else class="hand" style="color: #c3cbd6">{{ data.name }}</del>
-                <div class="api" slot="content">
-                    <Row>
-                        <Col :span="8">状态</Col>
-                        <Col :span="8">排序</Col>
-                        <Col :span="8">描述</Col>
-                        <Col :span="8">{{data.status|status}}</Col>
-                        <Col :span="8">{{data.sort}}</Col>
-                        <Col :span="8">{{data.description}}</Col>
-                    </Row>
-                </div>
-            </Poptip>
-            <span v-else>{{ data.name }}</span>
-        </Col>
-        <Col span="4">
-            <template v-if="parent">
-                <Button type="dashed" size="small" icon="ios-add" style="width: 90px" @click="append(data)"></Button>
-            </template>
-            <template v-else>
+        <Row class="tree-li-a" v-if="data.id != '0'">
+            <Col :span="4" offset="8">{{data.status|status}}</Col>
+            <Col :span="4">{{data.sort}}</Col>
+            <Col :span="4">{{data.description == '' ? data.description : '-'}}</Col>
+            <Col :span="4" class="tree-li-action">
                 <Button type="dashed" size="small" icon="ios-checkmark-circle-outline"
                         @click="append(data, 'update')"></Button>
                 <Button type="dashed" size="small" icon="ios-add" @click="append(data)"></Button>
@@ -34,7 +16,19 @@
                             icon="ios-remove"></Button>
                     <Button v-else icon="ios-remove" disabled size="small"></Button>
                 </Poptip>
-            </template>
+            </Col>
+        </Row>
+        <Row class="tree-li-a" v-else>
+            <Col :span="4" offset="8">状态</Col>
+            <Col :span="4">排序</Col>
+            <Col :span="4">说明</Col>
+            <Col :span="4" class="tree-li-action">
+                <Button type="dashed" size="small" icon="ios-add" style="width: 90px" @click="append(data)"></Button>
+            </Col>
+        </Row>
+        <Col span="24">
+            <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
+            <span class="hand" >{{ data.name }}</span>
         </Col>
     </Row>
 </template>
@@ -66,8 +60,24 @@
         width: 100%;
         font-size: 14px;
         vertical-align: top;
+        position: initial;
     }
     .hand{
         cursor:pointer
+    }
+    .tree-li-a{
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+    .tree-li-action{
+        z-index: 6;
+    }
+</style>
+
+<style>
+    .ivu-tree .ivu-tree-arrow{
+        z-index: 6;
+        position: relative;
     }
 </style>

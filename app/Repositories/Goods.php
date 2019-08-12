@@ -13,7 +13,6 @@ use App\MongoDB\Goods as GoodsMongodb;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use LTools\Repositories\RepositoryAbstract;
 
 class Goods extends RepositoryAbstract

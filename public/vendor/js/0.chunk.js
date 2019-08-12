@@ -50,14 +50,6 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     value: {
       type: Object
-    },
-    title: {
-      type: String,
-      default: '搜索'
-    },
-    icon: {
-      type: String,
-      default: 'ios-search'
     }
   }
 });
@@ -92,14 +84,6 @@ __webpack_require__.r(__webpack_exports__);
     pageSize: {
       type: Number,
       default: 15
-    },
-    title: {
-      type: String,
-      default: '列表'
-    },
-    icon: {
-      type: String,
-      default: 'ios-list-box'
     }
   },
   methods: {
@@ -161,7 +145,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".list-panel[data-v-36605e05] {\n  background-color: #fff;\n  padding: 10px 0;\n  flex: 1;\n}\n.ivu-page[data-v-36605e05] {\n  margin-top: 15px;\n  text-align: center;\n}\n", ""]);
+exports.push([module.i, ".list-panel[data-v-36605e05] {\n  background-color: #fff;\n  flex: 1;\n}\n.ivu-page[data-v-36605e05] {\n  margin-top: 15px;\n  text-align: center;\n}\n", ""]);
 
 // exports
 

@@ -72,7 +72,7 @@ class CreateExpressTable extends Migration
             $table->string('area_code', 12)->comment('地区ID');
             $table->unsignedInteger('express_detail_id')->comment('记件id');
             $table->enum('type', ['piece', 'weigh'])->comment('类型');
-            $table->primary(['area_id', 'express_detail_id']);
+            $table->primary(['area_code', 'express_detail_id']);
 
             $table->foreign('express_detail_id')->references('id')->on('express_details')
                 ->onUpdate('cascade')->onDelete('cascade');

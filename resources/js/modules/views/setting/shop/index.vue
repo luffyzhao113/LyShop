@@ -1,7 +1,7 @@
 <template>
     <i-content :spin-show="false">
         <Form ref="formCreate" :model="data" :label-width="80" :rules="ruleValidate">
-            <Card class="shop-setting">
+            <div class="shop-setting">
                 <Tabs>
                     <TabPane label="基础配置" icon="md-trophy">
                         <FormItem label="商城名称">
@@ -22,7 +22,7 @@
                 <div class="shop-setting-footer">
                     <Button>保存</Button>
                 </div>
-            </Card>
+            </div>
         </Form>
     </i-content>
 </template>
@@ -47,6 +47,8 @@
 <style lang="less">
 .shop-setting{
     height: 100%;
+    padding: 15px;
+    background-color: #fff;
     .ivu-card-body{
         display: flex;
         flex-direction:column;

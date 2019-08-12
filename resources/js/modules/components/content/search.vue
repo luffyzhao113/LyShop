@@ -13,14 +13,6 @@
     props: {
       value: {
         type: Object
-      },
-      title: {
-        type: String,
-        default: '搜索'
-      },
-      icon: {
-        type: String,
-        default: 'ios-search'
       }
     }
   }

@@ -118,6 +118,7 @@ class CreateGoodsTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('goods_express');
         Schema::dropIfExists('goods_categories');
         Schema::dropIfExists('goods_attributes');
         Schema::dropIfExists('goods_galleries');

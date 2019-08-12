@@ -73,7 +73,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".shop-setting {\n  height: 100%;\n}\n.shop-setting .ivu-card-body {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.shop-setting .ivu-card-body .shop-setting-footer {\n  flex-basis: 50px;\n  border-top: 1px solid #e8eaec;\n  line-height: 50px;\n  text-align: right;\n}\n.shop-setting .ivu-card-body .ivu-tabs {\n  flex-grow: 1;\n}\n", ""]);
+exports.push([module.i, ".shop-setting {\n  height: 100%;\n  padding: 15px;\n  background-color: #fff;\n}\n.shop-setting .ivu-card-body {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.shop-setting .ivu-card-body .shop-setting-footer {\n  flex-basis: 50px;\n  border-top: 1px solid #e8eaec;\n  line-height: 50px;\n  text-align: right;\n}\n.shop-setting .ivu-card-body .ivu-tabs {\n  flex-grow: 1;\n}\n", ""]);
 
 // exports
 
@@ -137,7 +137,7 @@ var render = function() {
         },
         [
           _c(
-            "Card",
+            "div",
             { staticClass: "shop-setting" },
             [
               _c(
@@ -191,8 +191,7 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
+        ]
       )
     ],
     1
