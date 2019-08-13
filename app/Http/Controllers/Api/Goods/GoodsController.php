@@ -250,41 +250,7 @@ class GoodsController extends Controller
             })
         );
     }
-
-    /**
-     * @param Express $express
-     * @param $id
-     * @return JsonResponse
-     * @author luffyzhao@vip.126.com
-     */
-    public function express(Express $express, $id)
-    {
-        return $this->response([
-            'express' => $express->getWhere([
-                'status' => 'on'
-            ], ['id as key', 'name as label', 'description']),
-            'goods' => tap($this->goods->findWith($id, ['express']), function (\App\Models\Goods $goods){
-                return collect($goods->toArray())->map(function ($item, $key) {
-                    if ($key === 'express')
-                        return collect($item)->pluck('id');
-                    else
-                        return $item;
-                });
-            })
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse
-     * @author luffyzhao@vip.126.com
-     */
-    public function setExpress(Request $request, $id){
-        return $this->response(
-            $this->goods->setExpress($id, $request->input('express', []))
-        );
-    }
+    
 
     /**
      * @param $id

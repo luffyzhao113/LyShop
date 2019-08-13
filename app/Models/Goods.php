@@ -18,7 +18,7 @@ class Goods extends Model
 
     protected $table = 'goods';
 
-    protected $fillable = ['name', 'price', 'stock', 'weight', 'type', 'status', 'file', 'view', 'sales', 'collect'];
+    protected $fillable = ['name', 'price', 'stock', 'weight', 'type', 'status', 'file', 'view', 'sales', 'collect', 'express_type', 'express_param'];
 
     protected $casts = [
         'view' => 'integer',
@@ -70,14 +70,7 @@ class Goods extends Model
     {
         return $this->belongsToMany(Category::class, 'goods_categories', 'goods_id', 'category_id')->withTrashed();
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     * @author luffyzhao@vip.126.com
-     */
-    public function express(){
-        return $this->belongsToMany(Express::class, 'goods_express', 'goods_id', 'express_id');
-    }
+    
 
     /**
      * galleries

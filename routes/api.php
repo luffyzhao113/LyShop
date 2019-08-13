@@ -1,3 +1,3 @@
 <?php
-Route::any('order/order/ueditor/create', 'UeditorController@index')->name('order.store');
-Route::any('order/order/ueditor/update', 'UeditorController@index')->name('order.update');
+Route::any('goods/goods/ueditor/create', 'UeditorController@index')->name('goods.store');
+Route::any('goods/goods/ueditor/update', 'UeditorController@index')->name('goods.update');

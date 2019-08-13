@@ -25,6 +25,8 @@ class CreateGoodsTables extends Migration
             $table->unsignedInteger('view')->default(0)->comment('查看次数');
             $table->unsignedInteger('sales')->default(0)->comment('销量');
             $table->unsignedInteger('collect')->default(0)->comment('收藏次数');
+            $table->enum('express_type', ['fixed', 'template'])->default('fixed')->comment('运费类型:固定,模板');
+            $table->unsignedInteger('express_param')->default(0)->comment('运费值:模板ID或者固定数值');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -99,15 +101,6 @@ class CreateGoodsTables extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
-        // 商品快递模板
-        Schema::create('goods_express', function (Blueprint $table){
-            $table->unsignedInteger('goods_id')->comment('商品ID');
-            $table->unsignedInteger('express_id')->comment('快递模板ID');
-            $table->foreign('goods_id')->references('id')->on('goods')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('express_id')->references('id')->on('express')
-                ->onUpdate('cascade')->onDelete('cascade');
-        });
 
     }
 
@@ -118,7 +111,6 @@ class CreateGoodsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('goods_express');
         Schema::dropIfExists('goods_categories');
         Schema::dropIfExists('goods_attributes');
         Schema::dropIfExists('goods_galleries');

@@ -201,24 +201,7 @@ class Goods extends RepositoryAbstract
         GoodsMongodb::up($model);
         return $model;
     }
-
-    /**
-     * 设置快递模板
-     * @param $id
-     * @param array $express
-     * @return \App\Models\Goods|Model
-     * @author luffyzhao@vip.126.com
-     */
-    public function setExpress($id, array $express){
-        /**
-         * @var $model \App\Models\Goods
-         */
-        $model = $this->find($id);
-        $model->express()->sync($express);
-        // 更新mongodb
-        GoodsMongodb::up($model);
-        return $model;
-    }
+    
     /**
      * @param $id
      * @return bool|mixed

@@ -62,7 +62,6 @@
                         <DropdownMenu slot="list">
                             <DropdownItem name="show">查看商品</DropdownItem>
                             <DropdownItem name="goods">修改商品</DropdownItem>
-                            <DropdownItem name="express">设置快递模板</DropdownItem>
                             <DropdownItem divided name="recycle">移动到回收站</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
@@ -83,13 +82,12 @@
     import Create from './create'
     import Update from './update'
     import Show from './show'
-    import Express from './express'
 
 
     export default {
         name: "index",
         mixins: [contentListPage],
-        components: {Cascader, ITable, ISearch, IContent, Create, Update, Show, Express},
+        components: {Cascader, ITable, ISearch, IContent, Create, Update, Show},
         data() {
             return {
                 loading: false,
@@ -189,9 +187,6 @@
                         break;
                     case 'show':
                         this.openComponent('Show', row);
-                        break;
-                    case 'express':
-                        this.openComponent('Express', row);
                         break;
                 }
             }
