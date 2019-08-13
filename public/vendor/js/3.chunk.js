@@ -566,26 +566,41 @@ __webpack_require__.r(__webpack_exports__);
         width: '300px',
         "min-height": '400px'
       },
-      goods: {
+      data: {
+        goods: {},
         express: []
-      },
-      express: {
-        data: []
       }
     };
+  },
+  computed: {
+    express: function express() {
+      var express = this.data.goods.express || [];
+      return express.map(function (item) {
+        return item['id'];
+      });
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
     this.$http.get("goods/goods/".concat(this.props.id, "/express")).then(function (res) {
-      _this.data = res.row;
+      _this.data = res;
     }).finally(function () {
       _this.loading = false;
     });
   },
   methods: {
     handleChange3: function handleChange3(newTargetKeys) {
-      this.goods.express = newTargetKeys;
+      var _this2 = this;
+
+      this.loading = true;
+      this.$http.put("goods/goods/".concat(this.props.id, "/express"), {
+        express: newTargetKeys
+      }).then(function (res) {
+        _this2.data.goods = res;
+      }).finally(function () {
+        _this2.loading = false;
+      });
     },
     render: function render(item) {
       return item.label + ' - ' + item.description;
@@ -2730,8 +2745,8 @@ var render = function() {
     [
       _c("Transfer", {
         attrs: {
-          data: _vm.express.data,
-          "target-keys": _vm.goods.express,
+          data: _vm.data.express,
+          "target-keys": _vm.express,
           "list-style": _vm.listStyle,
           "render-format": _vm.render,
           filterable: ""

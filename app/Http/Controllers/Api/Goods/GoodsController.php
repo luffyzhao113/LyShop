@@ -20,6 +20,7 @@ use App\Repositories\Express;
 use App\Repositories\Goods;
 use App\Repositories\Spec;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -261,7 +262,7 @@ class GoodsController extends Controller
         return $this->response([
             'express' => $express->getWhere([
                 'status' => 'on'
-            ]),
+            ], ['id as key', 'name as label', 'description']),
             'goods' => tap($this->goods->findWith($id, ['express']), function (\App\Models\Goods $goods){
                 return collect($goods->toArray())->map(function ($item, $key) {
                     if ($key === 'express')
@@ -271,6 +272,18 @@ class GoodsController extends Controller
                 });
             })
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @author luffyzhao@vip.126.com
+     */
+    public function setExpress(Request $request, $id){
+        return $this->response(
+            $this->goods->setExpress($id, $request->input('express', []))
+        );
     }
 
     /**
@@ -284,7 +297,7 @@ class GoodsController extends Controller
     {
         return $this->response(
             DB::transaction(function () use ($id) {
-                $this->goods->delerecoveryte($id);
+                $this->goods->delete($id);
             })
         );
     }
