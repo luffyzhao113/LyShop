@@ -205,6 +205,10 @@ export const product = (elements) => {
         throw new TypeError();
     }
 
+    if(elements.length === 0){
+        return [];
+    }
+
     var end = elements.length - 1,
         result = [];
 
@@ -214,7 +218,9 @@ export const product = (elements) => {
 
         for (var i = 0; i < first.length; ++i) {
             var copy = curr.slice();
-            copy.push(first[i]);
+            copy.push({
+                value: first[i]
+            });
 
             if (last) {
                 result.push({items: copy});

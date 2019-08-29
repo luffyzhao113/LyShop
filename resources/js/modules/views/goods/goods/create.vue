@@ -1,5 +1,5 @@
 <template>
-    <i-drawer :loading="loading" title="添加商品" :width="920">
+    <i-drawer :loading="loading" title="添加商品" :width="1000">
         <Form ref="formCreat1e" :model="data" :label-width="100" :rules="ruleValidate">
             <FormItem label="商品名称" prop="name">
                 <Input v-model="data.name"></Input>
@@ -80,36 +80,7 @@
             <div class="ivu-form-item">
                 <label class="ivu-form-item-label" style="width: 100px;">商品规格</label>
                 <div class="ivu-form-item-content" style="margin-left: 100px;">
-                    <Button size="small" @click="specs.modal = true" type="dashed">添加商品规格</Button>
-
-                    <div v-if="data.specs && data.specs.length > 0" class="spec-box">
-                        <Row class="spec-header">
-                            <Col v-for="(header, index) in specs.headers" span="4" :key="index">
-                                {{header}}
-                            </Col>
-                            <Col span="4">价格<span class="item-required">*</span></Col>
-                            <Col span="4">库存<span class="item-required">*</span></Col>
-                            <Col span="4">操作</Col>
-                        </Row>
-                        <Row class="spec-list" v-for="(item, index) in data.specs" :key="index" :gutter="10">
-                            <Col v-for="(val, key) in item.items" :key="key + '-' + index" span="4">{{val.value}}</Col>
-                            <Col span="4">
-                                <FormItem :label-width="0" :prop="'specs.'+index+'.price'"
-                                          :rules="[{required: true, type:'number', message: '价格必须填写', trigger: 'blur'}]">
-                                    <Input v-model="item.price" size="small" number></Input>
-                                </FormItem>
-                            </Col>
-                            <Col span="4">
-                                <FormItem :label-width="0" :prop="'specs.'+index+'.stock'"
-                                          :rules="[{required: true, type:'number', message: '库存必须填写', trigger: 'blur'}]">
-                                    <Input v-model="item.stock" size="small" number @input="setStock"></Input>
-                                </FormItem>
-                            </Col>
-                            <Col span="4">
-                                <Button size="small" type="dashed" @click="deleteSpec(index)">删除</Button>
-                            </Col>
-                        </Row>
-                    </div>
+                    <specs v-model="loadings"></specs>
                 </div>
             </div>
 
@@ -137,26 +108,6 @@
             <l-tree :data="categories.data" v-model="categories.wait"></l-tree>
             <div slot="footer">
                 <Button type="primary" size="large" long @click="handleChangeCategory">选择</Button>
-            </div>
-        </Modal>
-
-
-        <Modal v-model="specs.modal" title="选择商品规格">
-            <p slot="header" style="color:#f60;text-align:center">
-                <Icon type="ios-information-circle"></Icon>
-                <span>商品规格</span>
-            </p>
-            <template v-for="(item, index) in specs.data">
-                <div class="checkbox-item">
-                    <Checkbox :indeterminate="specs.wait[item.name] && specs.wait[item.name].length > 0">{{item.name}}
-                    </Checkbox>
-                    <CheckboxGroup v-model="specs.wait[item.name]">
-                        <Checkbox v-for="(val, key) in item.values" :key="key" :label="val">{{val}}</Checkbox>
-                    </CheckboxGroup>
-                </div>
-            </template>
-            <div slot="footer">
-                <Button type="primary" size="large" long @click="handleChangeSpec">选择</Button>
             </div>
         </Modal>
 
@@ -190,12 +141,13 @@
     import LGalleries from "./galleries";
     import Ueditor from "../../../components/form/ueditor";
     import goods from "./goods";
+    import Specs from "./specs";
 
 
     export default {
         name: "create",
         mixins: [contentDrawer, goods],
-        components: {Ueditor, LGalleries, LTree, LUpload, IDrawer},
+        components: {Specs, Ueditor, LGalleries, LTree, LUpload, IDrawer},
         data() {
             return {
                 upload:{
@@ -205,6 +157,7 @@
                     serverUrl: '/api/goods/goods/ueditor/create',
                     initialFrameHeight: 600
                 },
+                loadings: {}
             }
         },
         mounted() {
@@ -252,27 +205,12 @@
             margin-left: 20px;
         }
     }
-
-    .spec-box {
+    .spec-button-box{
         border-radius: 4px;
         border: 1px solid #dcdee2;
-        text-align: center;
-
-        .spec-header {
-            border-bottom: 1px #dcdee2 solid;
-            height: 30px;
-            line-height: 30px;
-
-            .item-required {
-                display: inline-block;
-                margin-right: 4px;
-                line-height: 1;
-                font-family: SimSun;
-                font-size: 12px;
-                color: #ed4014;
-            }
-        }
+        padding: 15px;
     }
+
 </style>
 
 <style lang="less">

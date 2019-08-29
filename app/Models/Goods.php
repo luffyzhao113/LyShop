@@ -113,6 +113,13 @@ class Goods extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function express(){
+        return $this->belongsTo(Express::class, 'express_param', 'id');
+    }
+
+    /**
      * specItems
      * @author luffyzhao@vip.126.com
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
