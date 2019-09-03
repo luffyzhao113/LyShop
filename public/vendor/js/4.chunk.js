@@ -592,7 +592,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".tree-li[data-v-023c1c17] {\n  display: inline-flex;\n  width: 100%;\n  font-size: 14px;\n  vertical-align: top;\n  position: initial;\n}\n.hand[data-v-023c1c17] {\n  cursor: pointer;\n}\n.tree-li-a[data-v-023c1c17] {\n  position: absolute;\n  left: 0;\n  width: 100%;\n}\n.tree-li-action[data-v-023c1c17] {\n  z-index: 6;\n}\n", ""]);
+exports.push([module.i, ".tree-li[data-v-023c1c17] {\n  display: inline-flex;\n  width: 100%;\n  font-size: 14px;\n  vertical-align: top;\n  position: initial;\n}\n.tree-li .tree-li-a[data-v-023c1c17] {\n  position: absolute;\n  left: 0;\n  width: 100%;\n}\n.tree-li .tree-li-a[data-v-023c1c17]:hover {\n  background-color: #ebf7ff;\n}\n.tree-li .tree-li-a .ivu-col[data-v-023c1c17] {\n  z-index: 6;\n}\n", ""]);
 
 // exports
 
@@ -1819,7 +1819,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "Col",
-                { staticClass: "tree-li-action", attrs: { span: 4 } },
+                { attrs: { span: 4 } },
                 [
                   _c("Button", {
                     attrs: {
@@ -1880,7 +1880,7 @@ var render = function() {
           )
         : _c(
             "Row",
-            { staticClass: "tree-li-a" },
+            { staticClass: "tree-li-a tree-li-a-title" },
             [
               _c("Col", { attrs: { span: 4, offset: "8" } }, [_vm._v("状态")]),
               _vm._v(" "),
@@ -1921,7 +1921,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("span", { staticClass: "hand" }, [_vm._v(_vm._s(_vm.data.name))])
+          _c("span", [_vm._v(_vm._s(_vm.data.name))])
         ],
         1
       )

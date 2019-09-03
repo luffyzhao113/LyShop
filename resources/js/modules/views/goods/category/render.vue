@@ -4,7 +4,7 @@
             <Col :span="4" offset="8">{{data.status|status}}</Col>
             <Col :span="4">{{data.sort}}</Col>
             <Col :span="4">{{data.description == '' ? data.description : '-'}}</Col>
-            <Col :span="4" class="tree-li-action">
+            <Col :span="4">
                 <Button type="dashed" size="small" icon="ios-checkmark-circle-outline"
                         @click="append(data, 'update')"></Button>
                 <Button type="dashed" size="small" icon="ios-add" @click="append(data)"></Button>
@@ -18,7 +18,7 @@
                 </Poptip>
             </Col>
         </Row>
-        <Row class="tree-li-a" v-else>
+        <Row class="tree-li-a tree-li-a-title" v-else>
             <Col :span="4" offset="8">状态</Col>
             <Col :span="4">排序</Col>
             <Col :span="4">说明</Col>
@@ -28,7 +28,7 @@
         </Row>
         <Col span="24">
             <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
-            <span class="hand" >{{ data.name }}</span>
+            <span>{{ data.name }}</span>
         </Col>
     </Row>
 </template>
@@ -61,18 +61,20 @@
         font-size: 14px;
         vertical-align: top;
         position: initial;
+        .tree-li-a{
+            position: absolute;
+            left: 0;
+            width: 100%;
+            &:hover{
+                background-color: #ebf7ff;
+            }
+            .ivu-col{
+                z-index: 6;
+            }
+        }
     }
-    .hand{
-        cursor:pointer
-    }
-    .tree-li-a{
-        position: absolute;
-        left: 0;
-        width: 100%;
-    }
-    .tree-li-action{
-        z-index: 6;
-    }
+
+
 </style>
 
 <style>

@@ -307,6 +307,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "render",
   props: ['root', 'node', 'data', 'parent'],
@@ -440,7 +446,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".tree-li[data-v-31865621] {\n  display: inline-flex;\n  width: 100%;\n  font-size: 14px;\n}\n.tree-li .tree-li-buttons[data-v-31865621] {\n  margin-right: 32px;\n  padding-left: 10px;\n  flex-basis: 100px;\n}\n.tree-li .tree-li-span[data-v-31865621] {\n  flex: 1;\n}\n.tree-li:hover .tree-li-span[data-v-31865621] {\n  border-bottom: 1px dashed #dcdee2;\n}\n", ""]);
+exports.push([module.i, ".tree-li[data-v-31865621] {\n  display: inline-flex;\n  width: 100%;\n  font-size: 14px;\n  vertical-align: top;\n  position: initial;\n}\n.tree-li .tree-li-a[data-v-31865621] {\n  position: absolute;\n  left: 0;\n  width: 100%;\n}\n.tree-li .tree-li-a[data-v-31865621]:hover {\n  background-color: #ebf7ff;\n}\n.tree-li .tree-li-a .ivu-col[data-v-31865621] {\n  z-index: 6;\n}\n", ""]);
 
 // exports
 
@@ -898,100 +904,144 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", { staticClass: "tree-li" }, [
-    _c(
-      "span",
-      { staticClass: "tree-li-span" },
-      [
-        _c("Icon", {
-          attrs: {
-            type:
-              _vm.data.children && _vm.data.children.length > 0
-                ? "ios-folder-outline"
-                : "ios-paper-outline"
-          }
-        }),
-        _vm._v(" "),
-        _c("span", [
-          _vm._v("\n            " + _vm._s(_vm.data.name) + "\n        ")
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "span",
-      { staticClass: "tree-li-buttons" },
-      [
-        _vm.parent
-          ? [
-              _c("Button", {
-                staticStyle: { width: "65px" },
-                attrs: { type: "dashed", size: "small", icon: "ios-add" },
-                on: {
-                  click: function($event) {
-                    return _vm.append(_vm.data)
-                  }
-                }
-              })
-            ]
-          : [
-              _c("Button", {
-                attrs: {
-                  type: "dashed",
-                  size: "small",
-                  icon: "ios-checkmark-circle-outline"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.append(_vm.data, "update")
-                  }
-                }
-              }),
+  return _c(
+    "span",
+    { staticClass: "tree-li" },
+    [
+      _vm.data.id != "0"
+        ? _c(
+            "Row",
+            { staticClass: "tree-li-a" },
+            [
+              _c("Col", { attrs: { span: 4, offset: "8" } }, [
+                _vm._v(_vm._s(_vm.data.url))
+              ]),
               _vm._v(" "),
-              _c("Button", {
-                attrs: { type: "dashed", size: "small", icon: "ios-add" },
-                on: {
-                  click: function($event) {
-                    return _vm.append(_vm.data)
-                  }
-                }
-              }),
+              _c("Col", { attrs: { span: 4 } }, [
+                _vm._v(_vm._s(_vm.data.sort))
+              ]),
+              _vm._v(" "),
+              _c("Col", { attrs: { span: 4 } }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.data.description == "" ? _vm.data.description : "-"
+                  )
+                )
+              ]),
               _vm._v(" "),
               _c(
-                "Poptip",
-                {
-                  attrs: { confirm: "", title: "你确定要删除这个类目吗？" },
-                  on: {
-                    "on-ok": function($event) {
-                      return _vm.remove(_vm.data)
-                    }
-                  }
-                },
+                "Col",
+                { attrs: { span: 4 } },
                 [
-                  !(_vm.data.children && _vm.data.children.length > 0)
-                    ? _c("Button", {
-                        attrs: {
-                          type: "dashed",
-                          size: "small",
-                          icon: "ios-remove"
+                  _c("Button", {
+                    attrs: {
+                      type: "dashed",
+                      size: "small",
+                      icon: "ios-checkmark-circle-outline"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.append(_vm.data, "update")
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("Button", {
+                    attrs: { type: "dashed", size: "small", icon: "ios-add" },
+                    on: {
+                      click: function($event) {
+                        return _vm.append(_vm.data)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "Poptip",
+                    {
+                      attrs: { confirm: "", title: "你确定要删除这个类目吗？" },
+                      on: {
+                        "on-ok": function($event) {
+                          return _vm.remove(_vm.data)
                         }
-                      })
-                    : _c("Button", {
-                        attrs: {
-                          icon: "ios-remove",
-                          disabled: "",
-                          size: "small"
-                        }
-                      })
+                      }
+                    },
+                    [
+                      !(_vm.data.children && _vm.data.children.length > 0)
+                        ? _c("Button", {
+                            attrs: {
+                              type: "dashed",
+                              size: "small",
+                              icon: "ios-remove"
+                            }
+                          })
+                        : _c("Button", {
+                            attrs: {
+                              icon: "ios-remove",
+                              disabled: "",
+                              size: "small"
+                            }
+                          })
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ]
-      ],
-      2
-    )
-  ])
+            ],
+            1
+          )
+        : _c(
+            "Row",
+            { staticClass: "tree-li-a" },
+            [
+              _c("Col", { attrs: { span: 4, offset: "8" } }, [
+                _vm._v("菜单url")
+              ]),
+              _vm._v(" "),
+              _c("Col", { attrs: { span: 4 } }, [_vm._v("排序")]),
+              _vm._v(" "),
+              _c("Col", { attrs: { span: 4 } }, [_vm._v("说明")]),
+              _vm._v(" "),
+              _c(
+                "Col",
+                { staticClass: "tree-li-action", attrs: { span: 4 } },
+                [
+                  _c("Button", {
+                    staticStyle: { width: "90px" },
+                    attrs: { type: "dashed", size: "small", icon: "ios-add" },
+                    on: {
+                      click: function($event) {
+                        return _vm.append(_vm.data)
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+      _vm._v(" "),
+      _c(
+        "Col",
+        { attrs: { span: "24" } },
+        [
+          _c("Icon", {
+            attrs: {
+              type:
+                _vm.data.children && _vm.data.children.length > 0
+                  ? "ios-folder-outline"
+                  : "ios-paper-outline"
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "hand" }, [_vm._v(_vm._s(_vm.data.name))])
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

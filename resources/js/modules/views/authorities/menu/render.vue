@@ -1,16 +1,10 @@
 <template>
     <span class="tree-li">
-        <span class="tree-li-span">
-            <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
-            <span>
-                {{ data.name }}
-            </span>
-        </span>
-        <span class="tree-li-buttons">
-            <template v-if="parent">
-                <Button type="dashed" size="small" icon="ios-add" style="width: 65px" @click="append(data)"></Button>
-            </template>
-            <template v-else>
+        <Row class="tree-li-a" v-if="data.id != '0'">
+            <Col :span="4" offset="8">{{data.url}}</Col>
+            <Col :span="4">{{data.sort}}</Col>
+            <Col :span="4">{{data.description == '' ? data.description : '-'}}</Col>
+            <Col :span="4">
                 <Button type="dashed" size="small" icon="ios-checkmark-circle-outline"
                         @click="append(data, 'update')"></Button>
                 <Button type="dashed" size="small" icon="ios-add" @click="append(data)"></Button>
@@ -22,8 +16,20 @@
                             icon="ios-remove"></Button>
                     <Button v-else icon="ios-remove" disabled size="small"></Button>
                 </Poptip>
-            </template>
-        </span>
+            </Col>
+        </Row>
+        <Row class="tree-li-a" v-else>
+            <Col :span="4" offset="8">菜单url</Col>
+            <Col :span="4">排序</Col>
+            <Col :span="4">说明</Col>
+            <Col :span="4" class="tree-li-action">
+                <Button type="dashed" size="small" icon="ios-add" style="width: 90px" @click="append(data)"></Button>
+            </Col>
+        </Row>
+        <Col span="24">
+            <Icon :type="data.children && data.children.length > 0 ? 'ios-folder-outline' : 'ios-paper-outline'"></Icon>
+            <span class="hand" >{{ data.name }}</span>
+        </Col>
     </span>
 </template>
 
@@ -47,21 +53,17 @@
         display: inline-flex;
         width: 100%;
         font-size: 14px;
-
-
-        .tree-li-buttons {
-            margin-right: 32px;
-            padding-left: 10px;
-            flex-basis: 100px;
-        }
-
-        .tree-li-span{
-            flex: 1;
-        }
-
-        &:hover{
-            .tree-li-span{
-                border-bottom: 1px dashed #dcdee2;
+        vertical-align: top;
+        position: initial;
+        .tree-li-a{
+            position: absolute;
+            left: 0;
+            width: 100%;
+            &:hover{
+                background-color: #ebf7ff;
+            }
+            .ivu-col{
+                z-index: 6;
             }
         }
     }
